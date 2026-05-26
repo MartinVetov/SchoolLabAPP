@@ -12,8 +12,8 @@ using SchoolLabApp.Data;
 namespace SchoolLabApp.Migrations
 {
     [DbContext(typeof(SchoolLabAppDbContext))]
-    [Migration("20260521144105_HasRoles")]
-    partial class HasRoles
+    [Migration("20260526200940_initcreate")]
+    partial class initcreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -50,10 +50,7 @@ namespace SchoolLabApp.Repositories.Implementations
             }
         }
 
-        public async Task<bool> ExistsAsync(int id)
-        {
-            return await _context.Damages.AnyAsync(d => d.Id == id);
-        }
+       
 
     }
 }

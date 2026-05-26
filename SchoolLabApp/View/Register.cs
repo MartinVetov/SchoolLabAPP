@@ -23,7 +23,7 @@ public partial class Register : Form
     {
         try
         {
-            var roles = await _roleService.GetAllAsync();
+            var roles = await _roleService.GetAll();
             comboBoxRegisterRole.Items.Clear();
             _roleMap.Clear();
             foreach (var r in roles)

@@ -30,9 +30,10 @@ namespace SchoolLabApp
 
 
             var userRepository = new UserRepository(context);
+            var roleRepository = new RoleRepository(context);
 
             var userService = new UserService(userRepository);
-            var roleService = new RoleService(context);
+            var roleService = new RoleService(roleRepository);
 
             Application.Run(new Login(userService,roleService,context));
         }
