@@ -27,8 +27,7 @@ namespace SchoolLabApp.View
         {
             if (txtTechnicianPasswordPanelPassword.Text != TechnicianPassword)
             {
-                MessageBox.Show(
-                    "Incorrect technician password.",
+                MessageBox.Show("Incorrect technician password.",
                     "Access denied",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);

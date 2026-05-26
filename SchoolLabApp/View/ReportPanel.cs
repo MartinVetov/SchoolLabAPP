@@ -37,8 +37,7 @@ namespace SchoolLabApp.View
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    ex.Message,
+                MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
@@ -51,8 +50,7 @@ namespace SchoolLabApp.View
             {
                 if (listBoxReportPanel.SelectedItem == null)
                 {
-                    MessageBox.Show(
-                        "Select a report first.",
+                    MessageBox.Show("Select a report first.",
                         "Validation",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning);
@@ -68,8 +66,7 @@ namespace SchoolLabApp.View
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    ex.Message,
+                MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
@@ -82,8 +79,7 @@ namespace SchoolLabApp.View
             {
                 if (listBoxReportPanel.SelectedItem == null)
                 {
-                    MessageBox.Show(
-                        "Select a report first.",
+                    MessageBox.Show("Select a report first.",
                         "Validation",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning);
@@ -91,8 +87,7 @@ namespace SchoolLabApp.View
                     return;
                 }
 
-                DialogResult result = MessageBox.Show(
-                    "Delete this report?",
+                DialogResult result = MessageBox.Show("Delete this report?",
                     "Confirm",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
@@ -112,8 +107,7 @@ namespace SchoolLabApp.View
 
                     txtReportPanelReport.Clear();
 
-                    MessageBox.Show(
-                        "Report deleted successfully.",
+                    MessageBox.Show("Report deleted successfully.",
                         "Success",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
@@ -131,8 +125,7 @@ namespace SchoolLabApp.View
             {
                 var fullError = ex.InnerException?.Message ?? ex.Message;
 
-                MessageBox.Show(
-                    fullError,
+                MessageBox.Show(fullError,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);

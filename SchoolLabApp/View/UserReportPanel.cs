@@ -14,11 +14,16 @@ namespace SchoolLabApp.View
         {
             if (string.IsNullOrWhiteSpace(txtUserReportPanelReport.Text))
             {
-                MessageBox.Show("Please write a report before sending.", "Validation",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please write a report before sending.", 
+                    "Validation",
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Warning);
                 return;
             }
-            MessageBox.Show("Report sent.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Report sent.", 
+                "Success", 
+                MessageBoxButtons.OK, 
+                MessageBoxIcon.Information);
             this.Close();
         }
 

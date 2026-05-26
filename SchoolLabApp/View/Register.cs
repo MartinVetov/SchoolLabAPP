@@ -38,8 +38,10 @@ public partial class Register : Form
         }
         catch (Exception ex)
         {
-            MessageBox.Show(ex.Message, "Error loading roles",
-                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(ex.Message, 
+                "Error loading roles",
+                MessageBoxButtons.OK, 
+                MessageBoxIcon.Error);
         }
     }
 
