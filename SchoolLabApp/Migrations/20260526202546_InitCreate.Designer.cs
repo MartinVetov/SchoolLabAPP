@@ -12,8 +12,8 @@ using SchoolLabApp.Data;
 namespace SchoolLabApp.Migrations
 {
     [DbContext(typeof(SchoolLabAppDbContext))]
-    [Migration("20260521153556_Init")]
-    partial class Init
+    [Migration("20260526202546_InitCreate")]
+    partial class InitCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

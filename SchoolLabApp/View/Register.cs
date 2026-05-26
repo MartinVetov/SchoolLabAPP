@@ -26,7 +26,7 @@ public partial class Register : Form
             var roles = await _roleService.GetAll();
             comboBoxRegisterRole.Items.Clear();
             _roleMap.Clear();
-            foreach (var r in roles)
+            foreach (var r in roles.Skip(1))
             {
                 comboBoxRegisterRole.Items.Add(r.Name);
                 _roleMap[r.Name] = r.Id;
