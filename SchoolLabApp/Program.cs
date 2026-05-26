@@ -15,17 +15,17 @@ namespace SchoolLabApp
 
             var context = new SchoolLabAppDbContext();
             // 
-                if (!context.Roles.Any())
-                {
-                    await context.Roles.AddRangeAsync(
-                        new Role { Name = "Admin" },
-                        new Role { Name = "Teacher" },
-                        new Role { Name = "Student" },
-                        new Role { Name = "Technician" }
-                    );
+                //if (!context.Roles.Any())
+                //{
+                //    await context.Roles.AddRangeAsync(
+                //        new Role { Name = "Admin" },
+                //        new Role { Name = "Teacher" },
+                //        new Role { Name = "Student" },
+                //        new Role { Name = "Technician" }
+                //    );
 
-                    await context.SaveChangesAsync();
-                }
+                //    await context.SaveChangesAsync();
+                //}
             
 
 
@@ -34,7 +34,8 @@ namespace SchoolLabApp
             var userService = new UserService(userRepository);
             var roleService = new RoleService(context);
 
-            Application.Run(new Login(userService,roleService,context));
+            //Application.Run(new Login(userService,roleService,context));
+            Application.Run(new UserReportPanel());
         }
     }
 }
