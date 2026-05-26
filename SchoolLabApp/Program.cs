@@ -35,7 +35,7 @@ namespace SchoolLabApp
             var roleService = new RoleService(context);
 
             //Application.Run(new Login(userService,roleService,context));
-            Application.Run(new UserReportPanel());
+            Application.Run(new ReportPanel());
         }
     }
 }
