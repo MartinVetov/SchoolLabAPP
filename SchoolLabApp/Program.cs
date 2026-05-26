@@ -14,23 +14,10 @@ namespace SchoolLabApp
             ApplicationConfiguration.Initialize();
 
             var context = new SchoolLabAppDbContext();
-            // 
-                if (!context.Roles.Any())
-                {
-                    await context.Roles.AddRangeAsync(
-                        new Role { Name = "Admin" },
-                        new Role { Name = "Teacher" },
-                        new Role { Name = "Student" },
-                        new Role { Name = "Technician" }
-                    );
-
-                    await context.SaveChangesAsync();
-                }
-            
 
 
             var userRepository = new UserRepository(context);
-            var roleRepository = new RoleRepository(context);
+            var roleRepository = new RoleRepository(context);   
 
             var userService = new UserService(userRepository);
             var roleService = new RoleService(roleRepository);

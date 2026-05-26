@@ -50,7 +50,7 @@ namespace SchoolLabApp.Repositories.Implementations
             }
         }
 
-       
+
 
     }
 }
