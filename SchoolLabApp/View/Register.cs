@@ -93,10 +93,37 @@ public partial class Register : Form
 
             this.Close();
         }
+        catch (ArgumentNullException ex)
+        {
+            MessageBox.Show(
+                ex.Message,
+                "Registration fail",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
+        }
+        catch (ArgumentException ex)
+        {
+            MessageBox.Show(
+                ex.Message, 
+                "Registration fail", 
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
+        }
+        catch (InvalidOperationException ex)
+        {
+            MessageBox.Show(
+                ex.Message,
+                "Registration fail",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
+        }
         catch (Exception ex)
         {
-            MessageBox.Show(ex.Message, "Registration failed",
-                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show(
+                ex.Message,
+                "Registration fail",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
         }
     }
 

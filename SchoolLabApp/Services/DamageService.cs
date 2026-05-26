@@ -1,21 +1,21 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using SchoolLabApp.Data;
+using SchoolLabApp.Models;
+using SchoolLabApp.Repositories.Implementations;
+using SchoolLabApp.Repositories.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-using Microsoft.EntityFrameworkCore;
-using SchoolLabApp.Data;
-using SchoolLabApp.Models;
-using SchoolLabApp.Repositories.Interfaces;
-
 namespace SchoolLabApp.Services
 {
-    public class DamageService : IDamageRepository
+    public class DamageService
     {
-        private readonly SchoolLabAppDbContext _context;
-
-        public DamageService(SchoolLabAppDbContext context)
+        private readonly DamageRepository _damageRepository;
+        //TO DO: FIX THE DAMEGE AND ROLE SERVICE !!!!!!!!!!!!
+        public DamageService(DamageRepository damageRepository)
         {
-            _context = context;
+            _damageRepository = damageRepository;
         }
 
         public async Task<IEnumerable<Damage>> GetAllAsync()
@@ -45,8 +45,12 @@ namespace SchoolLabApp.Services
 
         public async Task UpdateAsync(Damage damage)
         {
-            _context.Damages.Update(damage);
-            await _context.SaveChangesAsync();
+            var exists = await _damageRepository.ExistsAsync(damage.Id);
+            if (!exists)
+            {
+                throw new InvalidOperationException("Damage not found.");
+            }
+            await _damageRepository.UpdateAsync(damage);
         }
 
         public async Task DeleteAsync(int id)

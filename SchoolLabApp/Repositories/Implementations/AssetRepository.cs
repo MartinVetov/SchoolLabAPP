@@ -23,6 +23,11 @@ namespace SchoolLabApp.Repositories.Implementations
             await _context.SaveChangesAsync();
         }
 
+        public Task<bool> ExistsAsync(int id)
+        {
+            return _context.Assets.AnyAsync(a => a.Id == id);
+        }
+
         public async Task UpdateAsync(Asset asset)
         {
             _context.Assets.Update(asset);

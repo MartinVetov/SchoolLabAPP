@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SchoolLabApp.Models;
 using SchoolLabApp.Repositories.Implementations;
+using SchoolLabApp.Repositories.Interfaces;
 
 namespace SchoolLabApp.Services;
 
@@ -33,7 +34,12 @@ public class AssetService
 
     public async Task UpdateAsset(Asset asset)
     {
-
+        var exists = await _assetRepository.ExistsAsync(asset.Id);
+        if (!exists)
+        {
+            throw new InvalidOperationException("Asset not found.");
+        }
+        await _assetRepository.UpdateAsync(asset);
     }
 
     public async Task DeleteAsset(int id)

@@ -17,7 +17,7 @@ namespace SchoolLabApp.View
         private async void TechnicianPanel_Load(object sender, EventArgs e)
             => await LoadAssets();
 
-        private async System.Threading.Tasks.Task LoadAssets()
+        private async Task LoadAssets()
         {
             try
             {
@@ -26,9 +26,29 @@ namespace SchoolLabApp.View
                 foreach (var a in assets)
                     listBoxTechnicianPanel.Items.Add($"{a.Id} | {a.Name} | {a.Status} | {a.Category?.Name}");
             }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            catch (InvalidOperationException ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
 
@@ -37,7 +57,9 @@ namespace SchoolLabApp.View
             try
             {
                 if (comboBoxTechnicianPanelCategory.SelectedItem == null)
+                {
                     throw new ArgumentException("Please select a category.");
+                }
 
                 string status = radioButtonTechnicianPanelStatusAvelible.Checked ? "Available"
                               : radioButtonTechnicianPanelStatusUnavelible.Checked ? "Unavailable"
@@ -52,9 +74,29 @@ namespace SchoolLabApp.View
                 await LoadAssets();
                 ClearForm();
             }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            catch (InvalidOperationException ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
 
@@ -63,7 +105,9 @@ namespace SchoolLabApp.View
             try
             {
                 if (listBoxTechnicianPanel.SelectedItem == null)
+                {
                     throw new ArgumentException("Select an asset from the list first.");
+                }
 
                 int id = int.Parse(listBoxTechnicianPanel.SelectedItem.ToString()!.Split('|')[0].Trim());
                 string status = radioButtonTechnicianPanelStatusAvelible.Checked ? "Available"
@@ -90,11 +134,27 @@ namespace SchoolLabApp.View
             }
             catch (ArgumentException ex)
             {
-                //...
+                MessageBox.Show(
+                    ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            catch (InvalidOperationException ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
 
@@ -103,7 +163,9 @@ namespace SchoolLabApp.View
             try
             {
                 if (listBoxTechnicianPanel.SelectedItem == null)
+                {
                     throw new ArgumentException("Select an asset from the list first.");
+                }
 
                 int id = int.Parse(listBoxTechnicianPanel.SelectedItem.ToString()!.Split('|')[0].Trim());
 
@@ -114,9 +176,29 @@ namespace SchoolLabApp.View
                     await LoadAssets();
                 }
             }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            catch (InvalidOperationException ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
 

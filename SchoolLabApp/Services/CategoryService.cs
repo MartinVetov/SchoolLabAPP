@@ -18,62 +18,35 @@ namespace SchoolLabApp.Services
 
         public async Task AddCategory(string categoryName)
         {
-            try
+            if (string.IsNullOrWhiteSpace(categoryName))
             {
-                if (string.IsNullOrWhiteSpace(categoryName))
-                {
-                    throw new ArgumentException("Name is required");
-                }
-
-                Category category = new Category()
-                {
-                    Name = categoryName
-                };
-
-                await _categoryRepository.AddAsync(category);
+                throw new ArgumentException("Name is required");
             }
-            catch (ArgumentException ex)
+            Category category = new Category()
             {
-                Console.WriteLine(ex.Message);
-            }
+                Name = categoryName
+            };
+            await _categoryRepository.AddAsync(category);
         }
 
         public async Task UpdateCategory(Category category)
         {
-            try
+            var exists = await _categoryRepository.ExistsAsync(category.Id);
+            if (!exists)
             {
-                var categories = await _categoryRepository.GetByIdAsync(category.Id);
-
-                if (categories == null)
-                {
-                    throw new Exception("Category not found");
-                }
-
-                await _categoryRepository.UpdateAsync(category);
+                throw new InvalidOperationException("Category not found.");
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+            await _categoryRepository.UpdateAsync(category);
         }
 
         public async Task DeleteCategory(int id)
         {
-            try
+            var categories = await _categoryRepository.GetByIdAsync(id);
+            if (categories == null)
             {
-                var categories = await _categoryRepository.GetByIdAsync(id);
-
-                if (categories == null)
-                {
-                    throw new Exception("Category not found");
-                }
-
-                await _categoryRepository.DeleteAsync(id);
+                throw new Exception("Category not found");
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+            await _categoryRepository.DeleteAsync(id);
         }
 
         public async Task<IEnumerable<Category>> GetAll()

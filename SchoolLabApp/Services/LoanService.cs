@@ -1,5 +1,6 @@
 using SchoolLabApp.Models;
 using SchoolLabApp.Repositories.Implementations;
+using SchoolLabApp.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -55,11 +56,11 @@ namespace SchoolLabApp.Services
 
         public async Task UpdateLoan(Loan loan)
         {
-            if (await _loanRepository.GetByIdAsync(loan.Id) == null)
+            var exists = await _loanRepository.ExistsAsync(loan.Id);
+            if (!exists)
             {
                 throw new InvalidOperationException("Loan not found.");
             }
-
             await _loanRepository.UpdateAsync(loan);
         }
 

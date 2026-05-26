@@ -22,6 +22,10 @@ namespace SchoolLabApp.Repositories.Implementations
             await _context.AddAsync(category);
             await _context.SaveChangesAsync();
         }
+        public Task<bool> ExistsAsync(int id)
+        {
+            return _context.Categories.AnyAsync(c => c.Id == id);
+        }
 
         public async Task UpdateAsync(Category category)
         {

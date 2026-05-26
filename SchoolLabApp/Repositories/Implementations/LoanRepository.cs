@@ -22,6 +22,10 @@ namespace SchoolLabApp.Repositories.Implementations
             await _context.Loans.AddAsync(loan);
             await _context.SaveChangesAsync();
         }
+        public Task<bool> ExistsAsync(int id)
+        {
+            return _context.Loans.AnyAsync(l => l.Id == id);
+        }
 
         public async Task UpdateAsync(Loan loan)
         {

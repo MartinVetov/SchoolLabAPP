@@ -33,6 +33,18 @@ namespace SchoolLabApp.View
                 foreach (var u in users)
                     listBoxAdminPanel.Items.Add($"{u.Id} | {u.Username} | {u.Role?.Name ?? "N/A"}");
             }
+            catch (ArgumentNullException ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch(InvalidOperationException ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -44,7 +56,9 @@ namespace SchoolLabApp.View
             try
             {
                 if (comboBoxAdminPanelRole.SelectedItem == null)
+                {
                     throw new ArgumentException("Please select a role.");
+                }
 
                 int roleId = await GetSelectedRoleId();
 
@@ -57,12 +71,25 @@ namespace SchoolLabApp.View
 
                 await _userService.Register(user);
                 MessageBox.Show("User added.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 await LoadUsers();
                 ClearForm();
             }
+            catch (ArgumentNullException ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (InvalidOperationException ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -89,9 +116,21 @@ namespace SchoolLabApp.View
                 await LoadUsers();
                 ClearForm();
             }
+            catch (ArgumentNullException ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (InvalidOperationException ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -100,7 +139,9 @@ namespace SchoolLabApp.View
             try
             {
                 if (listBoxAdminPanel.SelectedItem == null)
+                {
                     throw new ArgumentException("Select a user from the list first.");
+                }
 
                 int id = int.Parse(listBoxAdminPanel.SelectedItem.ToString()!.Split('|')[0].Trim());
 
@@ -110,6 +151,10 @@ namespace SchoolLabApp.View
                     await _userService.DeleteUser(id);
                     await LoadUsers();
                 }
+            }
+            catch(ArgumentNullException ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             catch (Exception ex)
             {
@@ -129,14 +174,21 @@ namespace SchoolLabApp.View
             panel.ShowDialog();
         }
 
-        private async System.Threading.Tasks.Task<int> GetSelectedRoleId()
+        private async Task<int> GetSelectedRoleId()
         {
             if (comboBoxAdminPanelRole.SelectedItem == null)
+            {
                 throw new ArgumentException("Please select a role.");
+            }
+
             var roles = await _roleService.GetAllAsync();
             string selected = comboBoxAdminPanelRole.SelectedItem.ToString()!;
+
             foreach (var r in roles)
+            {
                 if (r.Name == selected) return r.Id;
+            }
+
             throw new InvalidOperationException("Selected role not found in database.");
         }
 
