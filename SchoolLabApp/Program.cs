@@ -13,8 +13,7 @@ namespace SchoolLabApp
         {
             ApplicationConfiguration.Initialize();
 
-            var context = new SchoolLabAppDbContext();
-
+            using var context = new SchoolLabAppDbContext();
 
             var userRepository = new UserRepository(context);
             var roleRepository = new RoleRepository(context);   

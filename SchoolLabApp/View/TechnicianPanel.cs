@@ -1,3 +1,4 @@
+using SchoolLabApp.Models;
 using SchoolLabApp.Services;
 using System;
 using System.Windows.Forms;
@@ -6,6 +7,7 @@ namespace SchoolLabApp.View
 {
     public partial class TechnicianPanel : Form
     {
+        private List<Asset> _assets = new List<Asset>();
         private readonly AssetService _assetService;
 
         public TechnicianPanel(AssetService assetService)
@@ -22,9 +24,13 @@ namespace SchoolLabApp.View
             try
             {
                 var assets = await _assetService.GetAll();
+                _assets = assets.ToList();
                 listBoxTechnicianPanel.Items.Clear();
+                
                 foreach (var a in assets)
+                {
                     listBoxTechnicianPanel.Items.Add($"{a.Id} | {a.Name} | {a.Status} | {a.Category?.Name}");
+                }
             }
             catch (ArgumentException ex)
             {
@@ -104,24 +110,28 @@ namespace SchoolLabApp.View
                 }
 
                 int id = int.Parse(listBoxTechnicianPanel.SelectedItem.ToString()!.Split('|')[0].Trim());
+                MessageBox.Show(id + " ");
+                //var oldAsset = _assetService.GetById(id);
                 string status = radioButtonTechnicianPanelStatusAvelible.Checked ? "Available"
                               : radioButtonTechnicianPanelStatusUnavelible.Checked ? "Unavailable"
                               : "Broken";
-
+                //_assets.Add(OldAsset);
                 var asset = new Models.Asset
                 {
-                    Id         = id,
-                    Name       = txtTechnicianPanelName.Text.Trim(),
-                    Status     = status,
+                    Id = id,
+                    Name = txtTechnicianPanelName.Text.Trim(),
+                    Status = status,
                     CategoryId = comboBoxTechnicianPanelCategory.SelectedIndex + 1,
                 };
-
+                txtTechnicianPanelDescription.Text = oldAsset.Description;
+                
                 await _assetService.UpdateAsset(asset);
                 MessageBox.Show("Asset updated.",
                     "Success",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information
                 );
+
                 await LoadAssets();
                 ClearForm();
             }
@@ -203,6 +213,11 @@ namespace SchoolLabApp.View
             radioButtonTechnicianPanelStatusAvelible.Checked = false;
             radioButtonTechnicianPanelStatusUnavelible.Checked = false;
             radioButtonTechnicianPanelStatusBroken.Checked = false;
+        }
+
+        private void listBoxTechnicianPanel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
