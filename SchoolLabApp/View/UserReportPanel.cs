@@ -1,10 +1,14 @@
 using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace SchoolLabApp.View
 {
     public partial class UserReportPanel : Form
     {
+        private readonly string reportsPath =
+            Path.Combine(Application.StartupPath, "Reports");
+
         public UserReportPanel()
         {
             InitializeComponent();
@@ -14,22 +18,47 @@ namespace SchoolLabApp.View
         {
             if (string.IsNullOrWhiteSpace(txtUserReportPanelReport.Text))
             {
-                MessageBox.Show("Please write a report before sending.", 
+                MessageBox.Show(
+                    "Please write a report before sending.",
                     "Validation",
-                    MessageBoxButtons.OK, 
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
+
                 return;
             }
-            MessageBox.Show("Report sent.", 
-                "Success", 
-                MessageBoxButtons.OK, 
-                MessageBoxIcon.Information);
-            this.Close();
+
+            try
+            {
+                if (!Directory.Exists(reportsPath))
+                    Directory.CreateDirectory(reportsPath);
+
+                string fileName =
+                    $"report_{DateTime.Now:yyyyMMdd_HHmmss}.txt";
+
+                string fullPath =
+                    Path.Combine(reportsPath, fileName);
+
+                File.WriteAllText(fullPath, txtUserReportPanelReport.Text);
+
+                MessageBox.Show(
+                    "Report sent and saved.",
+                    "Success",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
 
         private void btnUserReportPanelBackToLoans_Click(object sender, EventArgs e)
             => this.Close();
-
-        private void label3_Click(object sender, EventArgs e) { }
     }
 }
