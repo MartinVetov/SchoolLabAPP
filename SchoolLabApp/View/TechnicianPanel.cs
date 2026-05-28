@@ -16,6 +16,7 @@ namespace SchoolLabApp.View
             _assetService = assetService;
         }
 
+
         private async void TechnicianPanel_Load(object sender, EventArgs e)
             => await LoadAssets();
 
@@ -111,11 +112,15 @@ namespace SchoolLabApp.View
 
                 int id = int.Parse(listBoxTechnicianPanel.SelectedItem.ToString()!.Split('|')[0].Trim());
                 MessageBox.Show(id + " ");
-                //var oldAsset = _assetService.GetById(id);
+
+                var oldAsset = _assetService.GetById(id);
+
                 string status = radioButtonTechnicianPanelStatusAvelible.Checked ? "Available"
                               : radioButtonTechnicianPanelStatusUnavelible.Checked ? "Unavailable"
                               : "Broken";
-                //_assets.Add(OldAsset);
+
+                _assets.Add(await oldAsset);
+
                 var asset = new Models.Asset
                 {
                     Id = id,
@@ -123,7 +128,8 @@ namespace SchoolLabApp.View
                     Status = status,
                     CategoryId = comboBoxTechnicianPanelCategory.SelectedIndex + 1,
                 };
-                txtTechnicianPanelDescription.Text = oldAsset.Description;
+
+                
                 
                 await _assetService.UpdateAsset(asset);
                 MessageBox.Show("Asset updated.",
@@ -208,16 +214,89 @@ namespace SchoolLabApp.View
         private void ClearForm()
         {
             txtTechnicianPanelName.Clear();
-            txtTechnicianPanelDescription.Clear();
             comboBoxTechnicianPanelCategory.SelectedIndex = -1;
             radioButtonTechnicianPanelStatusAvelible.Checked = false;
             radioButtonTechnicianPanelStatusUnavelible.Checked = false;
             radioButtonTechnicianPanelStatusBroken.Checked = false;
         }
 
+
+
+
         private void listBoxTechnicianPanel_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (listBoxTechnicianPanel.SelectedItem is ListBoxItem selectedItem)
+            {
+                var oldAsset = _assetService.GetById(selectedItem.Id);
 
+                if (oldAsset?.Result == null)
+                {
+                    MessageBox.Show($"Asset with ID {selectedItem.Id} not found!", "Error",
+                                   MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                comboBoxTechnicianPanelCategory.SelectedIndex = oldAsset.Result.CategoryId;
+                txtTechnicianPanelName.Text = oldAsset.Result.Name;
+                SetStatusRadioButtons(oldAsset.Result.Status);
+            }
+        }
+
+        private void SetStatusRadioButtons(string status)
+        {
+            switch (status?.ToLower())
+            {
+                case "available":
+                    radioButtonTechnicianPanelStatusAvelible.Checked = true;
+                    break;
+                case "unavailable":
+                    radioButtonTechnicianPanelStatusUnavelible.Checked = true;
+                    break;
+                case "broken":
+                    radioButtonTechnicianPanelStatusBroken.Checked = true;
+                    break;
+                default:
+                    radioButtonTechnicianPanelStatusAvelible.Checked = true;
+                    break;
+            }
+        }
+
+        private string GetSelectedStatus()
+        {
+            string status = radioButtonTechnicianPanelStatusAvelible.Checked ? "Available"
+                          : radioButtonTechnicianPanelStatusUnavelible.Checked ? "Unavailable"
+                          : "Broken";
+            return status;
+        }
+
+        private void btnUpdateStatus_Click(object sender, EventArgs e)
+        {
+            if (listBoxTechnicianPanel.SelectedItem is ListBoxItem selectedItem)
+            {
+                string newStatus = GetSelectedStatus();
+
+                // Update logic here
+                MessageBox.Show($"Status changed to: {newStatus}", "Status Updated",
+                               MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+            }
+            else
+            {
+                MessageBox.Show("Please select an item first", "Warning",
+                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+    }
+
+    public class ListBoxItem
+    {
+        public string Text { get; set; } = "";
+        public int Id { get; set; }
+
+        public override string ToString()
+        {
+            return Text;
         }
     }
 }
