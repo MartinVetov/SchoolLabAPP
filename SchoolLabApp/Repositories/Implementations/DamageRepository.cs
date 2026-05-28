@@ -29,10 +29,6 @@ namespace SchoolLabApp.Repositories.Implementations
             await _context.Damages.AddAsync(damage);
             await _context.SaveChangesAsync();
         }
-        public Task<bool> ExistsAsync(int id)
-        {
-            return _context.Damages.AnyAsync(c => c.Id == id);
-        }
 
         public async Task UpdateAsync(Damage damage)
         {

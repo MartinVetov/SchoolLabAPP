@@ -1,7 +1,6 @@
 using System;
-using System.Windows.Forms;
 using System.IO;
-using Microsoft.EntityFrameworkCore;
+using System.Windows.Forms;
 
 namespace SchoolLabApp.View
 {
@@ -35,10 +34,30 @@ namespace SchoolLabApp.View
                     listBoxReportPanel.Items.Add(Path.GetFileName(file));
                 }
             }
+            catch (DirectoryNotFoundException ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Folder Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Access Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message,
-                    "Error",
+                string fullError =
+                    ex.InnerException?.Message ?? ex.Message;
+
+                MessageBox.Show(
+                    fullError,
+                    "Unexpected Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
@@ -50,7 +69,8 @@ namespace SchoolLabApp.View
             {
                 if (listBoxReportPanel.SelectedItem == null)
                 {
-                    MessageBox.Show("Select a report first.",
+                    MessageBox.Show(
+                        "Select a report first.",
                         "Validation",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning);
@@ -58,16 +78,39 @@ namespace SchoolLabApp.View
                     return;
                 }
 
-                string fileName = listBoxReportPanel.SelectedItem.ToString();
+                string fileName =
+                    listBoxReportPanel.SelectedItem.ToString();
 
-                string fullPath = Path.Combine(reportsPath, fileName);
+                string fullPath =
+                    Path.Combine(reportsPath, fileName);
 
-                txtReportPanelReport.Text = File.ReadAllText(fullPath);
+                txtReportPanelReport.Text =
+                    File.ReadAllText(fullPath);
+            }
+            catch (FileNotFoundException ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "File Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Read Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message,
-                    "Error",
+                string fullError =
+                    ex.InnerException?.Message ?? ex.Message;
+
+                MessageBox.Show(
+                    fullError,
+                    "Unexpected Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
@@ -79,7 +122,8 @@ namespace SchoolLabApp.View
             {
                 if (listBoxReportPanel.SelectedItem == null)
                 {
-                    MessageBox.Show("Select a report first.",
+                    MessageBox.Show(
+                        "Select a report first.",
                         "Validation",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning);
@@ -87,16 +131,19 @@ namespace SchoolLabApp.View
                     return;
                 }
 
-                DialogResult result = MessageBox.Show("Delete this report?",
+                DialogResult result = MessageBox.Show(
+                    "Delete this report?",
                     "Confirm",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
                 {
-                    string fileName = listBoxReportPanel.SelectedItem.ToString();
+                    string fileName =
+                        listBoxReportPanel.SelectedItem.ToString();
 
-                    string fullPath = Path.Combine(reportsPath, fileName);
+                    string fullPath =
+                        Path.Combine(reportsPath, fileName);
 
                     if (File.Exists(fullPath))
                     {
@@ -107,26 +154,37 @@ namespace SchoolLabApp.View
 
                     txtReportPanelReport.Clear();
 
-                    MessageBox.Show("Report deleted successfully.",
+                    MessageBox.Show(
+                        "Report deleted successfully.",
                         "Success",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
                 }
             }
-            catch (ArgumentException ex)
+            catch (UnauthorizedAccessException ex)
             {
-
+                MessageBox.Show(
+                    ex.Message,
+                    "Access Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
-            catch (DbUpdateException ex)
+            catch (IOException ex)
             {
-
+                MessageBox.Show(
+                    ex.Message,
+                    "Delete Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
-                var fullError = ex.InnerException?.Message ?? ex.Message;
+                string fullError =
+                    ex.InnerException?.Message ?? ex.Message;
 
-                MessageBox.Show(fullError,
-                    "Error",
+                MessageBox.Show(
+                    fullError,
+                    "Unexpected Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }

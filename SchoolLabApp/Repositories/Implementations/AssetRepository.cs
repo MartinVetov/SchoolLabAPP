@@ -30,7 +30,13 @@ namespace SchoolLabApp.Repositories.Implementations
 
         public async Task UpdateAsync(Asset asset)
         {
-            _context.Assets.Update(asset);
+            var oldAsset = await _context.Assets.FindAsync(asset.Id);
+
+            oldAsset.Category = asset.Category;
+            oldAsset.Status = asset.Status;
+            oldAsset.Name = asset.Name;
+
+            _context.Assets.Update(oldAsset);
             await _context.SaveChangesAsync();
         }
 
