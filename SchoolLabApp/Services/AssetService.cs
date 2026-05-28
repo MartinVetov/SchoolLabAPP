@@ -67,4 +67,9 @@ public class AssetService
 
         return await _assetRepository.GetByStatusAsync(status);
     }
+
+    public async Task<Asset?> GetById(int id)
+    {
+        return await _assetRepository.GetByIdAsync(id);
+    }   
 }

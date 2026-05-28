@@ -46,7 +46,9 @@ namespace SchoolLabApp.Repositories.Implementations
             }
         }
 
-
-
+        public Task<bool> ExistsAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
