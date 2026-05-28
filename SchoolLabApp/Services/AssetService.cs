@@ -34,11 +34,6 @@ public class AssetService
 
     public async Task UpdateAsset(Asset asset)
     {
-        var exists = await _assetRepository.ExistsAsync(asset.Id);
-        if (!exists)
-        {
-            throw new InvalidOperationException("Asset not found.");
-        }
         await _assetRepository.UpdateAsync(asset);
     }
 

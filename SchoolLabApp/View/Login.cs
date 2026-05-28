@@ -1,11 +1,10 @@
 using SchoolLabApp.Data;
 using SchoolLabApp.Repositories.Implementations;
 using SchoolLabApp.Services;
-using System;
-using System.Windows.Forms;
 
 namespace SchoolLabApp.View
 {
+    // Logger log4net
     public partial class Login : Form
     {
         private readonly UserService _userService;
@@ -17,7 +16,7 @@ namespace SchoolLabApp.View
             InitializeComponent();
             _userService = userService;
             _roleService = roleService;
-            _context     = context;
+            _context = context;
         }
 
         private void checkBoxLogin_CheckedChanged(object sender, EventArgs e)
@@ -37,24 +36,27 @@ namespace SchoolLabApp.View
 
                 if (role == "Student" || role == "Teacher")
                 {
-                    var loanRepo    = new LoanRepository(_context);
+                    var loanRepo = new LoanRepository(_context);
                     var loanService = new LoanService(loanRepo);
-                    var assetRepo   = new AssetRepository(_context);
-                    var assetService= new AssetService(assetRepo);
+                    var assetRepo = new AssetRepository(_context);
+                    var assetService = new AssetService(assetRepo);
+
                     var panel = new UserLoanPanel(loanService, assetService, user.Id);
+                    panel.FormClosed += (sender, e) => this.Close();
                     panel.ShowDialog();
                 }
                 else if (role == "Technician")
                 {
-                    var assetRepo    = new AssetRepository(_context);
+                    var assetRepo = new AssetRepository(_context);
                     var assetService = new AssetService(assetRepo);
                     var panel = new TechnicianPanel(assetService);
+                    panel.FormClosed += (sender, e) => this.Close();
                     panel.ShowDialog();
                 }
                 else
                 {
                     // Admin or unknown role
-                    var assetRepo    = new AssetRepository(_context);
+                    var assetRepo = new AssetRepository(_context);
                     var assetService = new AssetService(assetRepo);
                     var panel = new AdminPanel(_userService, _roleService, assetService);
                     this.Hide();
@@ -66,30 +68,31 @@ namespace SchoolLabApp.View
             }
             catch (ArgumentNullException ex)
             {
-                MessageBox.Show(ex.Message, 
-                    "Error", 
-                    MessageBoxButtons.OK, 
+                // logger.Error(ex.Message);
+                MessageBox.Show("All fields must not be empty!",
+                    "Error",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
             catch (ArgumentException ex)
             {
-                MessageBox.Show(ex.Message, 
-                    "Error", 
-                    MessageBoxButtons.OK, 
+                MessageBox.Show(ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
             catch (InvalidOperationException ex)
             {
-                MessageBox.Show(ex.Message, 
-                    "Error", 
-                    MessageBoxButtons.OK, 
+                MessageBox.Show(ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, 
-                    "Error", 
-                    MessageBoxButtons.OK, 
+                MessageBox.Show(ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
         }
@@ -100,6 +103,11 @@ namespace SchoolLabApp.View
             this.Hide();
             register.FormClosed += (sender, e) => this.Close();
             register.ShowDialog();
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
