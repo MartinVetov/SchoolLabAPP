@@ -1,3 +1,4 @@
+using SchoolLabApp.Data;
 using SchoolLabApp.Models;
 using SchoolLabApp.Services;
 using System;
@@ -10,13 +11,16 @@ public partial class Register : Form
 {
     private readonly UserService _userService;
     private readonly RoleService _roleService;
+    private readonly PersonService _personService;
+    private readonly SchoolLabAppDbContext _context;
     private readonly Dictionary<string, int> _roleMap = new();
 
-    public Register(UserService userService, RoleService roleService)
+    public Register(UserService userService, RoleService roleService, PersonService personService)
     {
         InitializeComponent();
         _userService = userService;
         _roleService = roleService;
+        _personService = personService;
     }
 
     private async void Register_Load(object sender, EventArgs e)
@@ -86,14 +90,25 @@ public partial class Register : Form
 
             await _userService.Register(user);
 
+            var person = new Person
+            {
+                Name = user.Username,
+                Type = user.Role.Name
+            };
+
+            await _personService.AddPerson(person);
+
+
             MessageBox.Show(
                 "Registration successful!",
                 "Success",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information
             );
-
-            this.Close();
+            var login = new Login(_userService, _roleService, _context, _personService);
+            this.Hide();
+            login.FormClosed += (sender, e) => this.Close();
+            login.ShowDialog();
         }
         catch (ArgumentNullException ex)
         {

@@ -27,6 +27,18 @@ namespace SchoolLabApp.Data
                  new Role { Id = 4, Name = "Technician" }
             );
 
+            modelBuilder.Entity<Category>().HasData(
+                new Category { Id = 1, Name = "Computer" },
+                new Category { Id = 2, Name = "Lab equipment" },
+                new Category { Id = 3, Name = "Books" }
+            );
+
+            modelBuilder.Entity<Person>().HasData(
+                new Person { Id = 1, Name = "First", Type = ""},
+                new Person { Id = 2, Name = "Secont", Type = "" },
+                new Person { Id = 3, Name = "Thre", Type = "" }
+                );
+
             modelBuilder.Entity<Models.User>()
                 .HasOne(u => u.Role)
                 .WithMany(r => r.Users)

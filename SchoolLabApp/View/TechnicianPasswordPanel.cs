@@ -8,16 +8,18 @@ namespace SchoolLabApp.View
     {
         private readonly UserService _userService;
         private readonly RoleService _roleService;
+        private readonly PersonService _personService;
 
         // The Technician password is stored in app config / set by admin.
         // For now it defaults to "tech1234" — change this as needed.
         private const string TechnicianPassword = "tech1234";
 
-        public TechnicianPasswordPanel(UserService userService, RoleService roleService)
+        public TechnicianPasswordPanel(UserService userService, RoleService roleService, PersonService personService)
         {
             InitializeComponent();
             _userService = userService;
             _roleService = roleService;
+            _personService = personService;
         }
 
         private void checkBoxTechnicianPasswordPanel_CheckedChanged(object sender, EventArgs e)
@@ -34,7 +36,7 @@ namespace SchoolLabApp.View
                 return;
             }
 
-            var register = new Register(_userService, _roleService);
+            var register = new Register(_userService, _roleService, _personService);
             register.ShowDialog();
             this.Close();
         }

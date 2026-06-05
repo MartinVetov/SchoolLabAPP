@@ -9,14 +9,16 @@ namespace SchoolLabApp.View
     {
         private readonly UserService _userService;
         private readonly RoleService _roleService;
+        private readonly PersonService _personService;
         private readonly SchoolLabAppDbContext _context;
 
-        public Login(UserService userService, RoleService roleService, SchoolLabAppDbContext context)
+        public Login(UserService userService, RoleService roleService, SchoolLabAppDbContext context, PersonService personService)
         {
             InitializeComponent();
             _userService = userService;
             _roleService = roleService;
             _context = context;
+            _personService = personService;
         }
 
         private void checkBoxLogin_CheckedChanged(object sender, EventArgs e)
@@ -42,6 +44,7 @@ namespace SchoolLabApp.View
                     var assetService = new AssetService(assetRepo);
 
                     var panel = new UserLoanPanel(loanService, assetService, user.Id);
+                    this.Hide();
                     panel.FormClosed += (sender, e) => this.Close();
                     panel.ShowDialog();
                 }
@@ -49,7 +52,9 @@ namespace SchoolLabApp.View
                 {
                     var assetRepo = new AssetRepository(_context);
                     var assetService = new AssetService(assetRepo);
+
                     var panel = new TechnicianPanel(assetService);
+                    this.Hide();
                     panel.FormClosed += (sender, e) => this.Close();
                     panel.ShowDialog();
                 }
@@ -58,6 +63,7 @@ namespace SchoolLabApp.View
                     // Admin or unknown role
                     var assetRepo = new AssetRepository(_context);
                     var assetService = new AssetService(assetRepo);
+
                     var panel = new AdminPanel(_userService, _roleService, assetService);
                     this.Hide();
                     panel.FormClosed += (sender, e) => this.Close();
@@ -99,7 +105,7 @@ namespace SchoolLabApp.View
 
         private void btnLoginRegister_Click(object sender, EventArgs e)
         {
-            var register = new Register(_userService, _roleService);
+            var register = new Register(_userService, _roleService, _personService);
             this.Hide();
             register.FormClosed += (sender, e) => this.Close();
             register.ShowDialog();
