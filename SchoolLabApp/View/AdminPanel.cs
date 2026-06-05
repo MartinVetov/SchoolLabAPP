@@ -211,14 +211,18 @@ namespace SchoolLabApp.View
 
         private void btnAdminPanelTechnicianPanel_Click(object sender, EventArgs e)
         {
-            var panel = new TechnicianPanel(_assetService);
-            panel.ShowDialog();
+            var technician = new TechnicianPanel(_assetService);
+            this.Hide();
+            technician.FormClosed += (sender, e) => this.Close();
+            technician.ShowDialog();
         }
 
         private void btnAdminPanelReportPanel_Click(object sender, EventArgs e)
         {
-            var panel = new ReportPanel();
-            panel.ShowDialog();
+            var report = new ReportPanel();
+            this.Hide();
+            report.FormClosed += (sender, e) => this.Close();
+            report.ShowDialog();
         }
 
         private async Task<int> GetSelectedRoleId()

@@ -115,13 +115,17 @@ namespace SchoolLabApp.View
 
         private void btnUserLoanPanelReturn_Click(object sender, EventArgs e)
         {
-            var returnPanel = new UserReturnPanel(_loanService, _personId);
+            var returnPanel = new UserReturnPanel(_loanService, _assetService,_personId);
+            this.Hide();
+            returnPanel.FormClosed += (sender, e) => this.Close();
             returnPanel.ShowDialog();
         }
 
         private void btnUserLoanPanelReport_Click(object sender, EventArgs e)
         {
             var reportPanel = new UserReportPanel();
+            this.Hide();
+            reportPanel.FormClosed += (sender, e) => this.Close();
             reportPanel.ShowDialog();
         }
 

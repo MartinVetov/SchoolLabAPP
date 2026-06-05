@@ -7,13 +7,16 @@ namespace SchoolLabApp.View
     public partial class UserReturnPanel : Form
     {
         private readonly LoanService _loanService;
+        private readonly AssetService _assetService;
         private readonly int _personId;
 
-        public UserReturnPanel(LoanService loanService, int personId)
+        public UserReturnPanel(LoanService loanService, AssetService assetService ,int personId)
         {
             InitializeComponent();
             _loanService = loanService;
+            _assetService = assetService;
             _personId    = personId;
+
         }
 
         private async void UserReturnPanel_Load(object sender, EventArgs e)
@@ -74,8 +77,11 @@ namespace SchoolLabApp.View
         }
 
         private void btnUserReturnePanelBackToLoans_Click(object sender, EventArgs e)
-        { 
-            this.Close();
+        {
+            var loan = new UserLoanPanel(_loanService, _assetService, _personId);
+            this.Hide();
+            loan.FormClosed += (sender, e) => this.Close();
+            loan.ShowDialog();
         }
     }
 }

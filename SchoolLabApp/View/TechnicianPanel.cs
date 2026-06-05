@@ -207,8 +207,10 @@ namespace SchoolLabApp.View
 
         private void btnTechnicianPanelReportPanel_Click(object sender, EventArgs e)
         {
-            var panel = new ReportPanel();
-            panel.ShowDialog();
+            var report = new ReportPanel();
+            this.Hide();
+            report.FormClosed += (sender, e) => this.Close();
+            report.ShowDialog();
         }
 
         private void ClearForm()
