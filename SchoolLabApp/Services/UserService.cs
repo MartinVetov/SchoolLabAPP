@@ -75,7 +75,6 @@ namespace SchoolLabApp.Services
             {
                 throw new InvalidOperationException("User not found.");
             }
-            await _userRepository.AddAsync(user);
             await _userRepository.UpdateAsync(user);
         }
 
@@ -87,6 +86,16 @@ namespace SchoolLabApp.Services
             }
 
             await _userRepository.DeleteAsync(id);
+        }
+
+        public async Task<User?> GetById(int id)
+        {
+            if (await _userRepository.GetByIdAsync(id) == null)
+            {
+                throw new InvalidOperationException("User not found.");
+            }
+
+            return await _userRepository.GetByIdAsync(id);
         }
     }
 }

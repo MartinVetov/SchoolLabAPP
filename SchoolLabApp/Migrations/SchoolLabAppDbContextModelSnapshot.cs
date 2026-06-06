@@ -177,13 +177,13 @@ namespace SchoolLabApp.Migrations
                         new
                         {
                             Id = 2,
-                            Name = "Secont",
+                            Name = "Second",
                             Type = ""
                         },
                         new
                         {
                             Id = 3,
-                            Name = "Thre",
+                            Name = "Third",
                             Type = ""
                         });
                 });

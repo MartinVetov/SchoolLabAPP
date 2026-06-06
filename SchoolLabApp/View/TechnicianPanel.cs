@@ -16,7 +16,6 @@ namespace SchoolLabApp.View
             _assetService = assetService;
         }
 
-
         private async void TechnicianPanel_Load(object sender, EventArgs e)
             => await LoadAssets();
 
@@ -121,7 +120,7 @@ namespace SchoolLabApp.View
 
                 _assets.Add(await oldAsset);
 
-                var asset = new Models.Asset
+                var asset = new Asset
                 {
                     Id = id,
                     Name = txtTechnicianPanelName.Text.Trim(),

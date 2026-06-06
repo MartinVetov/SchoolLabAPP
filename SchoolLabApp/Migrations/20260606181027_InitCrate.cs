@@ -7,7 +7,7 @@
 namespace SchoolLabApp.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitCrate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -28,8 +28,8 @@ namespace SchoolLabApp.Migrations
                 values: new object[,]
                 {
                     { 1, "First", "" },
-                    { 2, "Secont", "" },
-                    { 3, "Thre", "" }
+                    { 2, "Second", "" },
+                    { 3, "Third", "" }
                 });
         }
 

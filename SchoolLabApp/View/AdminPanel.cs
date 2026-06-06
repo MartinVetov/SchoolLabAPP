@@ -10,6 +10,7 @@ namespace SchoolLabApp.View
         private readonly UserService _userService;
         private readonly RoleService _roleService;
         private readonly AssetService _assetService;
+        public readonly List<User> _OldUsers = new List<User>();
 
         public AdminPanel(UserService userService, RoleService roleService, AssetService assetService)
         {
@@ -31,7 +32,9 @@ namespace SchoolLabApp.View
                 var users = await _userService.GetAllUsers();
                 listBoxAdminPanel.Items.Clear();
                 foreach (var u in users)
+                {
                     listBoxAdminPanel.Items.Add($"{u.Id} | {u.Username} | {u.Role?.Name ?? "N/A"}");
+                }
             }
             catch (ArgumentNullException ex)
             {
@@ -125,10 +128,16 @@ namespace SchoolLabApp.View
             try
             {
                 if (listBoxAdminPanel.SelectedItem == null)
+                {
                     throw new ArgumentException("Select a user from the list first.");
+                }
 
                 int id = int.Parse(listBoxAdminPanel.SelectedItem.ToString()!.Split('|')[0].Trim());
                 int roleId = await GetSelectedRoleId();
+
+                var olduser = _userService.GetById(id);
+
+                _OldUsers.Add(await olduser);
 
                 var user = new User
                 {

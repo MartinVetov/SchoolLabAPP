@@ -12,8 +12,8 @@ using SchoolLabApp.Data;
 namespace SchoolLabApp.Migrations
 {
     [DbContext(typeof(SchoolLabAppDbContext))]
-    [Migration("20260606164330_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260606181027_InitCrate")]
+    partial class InitCrate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -180,13 +180,13 @@ namespace SchoolLabApp.Migrations
                         new
                         {
                             Id = 2,
-                            Name = "Secont",
+                            Name = "Second",
                             Type = ""
                         },
                         new
                         {
                             Id = 3,
-                            Name = "Thre",
+                            Name = "Third",
                             Type = ""
                         });
                 });
