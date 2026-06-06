@@ -31,7 +31,6 @@ namespace SchoolLabApp.View
             comboBoxAdminPanelRole = new ComboBox();
             label4 = new Label();
             label3 = new Label();
-            label2 = new Label();
             label1 = new Label();
             btnAdminPanelDelete = new Button();
             btnAdminPanelEdit = new Button();
@@ -40,7 +39,6 @@ namespace SchoolLabApp.View
             btnAdminPanelReportPanel = new Button();
             btnAdminPanelTechnicianPanel = new Button();
             txtAdminPanelPassword = new TextBox();
-            txtAdminPanelEmail = new TextBox();
             txtAdminPanelUsername = new TextBox();
             SuspendLayout();
             // 
@@ -71,19 +69,10 @@ namespace SchoolLabApp.View
             label3.TabIndex = 26;
             label3.Text = "Password";
             // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(26, 102);
-            label2.Name = "label2";
-            label2.Size = new Size(36, 15);
-            label2.TabIndex = 25;
-            label2.Text = "Email";
-            // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(26, 37);
+            label1.Location = new Point(26, 101);
             label1.Name = "label1";
             label1.Size = new Size(60, 15);
             label1.TabIndex = 24;
@@ -169,16 +158,9 @@ namespace SchoolLabApp.View
             txtAdminPanelPassword.Size = new Size(199, 23);
             txtAdminPanelPassword.TabIndex = 17;
             // 
-            // txtAdminPanelEmail
-            // 
-            txtAdminPanelEmail.Location = new Point(26, 120);
-            txtAdminPanelEmail.Name = "txtAdminPanelEmail";
-            txtAdminPanelEmail.Size = new Size(199, 23);
-            txtAdminPanelEmail.TabIndex = 16;
-            // 
             // txtAdminPanelUsername
             // 
-            txtAdminPanelUsername.Location = new Point(26, 55);
+            txtAdminPanelUsername.Location = new Point(26, 119);
             txtAdminPanelUsername.Name = "txtAdminPanelUsername";
             txtAdminPanelUsername.Size = new Size(199, 23);
             txtAdminPanelUsername.TabIndex = 15;
@@ -192,7 +174,6 @@ namespace SchoolLabApp.View
             Controls.Add(comboBoxAdminPanelRole);
             Controls.Add(label4);
             Controls.Add(label3);
-            Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(btnAdminPanelDelete);
             Controls.Add(btnAdminPanelEdit);
@@ -201,7 +182,6 @@ namespace SchoolLabApp.View
             Controls.Add(btnAdminPanelReportPanel);
             Controls.Add(btnAdminPanelTechnicianPanel);
             Controls.Add(txtAdminPanelPassword);
-            Controls.Add(txtAdminPanelEmail);
             Controls.Add(txtAdminPanelUsername);
             Name = "AdminPanel";
             Text = "AdminPanel";
@@ -215,7 +195,6 @@ namespace SchoolLabApp.View
         private ComboBox comboBoxAdminPanelRole;
         private Label label4;
         private Label label3;
-        private Label label2;
         private Label label1;
         private Button btnAdminPanelDelete;
         private Button btnAdminPanelEdit;
@@ -224,7 +203,6 @@ namespace SchoolLabApp.View
         private Button btnAdminPanelReportPanel;
         private Button btnAdminPanelTechnicianPanel;
         private TextBox txtAdminPanelPassword;
-        private TextBox txtAdminPanelEmail;
         private TextBox txtAdminPanelUsername;
     }
 }

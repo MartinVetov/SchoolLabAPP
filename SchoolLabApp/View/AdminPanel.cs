@@ -143,7 +143,7 @@ namespace SchoolLabApp.View
                 {
                     Id       = id,
                     Username = txtAdminPanelUsername.Text.Trim(),
-                    Password = txtAdminPanelPassword.Text,
+                    Password = txtAdminPanelPassword.Text.Trim(),
                     RoleId   = roleId
                 };
 
