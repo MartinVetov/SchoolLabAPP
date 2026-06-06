@@ -220,9 +220,12 @@ namespace SchoolLabApp.View
         private void btnAdminPanelReportPanel_Click(object sender, EventArgs e)
         {
             var report = new ReportPanel();
+
             this.Hide();
-            report.FormClosed += (sender, e) => this.Close();
+
             report.ShowDialog();
+
+            this.Show();
         }
 
         private async Task<int> GetSelectedRoleId()

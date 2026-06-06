@@ -208,9 +208,12 @@ namespace SchoolLabApp.View
         private void btnTechnicianPanelReportPanel_Click(object sender, EventArgs e)
         {
             var report = new ReportPanel();
+
             this.Hide();
-            report.FormClosed += (sender, e) => this.Close();
+
             report.ShowDialog();
+
+            this.Show();
         }
 
         private void ClearForm()
@@ -238,7 +241,7 @@ namespace SchoolLabApp.View
                     return;
                 }
 
-                comboBoxTechnicianPanelCategory.SelectedIndex = oldAsset.Result.CategoryId;
+                comboBoxTechnicianPanelCategory.SelectedIndex = oldAsset.Result.CategoryId - 1;
                 txtTechnicianPanelName.Text = oldAsset.Result.Name;
                 SetStatusRadioButtons(oldAsset.Result.Status);
             }

@@ -12,8 +12,8 @@ using SchoolLabApp.Data;
 namespace SchoolLabApp.Migrations
 {
     [DbContext(typeof(SchoolLabAppDbContext))]
-    [Migration("20260527123701_InitCC")]
-    partial class InitCC
+    [Migration("20260606164330_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -70,6 +70,23 @@ namespace SchoolLabApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Computer"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Lab equipment"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Books"
+                        });
                 });
 
             modelBuilder.Entity("SchoolLabApp.Models.Damage", b =>
@@ -152,6 +169,26 @@ namespace SchoolLabApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Persons");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "First",
+                            Type = ""
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Secont",
+                            Type = ""
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Thre",
+                            Type = ""
+                        });
                 });
 
             modelBuilder.Entity("SchoolLabApp.Models.Role", b =>

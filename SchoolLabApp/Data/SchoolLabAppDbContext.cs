@@ -15,7 +15,7 @@ namespace SchoolLabApp.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=(localdb)\\ProjectModels;Initial Catalog=ShoolLabApp;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False;Command Timeout=30");
+            optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=SchoolLab;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False;Command Timeout=30");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -35,8 +35,8 @@ namespace SchoolLabApp.Data
 
             modelBuilder.Entity<Person>().HasData(
                 new Person { Id = 1, Name = "First", Type = ""},
-                new Person { Id = 2, Name = "Secont", Type = "" },
-                new Person { Id = 3, Name = "Thre", Type = "" }
+                new Person { Id = 2, Name = "Second", Type = "" },
+                new Person { Id = 3, Name = "Third", Type = "" }
                 );
 
             modelBuilder.Entity<Models.User>()

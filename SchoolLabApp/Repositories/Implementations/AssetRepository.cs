@@ -32,11 +32,15 @@ namespace SchoolLabApp.Repositories.Implementations
         {
             var oldAsset = await _context.Assets.FindAsync(asset.Id);
 
-            oldAsset.Category = asset.Category;
-            oldAsset.Status = asset.Status;
-            oldAsset.Name = asset.Name;
+            if (oldAsset == null)
+            {
+                throw new InvalidOperationException("Asset not found.");
+            }
 
-            _context.Assets.Update(oldAsset);
+            oldAsset.Name = asset.Name;
+            oldAsset.Status = asset.Status;
+            oldAsset.CategoryId = asset.CategoryId;
+
             await _context.SaveChangesAsync();
         }
 
