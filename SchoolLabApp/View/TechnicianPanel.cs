@@ -1,6 +1,7 @@
 using SchoolLabApp.Models;
 using SchoolLabApp.Services;
 using System;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace SchoolLabApp.View
@@ -9,11 +10,15 @@ namespace SchoolLabApp.View
     {
         private List<Asset> _assets = new List<Asset>();
         private readonly AssetService _assetService;
+        private readonly UserService _userService;
+        private readonly RoleService _roleService;
 
-        public TechnicianPanel(AssetService assetService)
+        public TechnicianPanel(AssetService assetService, UserService userService, RoleService roleService)
         {
             InitializeComponent();
             _assetService = assetService;
+            _userService = userService;
+            _roleService = roleService;
         }
 
         private async void TechnicianPanel_Load(object sender, EventArgs e)
@@ -132,8 +137,8 @@ namespace SchoolLabApp.View
                     CategoryId = comboBoxTechnicianPanelCategory.SelectedIndex + 1,
                 };
 
-                
-                
+
+
                 await _assetService.UpdateAsset(asset);
                 MessageBox.Show("Asset updated.",
                     "Success",
@@ -210,7 +215,7 @@ namespace SchoolLabApp.View
 
         private void btnTechnicianPanelReportPanel_Click(object sender, EventArgs e)
         {
-            var report = new ReportPanel();
+            var report = new ReportPanel(_assetService, _userService, _roleService);
 
             this.Hide();
 
@@ -299,6 +304,34 @@ namespace SchoolLabApp.View
                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void btnMinimize_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HT_CAPTION = 0x2;
+
+        [DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        [DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
+
+        private void DragArea_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
+        }
+
     }
 
     public class ListBoxItem

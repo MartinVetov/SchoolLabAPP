@@ -1,6 +1,7 @@
 using SchoolLabApp.Models;
 using SchoolLabApp.Services;
 using System;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace SchoolLabApp.View
@@ -38,30 +39,30 @@ namespace SchoolLabApp.View
             }
             catch (ArgumentNullException ex)
             {
-                MessageBox.Show(ex.Message, 
-                    "Error", 
-                    MessageBoxButtons.OK, 
+                MessageBox.Show(ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
             catch (ArgumentException ex)
             {
-                MessageBox.Show(ex.Message, 
-                    "Error", 
-                    MessageBoxButtons.OK, 
+                MessageBox.Show(ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
-            catch(InvalidOperationException ex)
+            catch (InvalidOperationException ex)
             {
-                MessageBox.Show(ex.Message, 
-                    "Error", 
-                    MessageBoxButtons.OK, 
+                MessageBox.Show(ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, 
-                    "Error", 
-                    MessageBoxButtons.OK, 
+                MessageBox.Show(ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
         }
@@ -81,7 +82,7 @@ namespace SchoolLabApp.View
                 {
                     Username = txtAdminPanelUsername.Text.Trim(),
                     Password = txtAdminPanelPassword.Text,
-                    RoleId   = roleId
+                    RoleId = roleId
                 };
 
                 await _userService.Register(user);
@@ -95,30 +96,30 @@ namespace SchoolLabApp.View
             }
             catch (ArgumentNullException ex)
             {
-                MessageBox.Show(ex.Message, 
-                    "Error", 
-                    MessageBoxButtons.OK, 
+                MessageBox.Show(ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
             catch (ArgumentException ex)
             {
-                MessageBox.Show(ex.Message, 
-                    "Error", 
-                    MessageBoxButtons.OK, 
+                MessageBox.Show(ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
             catch (InvalidOperationException ex)
             {
-                MessageBox.Show(ex.Message, 
-                    "Error", 
-                    MessageBoxButtons.OK, 
+                MessageBox.Show(ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, 
-                    "Error", 
-                    MessageBoxButtons.OK, 
+                MessageBox.Show(ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
         }
@@ -141,10 +142,10 @@ namespace SchoolLabApp.View
 
                 var user = new User
                 {
-                    Id       = id,
+                    Id = id,
                     Username = txtAdminPanelUsername.Text.Trim(),
                     Password = txtAdminPanelPassword.Text.Trim(),
-                    RoleId   = roleId
+                    RoleId = roleId
                 };
 
                 await _userService.UpdateUser(user);
@@ -154,30 +155,30 @@ namespace SchoolLabApp.View
             }
             catch (ArgumentNullException ex)
             {
-                MessageBox.Show(ex.Message, 
-                    "Error", 
-                    MessageBoxButtons.OK, 
+                MessageBox.Show(ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
             catch (ArgumentException ex)
             {
-                MessageBox.Show(ex.Message, 
-                    "Error", 
-                    MessageBoxButtons.OK, 
+                MessageBox.Show(ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
             catch (InvalidOperationException ex)
             {
-                MessageBox.Show(ex.Message, 
-                    "Error", 
-                    MessageBoxButtons.OK, 
+                MessageBox.Show(ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, 
-                    "Error", 
-                    MessageBoxButtons.OK, 
+                MessageBox.Show(ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
         }
@@ -195,32 +196,32 @@ namespace SchoolLabApp.View
 
                 if (MessageBox.Show("Delete this user?"
                     , "Confirm",
-                    MessageBoxButtons.YesNo, 
+                    MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     await _userService.DeleteUser(id);
                     await LoadUsers();
                 }
             }
-            catch(ArgumentNullException ex)
+            catch (ArgumentNullException ex)
             {
-                MessageBox.Show(ex.Message, 
-                    "Error", 
-                    MessageBoxButtons.OK, 
+                MessageBox.Show(ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, 
-                    "Error", 
-                    MessageBoxButtons.OK, 
+                MessageBox.Show(ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
             }
         }
 
         private void btnAdminPanelTechnicianPanel_Click(object sender, EventArgs e)
         {
-            var technician = new TechnicianPanel(_assetService);
+            var technician = new TechnicianPanel(_assetService, _userService, _roleService);
             this.Hide();
             technician.FormClosed += (sender, e) => this.Close();
             technician.ShowDialog();
@@ -228,7 +229,7 @@ namespace SchoolLabApp.View
 
         private void btnAdminPanelReportPanel_Click(object sender, EventArgs e)
         {
-            var report = new ReportPanel();
+            var report = new ReportPanel(_assetService, _userService, _roleService);
 
             this.Hide();
 
@@ -263,5 +264,34 @@ namespace SchoolLabApp.View
         }
 
         private void label1_Click(object sender, EventArgs e) { }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void btnMinimize_Click_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HT_CAPTION = 0x2;
+
+        [DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        [DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
+
+        private void DragArea_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
+        }
+
+
     }
 }

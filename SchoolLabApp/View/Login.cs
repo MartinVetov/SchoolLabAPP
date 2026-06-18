@@ -1,12 +1,13 @@
 using SchoolLabApp.Data;
 using SchoolLabApp.Repositories.Implementations;
 using SchoolLabApp.Services;
+using System.Runtime.InteropServices;
 
 namespace SchoolLabApp.View
 {
-    // Logger log4net
     public partial class Login : Form
     {
+
         private readonly UserService _userService;
         private readonly RoleService _roleService;
         private readonly PersonService _personService;
@@ -53,7 +54,7 @@ namespace SchoolLabApp.View
                     var assetRepo = new AssetRepository(_context);
                     var assetService = new AssetService(assetRepo);
 
-                    var panel = new TechnicianPanel(assetService);
+                    var panel = new TechnicianPanel(assetService, _userService, _roleService);
                     this.Hide();
                     panel.FormClosed += (sender, e) => this.Close();
                     panel.ShowDialog();
@@ -103,17 +104,46 @@ namespace SchoolLabApp.View
             }
         }
 
-        private void btnLoginRegister_Click(object sender, EventArgs e)
+        private void btnClose_Click(object sender, EventArgs e)
         {
-            var register = new Register(_userService, _roleService, _personService,_context);
+            Application.Exit();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void btnLoginRegister_Click(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var register = new Register(_userService, _roleService, _personService, _context);
             this.Hide();
             register.FormClosed += (sender, e) => this.Close();
             register.ShowDialog();
         }
 
-        private void btnClose_Click(object sender, EventArgs e)
+        
+
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HT_CAPTION = 0x2;
+
+        [DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        [DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
+
+        private void DragArea_MouseDown(object sender, MouseEventArgs e)
         {
-            Application.Exit();
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
+        }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

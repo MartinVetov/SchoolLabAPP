@@ -3,6 +3,7 @@ using SchoolLabApp.Models;
 using SchoolLabApp.Services;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace SchoolLabApp.View;
@@ -43,9 +44,9 @@ public partial class Register : Form
         }
         catch (Exception ex)
         {
-            MessageBox.Show(ex.Message, 
+            MessageBox.Show(ex.Message,
                 "Error loading roles",
-                MessageBoxButtons.OK, 
+                MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
         }
     }
@@ -62,7 +63,7 @@ public partial class Register : Form
         if (txtRegisterPassword.Text != txtRegisterPasswordConfirm.Text)
         {
             MessageBox.Show(
-                "Passwords do not match!", 
+                "Passwords do not match!",
                 "Registrer Error",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
@@ -80,7 +81,7 @@ public partial class Register : Form
             throw new InvalidOperationException("Selected role not found in database.");
         }
 
-        if(comboBoxRegisterRole.SelectedItem.ToString() == "Technician")
+        if (comboBoxRegisterRole.SelectedItem.ToString() == "Technician")
         {
             var technicianPassword = new TechnicianPasswordPanel(_userService, _roleService, _personService);
             technicianPassword.ShowDialog();
@@ -128,8 +129,8 @@ public partial class Register : Form
         catch (ArgumentException ex)
         {
             MessageBox.Show(
-                ex.Message, 
-                "Registration fail", 
+                ex.Message,
+                "Registration fail",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
         }
@@ -154,5 +155,38 @@ public partial class Register : Form
     private void comboBoxRegisterRole_SelectedIndexChanged(object sender, EventArgs e)
     {
 
+    }
+
+    private void txtRegisterPasswordConfirm_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    public const int WM_NCLBUTTONDOWN = 0xA1;
+    public const int HT_CAPTION = 0x2;
+
+    [DllImport("user32.dll")]
+    public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+    [DllImport("user32.dll")]
+    public static extern bool ReleaseCapture();
+
+    private void DragArea_MouseDown(object sender, MouseEventArgs e)
+    {
+        if (e.Button == MouseButtons.Left)
+        {
+            ReleaseCapture();
+            SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+        }
+    }
+
+
+    private void btnMinimize_Click_Click(object sender, EventArgs e)
+    {
+        this.WindowState = FormWindowState.Minimized;
+    }
+
+    private void btnClose_Click(object sender, EventArgs e)
+    {
+        Application.Exit();
     }
 }
