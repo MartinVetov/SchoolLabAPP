@@ -26,10 +26,14 @@ namespace SchoolLabApp.View
                 var assets = await _assetService.GetAll();
                 _assets = assets.ToList();
                 listBoxTechnicianPanel.Items.Clear();
-                
+
                 foreach (var a in assets)
                 {
-                    listBoxTechnicianPanel.Items.Add($"{a.Id} | {a.Name} | {a.Status} | {a.Category?.Name}");
+                    listBoxTechnicianPanel.Items.Add(new ListBoxItem
+                    {
+                        Id = a.Id,
+                        Text = $"{a.Id} | {a.Name} | {a.Status} | {a.Category?.Name}"
+                    });
                 }
             }
             catch (ArgumentException ex)
@@ -227,22 +231,26 @@ namespace SchoolLabApp.View
 
 
 
-        private void listBoxTechnicianPanel_SelectedIndexChanged(object sender, EventArgs e)
+        private async void listBoxTechnicianPanel_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listBoxTechnicianPanel.SelectedItem is ListBoxItem selectedItem)
             {
-                var oldAsset = _assetService.GetById(selectedItem.Id);
+                var oldAsset = await _assetService.GetById(selectedItem.Id);
 
-                if (oldAsset?.Result == null)
+                if (oldAsset == null)
                 {
-                    MessageBox.Show($"Asset with ID {selectedItem.Id} not found!", "Error",
-                                   MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(
+                        $"Asset with ID {selectedItem.Id} not found!",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
                     return;
                 }
 
-                comboBoxTechnicianPanelCategory.SelectedIndex = oldAsset.Result.CategoryId - 1;
-                txtTechnicianPanelName.Text = oldAsset.Result.Name;
-                SetStatusRadioButtons(oldAsset.Result.Status);
+                comboBoxTechnicianPanelCategory.SelectedIndex = oldAsset.CategoryId - 1;
+                txtTechnicianPanelName.Text = oldAsset.Name;
+                SetStatusRadioButtons(oldAsset.Status);
             }
         }
 

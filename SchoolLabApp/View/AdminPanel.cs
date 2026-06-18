@@ -259,7 +259,6 @@ namespace SchoolLabApp.View
         {
             txtAdminPanelUsername.Clear();
             txtAdminPanelPassword.Clear();
-            txtAdminPanelEmail.Clear();
             comboBoxAdminPanelRole.SelectedIndex = -1;
         }
 

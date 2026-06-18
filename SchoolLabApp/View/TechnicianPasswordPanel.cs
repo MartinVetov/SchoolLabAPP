@@ -35,9 +35,6 @@ namespace SchoolLabApp.View
                     MessageBoxIcon.Warning);
                 return;
             }
-
-            var register = new Register(_userService, _roleService, _personService);
-            register.ShowDialog();
             this.Close();
         }
     }

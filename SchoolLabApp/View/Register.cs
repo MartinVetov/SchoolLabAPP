@@ -15,12 +15,13 @@ public partial class Register : Form
     private readonly SchoolLabAppDbContext _context;
     private readonly Dictionary<string, int> _roleMap = new();
 
-    public Register(UserService userService, RoleService roleService, PersonService personService)
+    public Register(UserService userService, RoleService roleService, PersonService personService, SchoolLabAppDbContext context)
     {
         InitializeComponent();
         _userService = userService;
         _roleService = roleService;
         _personService = personService;
+        _context = context;
     }
 
     private async void Register_Load(object sender, EventArgs e)
@@ -79,12 +80,18 @@ public partial class Register : Form
             throw new InvalidOperationException("Selected role not found in database.");
         }
 
+        if(comboBoxRegisterRole.SelectedItem.ToString() == "Technician")
+        {
+            var technicianPassword = new TechnicianPasswordPanel(_userService, _roleService, _personService);
+            technicianPassword.ShowDialog();
+        }
+
         try
         {
             var user = new User
             {
                 Username = txtRegisterUsername.Text.Trim(),
-                Password = txtRegisterPassword.Text,
+                Password = txtRegisterPassword.Text.Trim(),
                 RoleId = roleId
             };
 

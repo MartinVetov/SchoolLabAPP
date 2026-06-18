@@ -105,7 +105,7 @@ namespace SchoolLabApp.View
 
         private void btnLoginRegister_Click(object sender, EventArgs e)
         {
-            var register = new Register(_userService, _roleService, _personService);
+            var register = new Register(_userService, _roleService, _personService,_context);
             this.Hide();
             register.FormClosed += (sender, e) => this.Close();
             register.ShowDialog();
