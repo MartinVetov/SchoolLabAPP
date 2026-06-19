@@ -43,8 +43,8 @@ namespace SchoolLabApp.View
             txtAdminPanelUsername = new TextBox();
             btnMinimize_Click = new Button();
             btnClose = new Button();
-            pictureBox1 = new PictureBox();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            pbLogo = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)pbLogo).BeginInit();
             SuspendLayout();
             // 
             // comboBoxAdminPanelRole
@@ -232,15 +232,16 @@ namespace SchoolLabApp.View
             btnClose.UseVisualStyleBackColor = true;
             btnClose.Click += btnClose_Click;
             // 
-            // pictureBox1
+            // pbLogo
             // 
-            pictureBox1.Image = Properties.Resources.SchoolabLogoSmall;
-            pictureBox1.Location = new Point(12, 12);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(59, 45);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 49;
-            pictureBox1.TabStop = false;
+            pbLogo.Image = Properties.Resources.SchoolabLogoSmall;
+            pbLogo.Location = new Point(12, 12);
+            pbLogo.Name = "pbLogo";
+            pbLogo.Size = new Size(59, 45);
+            pbLogo.SizeMode = PictureBoxSizeMode.Zoom;
+            pbLogo.TabIndex = 49;
+            pbLogo.TabStop = false;
+            pbLogo.Click += pbLogo_Click;
             // 
             // AdminPanel
             // 
@@ -248,7 +249,7 @@ namespace SchoolLabApp.View
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(28, 28, 28);
             ClientSize = new Size(800, 405);
-            Controls.Add(pictureBox1);
+            Controls.Add(pbLogo);
             Controls.Add(btnMinimize_Click);
             Controls.Add(btnClose);
             Controls.Add(comboBoxAdminPanelRole);
@@ -272,7 +273,7 @@ namespace SchoolLabApp.View
             Text = "System Administration Panel";
             Load += AdminPanel_Load;
             MouseDown += DragArea_MouseDown;
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbLogo).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -293,6 +294,6 @@ namespace SchoolLabApp.View
         private TextBox txtAdminPanelUsername;
         private Button btnMinimize_Click;
         private Button btnClose;
-        private PictureBox pictureBox1;
+        private PictureBox pbLogo;
     }
 }

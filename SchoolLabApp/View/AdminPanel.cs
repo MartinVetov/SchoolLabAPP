@@ -1,3 +1,4 @@
+using SchoolLabApp.Data;
 using SchoolLabApp.Models;
 using SchoolLabApp.Services;
 using System;
@@ -11,14 +12,18 @@ namespace SchoolLabApp.View
         private readonly UserService _userService;
         private readonly RoleService _roleService;
         private readonly AssetService _assetService;
+        private readonly PersonService _personService;
+        private readonly SchoolLabAppDbContext _context;
         public readonly List<User> _OldUsers = new List<User>();
 
-        public AdminPanel(UserService userService, RoleService roleService, AssetService assetService)
+        public AdminPanel(UserService userService, RoleService roleService, AssetService assetService, PersonService personService, SchoolLabAppDbContext context)
         {
             InitializeComponent();
             _userService = userService;
             _roleService = roleService;
             _assetService = assetService;
+            _personService = personService;
+            _context = context;
         }
 
         private async void AdminPanel_Load(object sender, EventArgs e)
@@ -221,7 +226,7 @@ namespace SchoolLabApp.View
 
         private void btnAdminPanelTechnicianPanel_Click(object sender, EventArgs e)
         {
-            var technician = new TechnicianPanel(_assetService, _userService, _roleService);
+            var technician = new TechnicianPanel(_assetService, _userService, _roleService, _personService, _context);
             this.Hide();
             technician.FormClosed += (sender, e) => this.Close();
             technician.ShowDialog();
@@ -229,7 +234,7 @@ namespace SchoolLabApp.View
 
         private void btnAdminPanelReportPanel_Click(object sender, EventArgs e)
         {
-            var report = new ReportPanel(_assetService, _userService, _roleService);
+            var report = new ReportPanel(_assetService, _userService, _roleService, _personService, _context);
 
             this.Hide();
 
@@ -292,6 +297,13 @@ namespace SchoolLabApp.View
             }
         }
 
-
+        private void pbLogo_Click(object sender, EventArgs e)
+        {
+            _userService.Logout();
+            var login = new Login(_userService, _roleService, _context, _personService);
+            this.Hide();
+            login.FormClosed += (sender, e) => this.Close();
+            login.ShowDialog();
+        }
     }
 }

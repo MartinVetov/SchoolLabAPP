@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using SchoolLabApp.Data;
 using SchoolLabApp.Services;
 using System;
 using System.IO;
@@ -10,16 +12,26 @@ namespace SchoolLabApp.View
     {
         private readonly LoanService _loanService;
         private readonly AssetService _assetService;
+        private readonly UserService _userService;
+        private readonly RoleService _roleService;
+        private readonly PersonService _personService;
+        private readonly SchoolLabAppDbContext _context;
         private readonly int _personId;
         private readonly string reportsPath =
             Path.Combine(Application.StartupPath, "Reports");
 
-        public UserReportPanel(LoanService loanService, AssetService assetService, int personId)
+        public UserReportPanel(LoanService loanService, AssetService assetService, int personId,
+                               UserService userService, RoleService roleService, PersonService personService,
+                               SchoolLabAppDbContext context)
         {
             InitializeComponent();
             _loanService = loanService;
             _assetService = assetService;
             _personId = personId;
+            _userService = userService;
+            _roleService = roleService;
+            _personService = personService;
+            _context = context;
         }
 
         private void btnUserReportPanelSend_Click(object sender, EventArgs e)
@@ -68,7 +80,7 @@ namespace SchoolLabApp.View
 
         private void btnUserReportPanelBackToLoans_Click(object sender, EventArgs e)
         {
-            var user = new UserLoanPanel(_loanService, _assetService, _personId);
+            var user = new UserLoanPanel(_loanService, _assetService, _personId, _userService, _roleService, _personService, _context);
             this.Hide();
             user.FormClosed += (s, args) => this.Close();
             user.ShowDialog();
@@ -86,7 +98,7 @@ namespace SchoolLabApp.View
 
         private void btnBackarrow_Click(object sender, EventArgs e)
         {
-            var user = new UserLoanPanel(_loanService, _assetService, _personId);
+            var user = new UserLoanPanel(_loanService, _assetService, _personId, _userService,_roleService,_personService,_context);
             this.Hide();
             user.FormClosed += (s, args) => this.Close();
             user.ShowDialog();
@@ -107,6 +119,15 @@ namespace SchoolLabApp.View
                 ReleaseCapture();
                 SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
             }
+        }
+
+        private void pbLogo_Click(object sender, EventArgs e)
+        {
+            _userService.Logout();
+            var login = new Login(_userService, _roleService, _context, _personService);
+            this.Hide();
+            login.FormClosed += (sender, e) => this.Close();
+            login.ShowDialog();
         }
     }
 }

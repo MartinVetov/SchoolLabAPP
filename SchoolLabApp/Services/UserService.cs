@@ -115,5 +115,9 @@ namespace SchoolLabApp.Services
 
             return await _userRepository.GetByIdAsync(id);
         }
+        public void Logout()
+        {
+            _currentUser = null;
+        }
     }
 }

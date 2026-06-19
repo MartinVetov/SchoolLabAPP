@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using SchoolLabApp.Data;
 using SchoolLabApp.Models;
 using SchoolLabApp.Services;
 using System;
@@ -10,14 +12,24 @@ namespace SchoolLabApp.View
     {
         private readonly LoanService _loanService;
         private readonly AssetService _assetService;
+        private readonly UserService _userService;
+        private readonly RoleService _roleService;
+        private readonly PersonService _personService;
+        private readonly SchoolLabAppDbContext _context;
         private readonly int _personId;
 
-        public UserLoanPanel(LoanService loanService, AssetService assetService, int personId)
+        public UserLoanPanel(LoanService loanService, AssetService assetService, int personId,
+                             UserService userService, RoleService roleService, PersonService personService,
+                             SchoolLabAppDbContext context)
         {
             InitializeComponent();
             _loanService = loanService;
             _assetService = assetService;
             _personId = personId;
+            _userService = userService;
+            _roleService = roleService;
+            _personService = personService;
+            _context = context;
         }
 
         private async void UserLoanPanel_Load(object sender, EventArgs e)
@@ -44,7 +56,7 @@ namespace SchoolLabApp.View
                 listBoxUserLoanPanel.Items.Clear();
                 foreach (var a in assets)
                 {
-                    listBoxUserLoanPanel.Items.Add($"{a.Id} | {a.Name} | {a.Status}");
+                    listBoxUserLoanPanel.Items.Add($"{a.Id} | {a.Name} | {a.Status} | {a.Category.Name}");
                 }
             }
             catch (ArgumentException ex)
@@ -116,7 +128,7 @@ namespace SchoolLabApp.View
 
         private void btnUserLoanPanelReturn_Click(object sender, EventArgs e)
         {
-            var returnPanel = new UserReturnPanel(_loanService, _assetService, _personId);
+            var returnPanel = new UserReturnPanel(_loanService, _assetService, _personId, _userService, _roleService, _personService, _context);
             this.Hide();
             returnPanel.FormClosed += (sender, e) => this.Close();
             returnPanel.ShowDialog();
@@ -124,7 +136,7 @@ namespace SchoolLabApp.View
 
         private void btnUserLoanPanelReport_Click(object sender, EventArgs e)
         {
-            var reportPanel = new UserReportPanel(_loanService, _assetService, _personId);
+            var reportPanel = new UserReportPanel(_loanService, _assetService, _personId, _userService, _roleService, _personService, _context);
             this.Hide();
             reportPanel.FormClosed += (sender, e) => this.Close();
             reportPanel.ShowDialog();
@@ -164,5 +176,18 @@ namespace SchoolLabApp.View
             }
         }
 
+        private void pbLogo_Click(object sender, EventArgs e)
+        {
+            _userService.Logout();
+            var login = new Login(_userService, _roleService, _context, _personService);
+            this.Hide();
+            login.FormClosed += (sender, e) => this.Close();
+            login.ShowDialog();
+        }
+
+        private void comboBoxUserLoanPanelCategory_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            LoadAssets();
+        }
     }
 }

@@ -33,13 +33,13 @@ namespace SchoolLabApp.View
             txtReportPanelReport = new TextBox();
             btnReportPanelViewReport = new Button();
             btnReportPanelDelete = new Button();
-            pictureBox1 = new PictureBox();
+            pbLogo = new PictureBox();
             btnMinimize_Click = new Button();
             btnClose = new Button();
             label1 = new Label();
             label2 = new Label();
             btnBackarrow = new Button();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbLogo).BeginInit();
             SuspendLayout();
             // 
             // listBoxReportPanel
@@ -97,15 +97,16 @@ namespace SchoolLabApp.View
             btnReportPanelDelete.UseVisualStyleBackColor = false;
             btnReportPanelDelete.Click += btnReportPanelDelete_Click;
             // 
-            // pictureBox1
+            // pbLogo
             // 
-            pictureBox1.Image = Properties.Resources.SchoolabLogoSmall;
-            pictureBox1.Location = new Point(12, 12);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(59, 45);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 52;
-            pictureBox1.TabStop = false;
+            pbLogo.Image = Properties.Resources.SchoolabLogoSmall;
+            pbLogo.Location = new Point(12, 12);
+            pbLogo.Name = "pbLogo";
+            pbLogo.Size = new Size(59, 45);
+            pbLogo.SizeMode = PictureBoxSizeMode.Zoom;
+            pbLogo.TabIndex = 52;
+            pbLogo.TabStop = false;
+            pbLogo.Click += pbLogo_Click;
             // 
             // btnMinimize_Click
             // 
@@ -181,7 +182,7 @@ namespace SchoolLabApp.View
             Controls.Add(btnBackarrow);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(pictureBox1);
+            Controls.Add(pbLogo);
             Controls.Add(btnMinimize_Click);
             Controls.Add(btnClose);
             Controls.Add(btnReportPanelDelete);
@@ -195,7 +196,7 @@ namespace SchoolLabApp.View
             Name = "ReportPanel";
             Text = "Incident Reports Administration";
             MouseDown += DragArea_MouseDown;
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbLogo).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -206,7 +207,7 @@ namespace SchoolLabApp.View
         private TextBox txtReportPanelReport;
         private Button btnReportPanelViewReport;
         private Button btnReportPanelDelete;
-        private PictureBox pictureBox1;
+        private PictureBox pbLogo;
         private Button btnMinimize_Click;
         private Button btnClose;
         private Label label1;

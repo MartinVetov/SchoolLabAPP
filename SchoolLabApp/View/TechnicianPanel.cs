@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using SchoolLabApp.Data;
 using SchoolLabApp.Models;
 using SchoolLabApp.Services;
 using System;
@@ -12,13 +14,17 @@ namespace SchoolLabApp.View
         private readonly AssetService _assetService;
         private readonly UserService _userService;
         private readonly RoleService _roleService;
+        private readonly PersonService _personService;
+        private readonly SchoolLabAppDbContext _context;
 
-        public TechnicianPanel(AssetService assetService, UserService userService, RoleService roleService)
+        public TechnicianPanel(AssetService assetService, UserService userService, RoleService roleService,PersonService personService,SchoolLabAppDbContext context)
         {
             InitializeComponent();
             _assetService = assetService;
             _userService = userService;
             _roleService = roleService;
+            _personService = personService;
+            _context = context;
         }
 
         private async void TechnicianPanel_Load(object sender, EventArgs e)
@@ -215,7 +221,7 @@ namespace SchoolLabApp.View
 
         private void btnTechnicianPanelReportPanel_Click(object sender, EventArgs e)
         {
-            var report = new ReportPanel(_assetService, _userService, _roleService);
+            var report = new ReportPanel(_assetService, _userService, _roleService, _personService, _context);
 
             this.Hide();
 
@@ -332,6 +338,14 @@ namespace SchoolLabApp.View
             }
         }
 
+        private void pbLogo_Click(object sender, EventArgs e)
+        {
+            _userService.Logout();
+            var login = new Login(_userService,_roleService,_context, _personService);
+            this.Hide();
+            login.FormClosed += (sender, e) => this.Close();
+            login.ShowDialog();
+        }
     }
 
     public class ListBoxItem

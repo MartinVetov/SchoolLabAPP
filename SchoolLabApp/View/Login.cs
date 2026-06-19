@@ -44,7 +44,7 @@ namespace SchoolLabApp.View
                     var assetRepo = new AssetRepository(_context);
                     var assetService = new AssetService(assetRepo);
 
-                    var panel = new UserLoanPanel(loanService, assetService, user.Id);
+                    var panel = new UserLoanPanel(loanService, assetService, user.Id,_userService,_roleService,_personService,_context);
                     this.Hide();
                     panel.FormClosed += (sender, e) => this.Close();
                     panel.ShowDialog();
@@ -54,7 +54,7 @@ namespace SchoolLabApp.View
                     var assetRepo = new AssetRepository(_context);
                     var assetService = new AssetService(assetRepo);
 
-                    var panel = new TechnicianPanel(assetService, _userService, _roleService);
+                    var panel = new TechnicianPanel(assetService, _userService, _roleService,_personService,_context);
                     this.Hide();
                     panel.FormClosed += (sender, e) => this.Close();
                     panel.ShowDialog();
@@ -65,7 +65,7 @@ namespace SchoolLabApp.View
                     var assetRepo = new AssetRepository(_context);
                     var assetService = new AssetService(assetRepo);
 
-                    var panel = new AdminPanel(_userService, _roleService, assetService);
+                    var panel = new AdminPanel(_userService, _roleService, assetService, _personService, _context);
                     this.Hide();
                     panel.FormClosed += (sender, e) => this.Close();
                     panel.ShowDialog();

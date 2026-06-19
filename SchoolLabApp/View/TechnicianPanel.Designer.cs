@@ -42,10 +42,10 @@ namespace SchoolLabApp.View
             btnTechnicianPanelEdit = new Button();
             btnTechnicianPanelAdd = new Button();
             btnTechnicianPanelReportPanel = new Button();
-            pictureBox1 = new PictureBox();
+            pbLogo = new PictureBox();
             btnMinimize = new Button();
             btnClose = new Button();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbLogo).BeginInit();
             SuspendLayout();
             // 
             // comboBoxTechnicianPanelCategory
@@ -211,15 +211,16 @@ namespace SchoolLabApp.View
             btnTechnicianPanelReportPanel.UseVisualStyleBackColor = false;
             btnTechnicianPanelReportPanel.Click += btnTechnicianPanelReportPanel_Click;
             // 
-            // pictureBox1
+            // pbLogo
             // 
-            pictureBox1.Image = Properties.Resources.SchoolabLogoSmall;
-            pictureBox1.Location = new Point(8, 9);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(59, 45);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 55;
-            pictureBox1.TabStop = false;
+            pbLogo.Image = Properties.Resources.SchoolabLogoSmall;
+            pbLogo.Location = new Point(8, 9);
+            pbLogo.Name = "pbLogo";
+            pbLogo.Size = new Size(59, 45);
+            pbLogo.SizeMode = PictureBoxSizeMode.Zoom;
+            pbLogo.TabIndex = 55;
+            pbLogo.TabStop = false;
+            pbLogo.Click += pbLogo_Click;
             // 
             // btnMinimize
             // 
@@ -258,7 +259,7 @@ namespace SchoolLabApp.View
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(28, 28, 28);
             ClientSize = new Size(796, 483);
-            Controls.Add(pictureBox1);
+            Controls.Add(pbLogo);
             Controls.Add(btnMinimize);
             Controls.Add(btnClose);
             Controls.Add(btnTechnicianPanelDelete);
@@ -282,7 +283,7 @@ namespace SchoolLabApp.View
             Text = "Technician Management Dashboard";
             Load += TechnicianPanel_Load;
             MouseDown += DragArea_MouseDown;
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbLogo).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -302,7 +303,7 @@ namespace SchoolLabApp.View
         private Button btnTechnicianPanelEdit;
         private Button btnTechnicianPanelAdd;
         private Button btnTechnicianPanelReportPanel;
-        private PictureBox pictureBox1;
+        private PictureBox pbLogo;
         private Button btnMinimize;
         private Button btnClose;
     }

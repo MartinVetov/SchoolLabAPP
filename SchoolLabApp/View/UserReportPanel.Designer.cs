@@ -35,8 +35,8 @@ namespace SchoolLabApp.View
             btnBackarrow = new Button();
             btnMinimize_Click = new Button();
             btnClose = new Button();
-            pictureBox1 = new PictureBox();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            pbLogo = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)pbLogo).BeginInit();
             SuspendLayout();
             // 
             // txtUserReportPanelReport
@@ -126,15 +126,16 @@ namespace SchoolLabApp.View
             btnClose.UseVisualStyleBackColor = true;
             btnClose.Click += btnClose_Click;
             // 
-            // pictureBox1
+            // pbLogo
             // 
-            pictureBox1.Image = Properties.Resources.SchoolabLogoSmall;
-            pictureBox1.Location = new Point(12, 12);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(59, 45);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 59;
-            pictureBox1.TabStop = false;
+            pbLogo.Image = Properties.Resources.SchoolabLogoSmall;
+            pbLogo.Location = new Point(12, 12);
+            pbLogo.Name = "pbLogo";
+            pbLogo.Size = new Size(59, 45);
+            pbLogo.SizeMode = PictureBoxSizeMode.Zoom;
+            pbLogo.TabIndex = 59;
+            pbLogo.TabStop = false;
+            pbLogo.Click += pbLogo_Click;
             // 
             // UserReportPanel
             // 
@@ -142,7 +143,7 @@ namespace SchoolLabApp.View
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(28, 28, 28);
             ClientSize = new Size(505, 344);
-            Controls.Add(pictureBox1);
+            Controls.Add(pbLogo);
             Controls.Add(btnBackarrow);
             Controls.Add(btnMinimize_Click);
             Controls.Add(btnClose);
@@ -156,7 +157,7 @@ namespace SchoolLabApp.View
             Name = "UserReportPanel";
             Text = "File a Report";
             MouseDown += DragArea_MouseDown;
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbLogo).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -169,6 +170,6 @@ namespace SchoolLabApp.View
         private Button btnBackarrow;
         private Button btnMinimize_Click;
         private Button btnClose;
-        private PictureBox pictureBox1;
+        private PictureBox pbLogo;
     }
 }

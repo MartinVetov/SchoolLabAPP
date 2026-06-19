@@ -32,11 +32,11 @@ namespace SchoolLabApp.View
             btnUserReturnePanelBackToLoans = new Button();
             btnUserReturnePanelReturn = new Button();
             listBoxUserReturnPanel = new ListBox();
-            pictureBox1 = new PictureBox();
+            pbLogo = new PictureBox();
             btnBackarrow = new Button();
             btnMinimize_Click = new Button();
             btnClose = new Button();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbLogo).BeginInit();
             SuspendLayout();
             // 
             // btnUserReturnePanelBackToLoans
@@ -81,15 +81,16 @@ namespace SchoolLabApp.View
             listBoxUserReturnPanel.Size = new Size(543, 255);
             listBoxUserReturnPanel.TabIndex = 32;
             // 
-            // pictureBox1
+            // pbLogo
             // 
-            pictureBox1.Image = Properties.Resources.SchoolabLogoSmall;
-            pictureBox1.Location = new Point(13, 12);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(59, 45);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 63;
-            pictureBox1.TabStop = false;
+            pbLogo.Image = Properties.Resources.SchoolabLogoSmall;
+            pbLogo.Location = new Point(13, 12);
+            pbLogo.Name = "pbLogo";
+            pbLogo.Size = new Size(59, 45);
+            pbLogo.SizeMode = PictureBoxSizeMode.Zoom;
+            pbLogo.TabIndex = 63;
+            pbLogo.TabStop = false;
+            pbLogo.Click += pbLogo_Click;
             // 
             // btnBackarrow
             // 
@@ -142,7 +143,7 @@ namespace SchoolLabApp.View
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(28, 28, 28);
             ClientSize = new Size(568, 407);
-            Controls.Add(pictureBox1);
+            Controls.Add(pbLogo);
             Controls.Add(btnBackarrow);
             Controls.Add(btnMinimize_Click);
             Controls.Add(btnClose);
@@ -157,7 +158,7 @@ namespace SchoolLabApp.View
             Text = "Return Panel";
             Load += UserReturnPanel_Load;
             MouseDown += DragArea_MouseDown;
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbLogo).EndInit();
             ResumeLayout(false);
         }
 
@@ -166,7 +167,7 @@ namespace SchoolLabApp.View
         private Button btnUserReturnePanelBackToLoans;
         private Button btnUserReturnePanelReturn;
         private ListBox listBoxUserReturnPanel;
-        private PictureBox pictureBox1;
+        private PictureBox pbLogo;
         private Button btnBackarrow;
         private Button btnMinimize_Click;
         private Button btnClose;

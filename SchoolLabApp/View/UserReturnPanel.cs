@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using SchoolLabApp.Data;
 using SchoolLabApp.Services;
 using System;
 using System.Runtime.InteropServices;
@@ -8,15 +10,25 @@ namespace SchoolLabApp.View
     public partial class UserReturnPanel : Form
     {
         private readonly LoanService _loanService;
-        private readonly AssetService _assetService;
+        private readonly AssetService _assetService; 
+        private readonly UserService _userService;
+        private readonly RoleService _roleService;
+        private readonly PersonService _personService;
+        private readonly SchoolLabAppDbContext _context;
         private readonly int _personId;
 
-        public UserReturnPanel(LoanService loanService, AssetService assetService, int personId)
+        public UserReturnPanel(LoanService loanService, AssetService assetService, int personId,
+                               UserService userService, RoleService roleService, PersonService personService,
+                               SchoolLabAppDbContext context)
         {
             InitializeComponent();
             _loanService = loanService;
             _assetService = assetService;
             _personId = personId;
+            _userService = userService;
+            _roleService = roleService;
+            _personService = personService;
+            _context = context;
 
         }
 
@@ -59,7 +71,7 @@ namespace SchoolLabApp.View
                 int loanId = int.Parse(listBoxUserReturnPanel.SelectedItem.ToString()!.Split('|')[0].Trim());
                 await _loanService.ReturnLoan(loanId);
                 MessageBox.Show("Asset returned.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.Close();
+                LoadLoans();
             }
             catch (InvalidOperationException ex)
             {
@@ -76,10 +88,46 @@ namespace SchoolLabApp.View
                     MessageBoxIcon.Error);
             }
         }
-
+        public async Task LoadLoans()
+        {
+            try
+            {
+                var loans = await _loanService.GetLoansByPerson(_personId);
+                listBoxUserReturnPanel.Items.Clear();
+                foreach (var l in loans)
+                {
+                    if (l.StartDate.AddDays(l.DurationDays).Date == DateTime.Today )
+                    {
+                        listBoxUserReturnPanel.Items.Add($"{l.Id} | {l.Asset?.Name} | {l.Status} | Started: {l.StartDate:d} | YOU HAVE TO RETURN THIS ITEM TODAY");
+                    }
+                    else if(l.StartDate.AddDays(l.DurationDays).Date < DateTime.Today)
+                    {
+                        listBoxUserReturnPanel.Items.Add($"{l.Id} | {l.Asset?.Name} | {l.Status} | Started: {l.StartDate:d} | Your tax for not returnig the item is 10€");
+                    }
+                    else
+                    {
+                        listBoxUserReturnPanel.Items.Add($"{l.Id} | {l.Asset?.Name} | {l.Status} | Started: {l.StartDate:d}");
+                    }
+                }
+            }
+            catch (InvalidOperationException ex)
+            {
+                MessageBox.Show(ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
         private void btnUserReturnePanelBackToLoans_Click(object sender, EventArgs e)
         {
-            var loan = new UserLoanPanel(_loanService, _assetService, _personId);
+            var loan = new UserLoanPanel(_loanService, _assetService, _personId,_userService,_roleService,_personService,_context);
             this.Hide();
             loan.FormClosed += (sender, e) => this.Close();
             loan.ShowDialog();
@@ -97,7 +145,7 @@ namespace SchoolLabApp.View
 
         private void btnBackarrow_Click(object sender, EventArgs e)
         {
-            var user = new UserLoanPanel(_loanService, _assetService, _personId);
+            var user = new UserLoanPanel(_loanService, _assetService, _personId, _userService, _roleService, _personService, _context);
             this.Hide();
             user.FormClosed += (s, args) => this.Close();
             user.ShowDialog();
@@ -118,6 +166,15 @@ namespace SchoolLabApp.View
                 ReleaseCapture();
                 SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
             }
+        }
+
+        private void pbLogo_Click(object sender, EventArgs e)
+        {
+            _userService.Logout();
+            var login = new Login(_userService, _roleService, _context, _personService);
+            this.Hide();
+            login.FormClosed += (sender, e) => this.Close();
+            login.ShowDialog();
         }
     }
 }
