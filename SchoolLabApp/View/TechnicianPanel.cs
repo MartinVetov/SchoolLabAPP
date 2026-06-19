@@ -17,7 +17,7 @@ namespace SchoolLabApp.View
         private readonly PersonService _personService;
         private readonly SchoolLabAppDbContext _context;
 
-        public TechnicianPanel(AssetService assetService, UserService userService, RoleService roleService,PersonService personService,SchoolLabAppDbContext context)
+        public TechnicianPanel(AssetService assetService, UserService userService, RoleService roleService, PersonService personService, SchoolLabAppDbContext context)
         {
             InitializeComponent();
             _assetService = assetService;
@@ -34,7 +34,13 @@ namespace SchoolLabApp.View
         {
             try
             {
+                int categoryId = comboBoxTechnicianPanelCategory.SelectedIndex + 1;
                 var assets = await _assetService.GetAll();
+                if (categoryId > 0)
+                {
+                    assets = await _assetService.GetByCategory(categoryId);
+                    
+                }
                 _assets = assets.ToList();
                 listBoxTechnicianPanel.Items.Clear();
 
@@ -298,7 +304,6 @@ namespace SchoolLabApp.View
             {
                 string newStatus = GetSelectedStatus();
 
-                // Update logic here
                 MessageBox.Show($"Status changed to: {newStatus}", "Status Updated",
                                MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -341,10 +346,15 @@ namespace SchoolLabApp.View
         private void pbLogo_Click(object sender, EventArgs e)
         {
             _userService.Logout();
-            var login = new Login(_userService,_roleService,_context, _personService);
+            var login = new Login(_userService, _roleService, _context, _personService);
             this.Hide();
             login.FormClosed += (sender, e) => this.Close();
             login.ShowDialog();
+        }
+
+        private void comboBoxTechnicianPanelCategory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadAssets();
         }
     }
 

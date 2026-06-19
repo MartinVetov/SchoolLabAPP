@@ -40,7 +40,19 @@ namespace SchoolLabApp.View
                 listBoxUserReturnPanel.Items.Clear();
                 foreach (var l in loans)
                 {
-                    listBoxUserReturnPanel.Items.Add($"{l.Id} | {l.Asset?.Name} | {l.Status} | Started: {l.StartDate:d}");
+                    var returnDate = l.StartDate.AddDays(l.DurationDays);
+                    if (returnDate == DateTime.Today)
+                    {
+                        listBoxUserReturnPanel.Items.Add($"{l.Id} | {l.Asset?.Name} | {l.Status} | Started: {l.StartDate:d} | YOU HAVE TO RETURN THIS ITEM TODAY");
+                    }
+                    else if (returnDate < DateTime.Today)
+                    {
+                        listBoxUserReturnPanel.Items.Add($"{l.Id} | {l.Asset?.Name} | {l.Status} | Started: {l.StartDate:d} | Your tax for not returnig the item is 10€");
+                    }
+                    else
+                    {
+                        listBoxUserReturnPanel.Items.Add($"{l.Id} | {l.Asset?.Name} | {l.Status} | Started: {l.StartDate:d} | Return date:{returnDate:d}");
+                    }
                 }
             }
             catch (InvalidOperationException ex)
@@ -67,7 +79,11 @@ namespace SchoolLabApp.View
                 {
                     throw new ArgumentException("Select a loan to return.");
                 }
-
+                if (listBoxUserReturnPanel.SelectedItem.ToString()!.Split('|')[2].Trim().Contains("Returned"))
+                {
+                    MessageBox.Show("You already returend this item");
+                    return;
+                }
                 int loanId = int.Parse(listBoxUserReturnPanel.SelectedItem.ToString()!.Split('|')[0].Trim());
                 await _loanService.ReturnLoan(loanId);
                 MessageBox.Show("Asset returned.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -96,17 +112,18 @@ namespace SchoolLabApp.View
                 listBoxUserReturnPanel.Items.Clear();
                 foreach (var l in loans)
                 {
-                    if (l.StartDate.AddDays(l.DurationDays).Date == DateTime.Today )
+                    var returnDate = l.StartDate.AddDays(l.DurationDays);
+                    if (returnDate == DateTime.Today )
                     {
                         listBoxUserReturnPanel.Items.Add($"{l.Id} | {l.Asset?.Name} | {l.Status} | Started: {l.StartDate:d} | YOU HAVE TO RETURN THIS ITEM TODAY");
                     }
-                    else if(l.StartDate.AddDays(l.DurationDays).Date < DateTime.Today)
+                    else if(returnDate < DateTime.Today)
                     {
                         listBoxUserReturnPanel.Items.Add($"{l.Id} | {l.Asset?.Name} | {l.Status} | Started: {l.StartDate:d} | Your tax for not returnig the item is 10€");
                     }
                     else
                     {
-                        listBoxUserReturnPanel.Items.Add($"{l.Id} | {l.Asset?.Name} | {l.Status} | Started: {l.StartDate:d}");
+                        listBoxUserReturnPanel.Items.Add($"{l.Id} | {l.Asset?.Name} | {l.Status} | Started: {l.StartDate:d} | {returnDate:d}");
                     }
                 }
             }

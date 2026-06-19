@@ -60,6 +60,7 @@ namespace SchoolLabApp.View
             comboBoxTechnicianPanelCategory.Name = "comboBoxTechnicianPanelCategory";
             comboBoxTechnicianPanelCategory.Size = new Size(199, 25);
             comboBoxTechnicianPanelCategory.TabIndex = 28;
+            comboBoxTechnicianPanelCategory.SelectedIndexChanged += comboBoxTechnicianPanelCategory_SelectedIndexChanged;
             // 
             // label4
             // 
