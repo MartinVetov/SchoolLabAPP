@@ -28,18 +28,27 @@ namespace SchoolLabApp.View
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserReturnPanel));
             btnUserReturnePanelBackToLoans = new Button();
             btnUserReturnePanelReturn = new Button();
             listBoxUserReturnPanel = new ListBox();
+            pictureBox1 = new PictureBox();
+            btnBackarrow = new Button();
+            btnMinimize_Click = new Button();
+            btnClose = new Button();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // btnUserReturnePanelBackToLoans
             // 
-            btnUserReturnePanelBackToLoans.BackColor = SystemColors.Control;
-            btnUserReturnePanelBackToLoans.FlatStyle = FlatStyle.Popup;
-            btnUserReturnePanelBackToLoans.Location = new Point(39, 220);
+            btnUserReturnePanelBackToLoans.BackColor = Color.FromArgb(63, 63, 70);
+            btnUserReturnePanelBackToLoans.FlatAppearance.BorderSize = 0;
+            btnUserReturnePanelBackToLoans.FlatStyle = FlatStyle.Flat;
+            btnUserReturnePanelBackToLoans.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            btnUserReturnePanelBackToLoans.ForeColor = Color.White;
+            btnUserReturnePanelBackToLoans.Location = new Point(386, 347);
             btnUserReturnePanelBackToLoans.Name = "btnUserReturnePanelBackToLoans";
-            btnUserReturnePanelBackToLoans.Size = new Size(112, 28);
+            btnUserReturnePanelBackToLoans.Size = new Size(130, 35);
             btnUserReturnePanelBackToLoans.TabIndex = 30;
             btnUserReturnePanelBackToLoans.Text = "Back to loans";
             btnUserReturnePanelBackToLoans.UseVisualStyleBackColor = false;
@@ -47,37 +56,108 @@ namespace SchoolLabApp.View
             // 
             // btnUserReturnePanelReturn
             // 
-            btnUserReturnePanelReturn.BackColor = SystemColors.Control;
-            btnUserReturnePanelReturn.FlatStyle = FlatStyle.Popup;
-            btnUserReturnePanelReturn.Location = new Point(39, 51);
+            btnUserReturnePanelReturn.BackColor = Color.FromArgb(0, 122, 204);
+            btnUserReturnePanelReturn.FlatAppearance.BorderSize = 0;
+            btnUserReturnePanelReturn.FlatStyle = FlatStyle.Flat;
+            btnUserReturnePanelReturn.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            btnUserReturnePanelReturn.ForeColor = Color.White;
+            btnUserReturnePanelReturn.Location = new Point(57, 347);
             btnUserReturnePanelReturn.Name = "btnUserReturnePanelReturn";
-            btnUserReturnePanelReturn.Size = new Size(112, 28);
+            btnUserReturnePanelReturn.Size = new Size(130, 35);
             btnUserReturnePanelReturn.TabIndex = 31;
-            btnUserReturnePanelReturn.Text = "Return";
+            btnUserReturnePanelReturn.Text = "Return Item";
             btnUserReturnePanelReturn.UseVisualStyleBackColor = false;
             btnUserReturnePanelReturn.Click += btnUserReturnePanelReturn_Click;
             // 
             // listBoxUserReturnPanel
             // 
-            listBoxUserReturnPanel.ForeColor = SystemColors.MenuBar;
+            listBoxUserReturnPanel.BackColor = Color.FromArgb(37, 37, 38);
+            listBoxUserReturnPanel.BorderStyle = BorderStyle.None;
+            listBoxUserReturnPanel.Font = new Font("Segoe UI", 10F);
+            listBoxUserReturnPanel.ForeColor = Color.White;
             listBoxUserReturnPanel.FormattingEnabled = true;
-            listBoxUserReturnPanel.Location = new Point(208, 22);
+            listBoxUserReturnPanel.Location = new Point(13, 73);
             listBoxUserReturnPanel.Name = "listBoxUserReturnPanel";
-            listBoxUserReturnPanel.Size = new Size(543, 259);
+            listBoxUserReturnPanel.Size = new Size(543, 255);
             listBoxUserReturnPanel.TabIndex = 32;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = Properties.Resources.SchoolabLogoSmall;
+            pictureBox1.Location = new Point(13, 12);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(59, 45);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 63;
+            pictureBox1.TabStop = false;
+            // 
+            // btnBackarrow
+            // 
+            btnBackarrow.FlatAppearance.BorderSize = 0;
+            btnBackarrow.FlatAppearance.MouseOverBackColor = Color.DarkGray;
+            btnBackarrow.FlatStyle = FlatStyle.Flat;
+            btnBackarrow.Font = new Font("Segoe UI", 17F, FontStyle.Bold);
+            btnBackarrow.ForeColor = Color.White;
+            btnBackarrow.Location = new Point(439, 0);
+            btnBackarrow.Name = "btnBackarrow";
+            btnBackarrow.Size = new Size(45, 45);
+            btnBackarrow.TabIndex = 62;
+            btnBackarrow.Text = "↶";
+            btnBackarrow.UseVisualStyleBackColor = true;
+            btnBackarrow.Click += btnBackarrow_Click;
+            // 
+            // btnMinimize_Click
+            // 
+            btnMinimize_Click.FlatAppearance.BorderSize = 0;
+            btnMinimize_Click.FlatAppearance.MouseOverBackColor = Color.DarkGray;
+            btnMinimize_Click.FlatStyle = FlatStyle.Flat;
+            btnMinimize_Click.Font = new Font("Segoe UI", 17F, FontStyle.Bold);
+            btnMinimize_Click.ForeColor = Color.White;
+            btnMinimize_Click.Location = new Point(481, 0);
+            btnMinimize_Click.Name = "btnMinimize_Click";
+            btnMinimize_Click.Size = new Size(45, 45);
+            btnMinimize_Click.TabIndex = 61;
+            btnMinimize_Click.Text = "–";
+            btnMinimize_Click.UseVisualStyleBackColor = true;
+            btnMinimize_Click.Click += btnMinimize_Click_Click;
+            // 
+            // btnClose
+            // 
+            btnClose.FlatAppearance.BorderSize = 0;
+            btnClose.FlatAppearance.MouseOverBackColor = Color.FromArgb(209, 52, 56);
+            btnClose.FlatStyle = FlatStyle.Flat;
+            btnClose.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            btnClose.ForeColor = Color.White;
+            btnClose.Location = new Point(523, 0);
+            btnClose.Name = "btnClose";
+            btnClose.Size = new Size(45, 45);
+            btnClose.TabIndex = 60;
+            btnClose.Text = "x";
+            btnClose.UseVisualStyleBackColor = true;
+            btnClose.Click += btnClose_Click;
             // 
             // UserReturnPanel
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.GradientActiveCaption;
-            ClientSize = new Size(778, 303);
+            BackColor = Color.FromArgb(28, 28, 28);
+            ClientSize = new Size(568, 407);
+            Controls.Add(pictureBox1);
+            Controls.Add(btnBackarrow);
+            Controls.Add(btnMinimize_Click);
+            Controls.Add(btnClose);
             Controls.Add(listBoxUserReturnPanel);
             Controls.Add(btnUserReturnePanelReturn);
             Controls.Add(btnUserReturnePanelBackToLoans);
+            Font = new Font("Segoe UI", 9F);
+            ForeColor = Color.White;
+            FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "UserReturnPanel";
-            Text = "UserReturnPanel";
+            Text = "Return Panel";
             Load += UserReturnPanel_Load;
+            MouseDown += DragArea_MouseDown;
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
@@ -86,5 +166,9 @@ namespace SchoolLabApp.View
         private Button btnUserReturnePanelBackToLoans;
         private Button btnUserReturnePanelReturn;
         private ListBox listBoxUserReturnPanel;
+        private PictureBox pictureBox1;
+        private Button btnBackarrow;
+        private Button btnMinimize_Click;
+        private Button btnClose;
     }
 }

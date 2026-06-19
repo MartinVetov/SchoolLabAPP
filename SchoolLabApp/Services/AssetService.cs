@@ -20,6 +20,10 @@ public class AssetService
         {
             throw new ArgumentException("Asset name is required.");
         }
+        else if (string.IsNullOrEmpty(status))
+        {
+            throw new ArgumentException("Asset status is required.");
+        }
 
         var asset = new Asset
         {

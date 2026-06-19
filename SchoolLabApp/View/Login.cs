@@ -1,22 +1,25 @@
 using SchoolLabApp.Data;
 using SchoolLabApp.Repositories.Implementations;
 using SchoolLabApp.Services;
+using System.Runtime.InteropServices;
 
 namespace SchoolLabApp.View
 {
-    // Logger log4net
     public partial class Login : Form
     {
+
         private readonly UserService _userService;
         private readonly RoleService _roleService;
+        private readonly PersonService _personService;
         private readonly SchoolLabAppDbContext _context;
 
-        public Login(UserService userService, RoleService roleService, SchoolLabAppDbContext context)
+        public Login(UserService userService, RoleService roleService, SchoolLabAppDbContext context, PersonService personService)
         {
             InitializeComponent();
             _userService = userService;
             _roleService = roleService;
             _context = context;
+            _personService = personService;
         }
 
         private void checkBoxLogin_CheckedChanged(object sender, EventArgs e)
@@ -42,6 +45,7 @@ namespace SchoolLabApp.View
                     var assetService = new AssetService(assetRepo);
 
                     var panel = new UserLoanPanel(loanService, assetService, user.Id);
+                    this.Hide();
                     panel.FormClosed += (sender, e) => this.Close();
                     panel.ShowDialog();
                 }
@@ -49,7 +53,9 @@ namespace SchoolLabApp.View
                 {
                     var assetRepo = new AssetRepository(_context);
                     var assetService = new AssetService(assetRepo);
-                    var panel = new TechnicianPanel(assetService);
+
+                    var panel = new TechnicianPanel(assetService, _userService, _roleService);
+                    this.Hide();
                     panel.FormClosed += (sender, e) => this.Close();
                     panel.ShowDialog();
                 }
@@ -58,6 +64,7 @@ namespace SchoolLabApp.View
                     // Admin or unknown role
                     var assetRepo = new AssetRepository(_context);
                     var assetService = new AssetService(assetRepo);
+
                     var panel = new AdminPanel(_userService, _roleService, assetService);
                     this.Hide();
                     panel.FormClosed += (sender, e) => this.Close();
@@ -97,17 +104,46 @@ namespace SchoolLabApp.View
             }
         }
 
-        private void btnLoginRegister_Click(object sender, EventArgs e)
+        private void btnClose_Click(object sender, EventArgs e)
         {
-            var register = new Register(_userService, _roleService);
+            Application.Exit();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void btnLoginRegister_Click(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var register = new Register(_userService, _roleService, _personService, _context);
             this.Hide();
             register.FormClosed += (sender, e) => this.Close();
             register.ShowDialog();
         }
 
-        private void btnClose_Click(object sender, EventArgs e)
+        
+
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HT_CAPTION = 0x2;
+
+        [DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        [DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
+
+        private void DragArea_MouseDown(object sender, MouseEventArgs e)
         {
-            Application.Exit();
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
+        }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

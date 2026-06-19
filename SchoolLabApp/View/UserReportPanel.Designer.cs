@@ -28,14 +28,24 @@ namespace SchoolLabApp.View
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserReportPanel));
             txtUserReportPanelReport = new TextBox();
             btnUserReportPanelBackToLoans = new Button();
             btnUserReportPanelSend = new Button();
+            btnBackarrow = new Button();
+            btnMinimize_Click = new Button();
+            btnClose = new Button();
+            pictureBox1 = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // txtUserReportPanelReport
             // 
-            txtUserReportPanelReport.Location = new Point(12, 12);
+            txtUserReportPanelReport.BackColor = Color.FromArgb(37, 37, 38);
+            txtUserReportPanelReport.BorderStyle = BorderStyle.FixedSingle;
+            txtUserReportPanelReport.Font = new Font("Segoe UI", 10F);
+            txtUserReportPanelReport.ForeColor = Color.White;
+            txtUserReportPanelReport.Location = new Point(12, 63);
             txtUserReportPanelReport.Multiline = true;
             txtUserReportPanelReport.Name = "txtUserReportPanelReport";
             txtUserReportPanelReport.Size = new Size(481, 203);
@@ -43,11 +53,14 @@ namespace SchoolLabApp.View
             // 
             // btnUserReportPanelBackToLoans
             // 
-            btnUserReportPanelBackToLoans.BackColor = SystemColors.Control;
-            btnUserReportPanelBackToLoans.FlatStyle = FlatStyle.Popup;
-            btnUserReportPanelBackToLoans.Location = new Point(381, 247);
+            btnUserReportPanelBackToLoans.BackColor = Color.FromArgb(63, 63, 70);
+            btnUserReportPanelBackToLoans.FlatAppearance.BorderSize = 0;
+            btnUserReportPanelBackToLoans.FlatStyle = FlatStyle.Flat;
+            btnUserReportPanelBackToLoans.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            btnUserReportPanelBackToLoans.ForeColor = Color.White;
+            btnUserReportPanelBackToLoans.Location = new Point(333, 286);
             btnUserReportPanelBackToLoans.Name = "btnUserReportPanelBackToLoans";
-            btnUserReportPanelBackToLoans.Size = new Size(112, 28);
+            btnUserReportPanelBackToLoans.Size = new Size(130, 35);
             btnUserReportPanelBackToLoans.TabIndex = 31;
             btnUserReportPanelBackToLoans.Text = "Back to loans";
             btnUserReportPanelBackToLoans.UseVisualStyleBackColor = false;
@@ -55,27 +68,95 @@ namespace SchoolLabApp.View
             // 
             // btnUserReportPanelSend
             // 
-            btnUserReportPanelSend.BackColor = SystemColors.Control;
-            btnUserReportPanelSend.FlatStyle = FlatStyle.Popup;
-            btnUserReportPanelSend.Location = new Point(12, 247);
+            btnUserReportPanelSend.BackColor = Color.FromArgb(219, 79, 62);
+            btnUserReportPanelSend.FlatAppearance.BorderSize = 0;
+            btnUserReportPanelSend.FlatStyle = FlatStyle.Flat;
+            btnUserReportPanelSend.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            btnUserReportPanelSend.ForeColor = Color.White;
+            btnUserReportPanelSend.Location = new Point(41, 286);
             btnUserReportPanelSend.Name = "btnUserReportPanelSend";
-            btnUserReportPanelSend.Size = new Size(112, 28);
+            btnUserReportPanelSend.Size = new Size(130, 35);
             btnUserReportPanelSend.TabIndex = 32;
-            btnUserReportPanelSend.Text = "Send";
+            btnUserReportPanelSend.Text = "Send Report";
             btnUserReportPanelSend.UseVisualStyleBackColor = false;
             btnUserReportPanelSend.Click += btnUserReportPanelSend_Click;
+            // 
+            // btnBackarrow
+            // 
+            btnBackarrow.FlatAppearance.BorderSize = 0;
+            btnBackarrow.FlatAppearance.MouseOverBackColor = Color.DarkGray;
+            btnBackarrow.FlatStyle = FlatStyle.Flat;
+            btnBackarrow.Font = new Font("Segoe UI", 17F, FontStyle.Bold);
+            btnBackarrow.ForeColor = Color.White;
+            btnBackarrow.Location = new Point(376, 1);
+            btnBackarrow.Name = "btnBackarrow";
+            btnBackarrow.Size = new Size(45, 45);
+            btnBackarrow.TabIndex = 58;
+            btnBackarrow.Text = "↶";
+            btnBackarrow.UseVisualStyleBackColor = true;
+            btnBackarrow.Click += btnBackarrow_Click;
+            // 
+            // btnMinimize_Click
+            // 
+            btnMinimize_Click.FlatAppearance.BorderSize = 0;
+            btnMinimize_Click.FlatAppearance.MouseOverBackColor = Color.DarkGray;
+            btnMinimize_Click.FlatStyle = FlatStyle.Flat;
+            btnMinimize_Click.Font = new Font("Segoe UI", 17F, FontStyle.Bold);
+            btnMinimize_Click.ForeColor = Color.White;
+            btnMinimize_Click.Location = new Point(418, 1);
+            btnMinimize_Click.Name = "btnMinimize_Click";
+            btnMinimize_Click.Size = new Size(45, 45);
+            btnMinimize_Click.TabIndex = 57;
+            btnMinimize_Click.Text = "–";
+            btnMinimize_Click.UseVisualStyleBackColor = true;
+            btnMinimize_Click.Click += btnMinimize_Click_Click;
+            // 
+            // btnClose
+            // 
+            btnClose.FlatAppearance.BorderSize = 0;
+            btnClose.FlatAppearance.MouseOverBackColor = Color.FromArgb(209, 52, 56);
+            btnClose.FlatStyle = FlatStyle.Flat;
+            btnClose.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            btnClose.ForeColor = Color.White;
+            btnClose.Location = new Point(460, 1);
+            btnClose.Name = "btnClose";
+            btnClose.Size = new Size(45, 45);
+            btnClose.TabIndex = 56;
+            btnClose.Text = "x";
+            btnClose.UseVisualStyleBackColor = true;
+            btnClose.Click += btnClose_Click;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = Properties.Resources.SchoolabLogoSmall;
+            pictureBox1.Location = new Point(12, 12);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(59, 45);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 59;
+            pictureBox1.TabStop = false;
             // 
             // UserReportPanel
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.GradientActiveCaption;
-            ClientSize = new Size(505, 298);
+            BackColor = Color.FromArgb(28, 28, 28);
+            ClientSize = new Size(505, 344);
+            Controls.Add(pictureBox1);
+            Controls.Add(btnBackarrow);
+            Controls.Add(btnMinimize_Click);
+            Controls.Add(btnClose);
             Controls.Add(btnUserReportPanelSend);
             Controls.Add(btnUserReportPanelBackToLoans);
             Controls.Add(txtUserReportPanelReport);
+            Font = new Font("Segoe UI", 9F);
+            ForeColor = Color.White;
+            FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "UserReportPanel";
-            Text = "UserReportPanel";
+            Text = "File a Report";
+            MouseDown += DragArea_MouseDown;
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -85,5 +166,9 @@ namespace SchoolLabApp.View
         private TextBox txtUserReportPanelReport;
         private Button btnUserReportPanelBackToLoans;
         private Button btnUserReportPanelSend;
+        private Button btnBackarrow;
+        private Button btnMinimize_Click;
+        private Button btnClose;
+        private PictureBox pictureBox1;
     }
 }

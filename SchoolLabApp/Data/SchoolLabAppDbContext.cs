@@ -15,7 +15,7 @@ namespace SchoolLabApp.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=SchoolLabAPP;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False;Command Timeout=30");
+            optionsBuilder.UseSqlServer("Data Source=(localdb)\\ProjectModels;Initial Catalog=ShoolLabApp;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False;Command Timeout=30");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -26,6 +26,18 @@ namespace SchoolLabApp.Data
                  new Role { Id = 3, Name = "Student" },
                  new Role { Id = 4, Name = "Technician" }
             );
+
+            modelBuilder.Entity<Category>().HasData(
+                new Category { Id = 1, Name = "Computer" },
+                new Category { Id = 2, Name = "Lab equipment" },
+                new Category { Id = 3, Name = "Books" }
+            );
+
+            modelBuilder.Entity<Person>().HasData(
+                new Person { Id = 1, Name = "First", Type = ""},
+                new Person { Id = 2, Name = "Second", Type = "" },
+                new Person { Id = 3, Name = "Third", Type = "" }
+                );
 
             modelBuilder.Entity<Models.User>()
                 .HasOne(u => u.Role)

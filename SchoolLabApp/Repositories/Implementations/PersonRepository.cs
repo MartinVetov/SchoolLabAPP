@@ -9,6 +9,11 @@ namespace SchoolLabApp.Repositories.Implementations
     {
         public PersonRepository(SchoolLabAppDbContext context) : base(context) { }
 
+        public async Task AddAsync(Person person)
+        {
+            await _context.Persons.AddAsync(person);
+            await _context.SaveChangesAsync();
+        }
         public async Task<IEnumerable<Person>> GetByTypeAsync(string type)
         {
             return await _dbSet

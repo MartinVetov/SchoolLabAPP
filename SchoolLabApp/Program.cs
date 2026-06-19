@@ -16,12 +16,14 @@ namespace SchoolLabApp
             using var context = new SchoolLabAppDbContext();
 
             var userRepository = new UserRepository(context);
-            var roleRepository = new RoleRepository(context);   
+            var roleRepository = new RoleRepository(context);
+            var personRepostitory = new PersonRepository(context);
 
             var userService = new UserService(userRepository);
             var roleService = new RoleService(roleRepository);
+            var personService = new PersonService(personRepostitory);
 
-            Application.Run(new Login(userService,roleService,context));
+            Application.Run(new Login(userService,roleService,context,personService));
         }
     }
 }

@@ -7,11 +7,13 @@ namespace SchoolLabApp.Services
     {
         private readonly UserRepository _userRepository;
 
+        private User? _currentUser;
+
         public UserService(UserRepository userRepository)
         {
             _userRepository = userRepository;
         }
-
+      
         public async Task Register(User user)
         {
             if (user == null)
@@ -60,8 +62,24 @@ namespace SchoolLabApp.Services
             {
                 throw new InvalidOperationException("Invalid username or password.");
             }
+            _currentUser = user;
 
             return user;
+        }
+
+        public int GetCurrentUserId()
+        {
+            if (_currentUser == null)
+            {
+                throw new InvalidOperationException("No user is logged in.");
+            }
+
+            return _currentUser.Id;
+        }
+
+        public User? GetCurrentUser()
+        {
+            return _currentUser;
         }
 
         public async Task<IEnumerable<User>> GetAllUsers()
@@ -75,7 +93,6 @@ namespace SchoolLabApp.Services
             {
                 throw new InvalidOperationException("User not found.");
             }
-            await _userRepository.AddAsync(user);
             await _userRepository.UpdateAsync(user);
         }
 
@@ -87,6 +104,16 @@ namespace SchoolLabApp.Services
             }
 
             await _userRepository.DeleteAsync(id);
+        }
+
+        public async Task<User?> GetById(int id)
+        {
+            if (await _userRepository.GetByIdAsync(id) == null)
+            {
+                throw new InvalidOperationException("User not found.");
+            }
+
+            return await _userRepository.GetByIdAsync(id);
         }
     }
 }

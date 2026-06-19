@@ -11,6 +11,22 @@ namespace SchoolLabApp.Repositories.Implementations
         {
         }
 
+        public async Task UpdateAsync(User user)
+        {
+            var oldUser = await _context.Users.FindAsync(user.Id);
+
+            if (oldUser == null)
+            {
+                throw new InvalidOperationException("Asset not found.");
+            }
+
+            oldUser.Username = user.Username;
+            oldUser.Password = user.Password;
+            oldUser.Role = user.Role;
+            oldUser.RoleId = user.RoleId;
+            _context.Users.Add(oldUser);
+            await _context.SaveChangesAsync();
+        }
         public async Task<User?> GetByUsernameAsync(string username)
         {
             return await _dbSet

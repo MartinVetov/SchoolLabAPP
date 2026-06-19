@@ -67,6 +67,23 @@ namespace SchoolLabApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Computer"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Lab equipment"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Books"
+                        });
                 });
 
             modelBuilder.Entity("SchoolLabApp.Models.Damage", b =>
@@ -149,6 +166,26 @@ namespace SchoolLabApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Persons");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "First",
+                            Type = ""
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Second",
+                            Type = ""
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Third",
+                            Type = ""
+                        });
                 });
 
             modelBuilder.Entity("SchoolLabApp.Models.Role", b =>

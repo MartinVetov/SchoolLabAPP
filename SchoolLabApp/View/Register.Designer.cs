@@ -28,6 +28,7 @@ namespace SchoolLabApp.View
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Register));
             label1 = new Label();
             checkBoxRegister = new CheckBox();
             label3 = new Label();
@@ -36,27 +37,31 @@ namespace SchoolLabApp.View
             txtRegisterPassword = new TextBox();
             label6 = new Label();
             txtRegisterUsername = new TextBox();
-            comboBoxRegisterRole = new ComboBox();
             label4 = new Label();
             btnRegisterRegister = new Button();
+            comboBoxRegisterRole = new ComboBox();
+            btnMinimize_Click = new Button();
+            pictureBox1 = new PictureBox();
+            btnClose = new Button();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(172, 521);
+            label1.Font = new Font("Segoe UI", 9F);
+            label1.Location = new Point(196, 392);
             label1.Name = "label1";
-            label1.Size = new Size(112, 20);
+            label1.Size = new Size(89, 15);
             label1.TabIndex = 44;
-            label1.Text = "Show password";
+            label1.Text = "Show Password";
             // 
             // checkBoxRegister
             // 
             checkBoxRegister.AutoSize = true;
-            checkBoxRegister.Location = new Point(290, 524);
-            checkBoxRegister.Margin = new Padding(3, 4, 3, 4);
+            checkBoxRegister.Location = new Point(291, 392);
             checkBoxRegister.Name = "checkBoxRegister";
-            checkBoxRegister.Size = new Size(18, 17);
+            checkBoxRegister.Size = new Size(15, 14);
             checkBoxRegister.TabIndex = 43;
             checkBoxRegister.UseVisualStyleBackColor = true;
             checkBoxRegister.CheckedChanged += checkBoxRegister_CheckedChanged;
@@ -64,100 +69,158 @@ namespace SchoolLabApp.View
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(88, 448);
+            label3.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label3.Location = new Point(107, 334);
             label3.Name = "label3";
-            label3.Size = new Size(129, 20);
+            label3.Size = new Size(118, 17);
             label3.TabIndex = 42;
-            label3.Text = "Confirm password";
+            label3.Text = "Confirm Password";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(88, 367);
+            label2.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label2.Location = new Point(107, 273);
             label2.Name = "label2";
-            label2.Size = new Size(70, 20);
+            label2.Size = new Size(66, 17);
             label2.TabIndex = 41;
             label2.Text = "Password";
             // 
             // txtRegisterPasswordConfirm
             // 
-            txtRegisterPasswordConfirm.Location = new Point(88, 472);
-            txtRegisterPasswordConfirm.Margin = new Padding(3, 4, 3, 4);
+            txtRegisterPasswordConfirm.BackColor = Color.FromArgb(37, 37, 38);
+            txtRegisterPasswordConfirm.BorderStyle = BorderStyle.FixedSingle;
+            txtRegisterPasswordConfirm.Font = new Font("Segoe UI", 10F);
+            txtRegisterPasswordConfirm.ForeColor = Color.White;
+            txtRegisterPasswordConfirm.Location = new Point(107, 354);
             txtRegisterPasswordConfirm.Name = "txtRegisterPasswordConfirm";
-            txtRegisterPasswordConfirm.Size = new Size(227, 27);
+            txtRegisterPasswordConfirm.Size = new Size(199, 25);
             txtRegisterPasswordConfirm.TabIndex = 40;
             txtRegisterPasswordConfirm.UseSystemPasswordChar = true;
+            txtRegisterPasswordConfirm.TextChanged += txtRegisterPasswordConfirm_TextChanged;
             // 
             // txtRegisterPassword
             // 
-            txtRegisterPassword.Location = new Point(88, 391);
-            txtRegisterPassword.Margin = new Padding(3, 4, 3, 4);
+            txtRegisterPassword.BackColor = Color.FromArgb(37, 37, 38);
+            txtRegisterPassword.BorderStyle = BorderStyle.FixedSingle;
+            txtRegisterPassword.Font = new Font("Segoe UI", 10F);
+            txtRegisterPassword.ForeColor = Color.White;
+            txtRegisterPassword.Location = new Point(107, 293);
             txtRegisterPassword.Name = "txtRegisterPassword";
-            txtRegisterPassword.Size = new Size(227, 27);
+            txtRegisterPassword.Size = new Size(199, 25);
             txtRegisterPassword.TabIndex = 39;
             txtRegisterPassword.UseSystemPasswordChar = true;
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(88, 275);
+            label6.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label6.Location = new Point(107, 214);
             label6.Name = "label6";
-            label6.Size = new Size(75, 20);
+            label6.Size = new Size(69, 17);
             label6.TabIndex = 47;
             label6.Text = "Username";
             // 
             // txtRegisterUsername
             // 
-            txtRegisterUsername.Location = new Point(88, 299);
-            txtRegisterUsername.Margin = new Padding(3, 4, 3, 4);
+            txtRegisterUsername.BackColor = Color.FromArgb(37, 37, 38);
+            txtRegisterUsername.BorderStyle = BorderStyle.FixedSingle;
+            txtRegisterUsername.Font = new Font("Segoe UI", 10F);
+            txtRegisterUsername.ForeColor = Color.White;
+            txtRegisterUsername.Location = new Point(107, 234);
             txtRegisterUsername.Name = "txtRegisterUsername";
-            txtRegisterUsername.Size = new Size(227, 27);
+            txtRegisterUsername.Size = new Size(199, 25);
             txtRegisterUsername.TabIndex = 45;
-            // 
-            // comboBoxRegisterRole
-            // 
-            comboBoxRegisterRole.FormattingEnabled = true;
-            comboBoxRegisterRole.Items.AddRange(new object[] { "Student", "Teacher", "Technician" });
-            comboBoxRegisterRole.Location = new Point(88, 573);
-            comboBoxRegisterRole.Margin = new Padding(3, 4, 3, 4);
-            comboBoxRegisterRole.Name = "comboBoxRegisterRole";
-            comboBoxRegisterRole.Size = new Size(227, 28);
-            comboBoxRegisterRole.TabIndex = 50;
-            comboBoxRegisterRole.SelectedIndexChanged += comboBoxRegisterRole_SelectedIndexChanged;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(88, 549);
+            label4.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label4.Location = new Point(107, 421);
             label4.Name = "label4";
-            label4.Size = new Size(39, 20);
+            label4.Size = new Size(34, 17);
             label4.TabIndex = 49;
             label4.Text = "Role";
             // 
             // btnRegisterRegister
             // 
-            btnRegisterRegister.BackColor = Color.White;
-            btnRegisterRegister.FlatAppearance.BorderColor = Color.Black;
-            btnRegisterRegister.FlatAppearance.BorderSize = 4;
-            btnRegisterRegister.FlatStyle = FlatStyle.Popup;
-            btnRegisterRegister.ForeColor = SystemColors.ActiveCaptionText;
-            btnRegisterRegister.Location = new Point(161, 677);
-            btnRegisterRegister.Margin = new Padding(3, 4, 3, 4);
+            btnRegisterRegister.BackColor = Color.FromArgb(16, 124, 65);
+            btnRegisterRegister.FlatAppearance.BorderSize = 0;
+            btnRegisterRegister.FlatStyle = FlatStyle.Flat;
+            btnRegisterRegister.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnRegisterRegister.ForeColor = Color.White;
+            btnRegisterRegister.Location = new Point(107, 501);
             btnRegisterRegister.Name = "btnRegisterRegister";
-            btnRegisterRegister.Size = new Size(93, 37);
+            btnRegisterRegister.Size = new Size(199, 38);
             btnRegisterRegister.TabIndex = 51;
-            btnRegisterRegister.Text = "Register";
+            btnRegisterRegister.Text = "Register Account";
             btnRegisterRegister.UseVisualStyleBackColor = false;
             btnRegisterRegister.Click += btnRegisterRegister_Click;
             // 
+            // comboBoxRegisterRole
+            // 
+            comboBoxRegisterRole.BackColor = Color.FromArgb(37, 37, 38);
+            comboBoxRegisterRole.FlatStyle = FlatStyle.Flat;
+            comboBoxRegisterRole.Font = new Font("Segoe UI", 10F);
+            comboBoxRegisterRole.ForeColor = Color.White;
+            comboBoxRegisterRole.FormattingEnabled = true;
+            comboBoxRegisterRole.Items.AddRange(new object[] { "Teacher" });
+            comboBoxRegisterRole.Location = new Point(107, 441);
+            comboBoxRegisterRole.Name = "comboBoxRegisterRole";
+            comboBoxRegisterRole.Size = new Size(199, 25);
+            comboBoxRegisterRole.TabIndex = 52;
+            // 
+            // btnMinimize_Click
+            // 
+            btnMinimize_Click.FlatAppearance.BorderSize = 0;
+            btnMinimize_Click.FlatAppearance.MouseOverBackColor = Color.DarkGray;
+            btnMinimize_Click.FlatStyle = FlatStyle.Flat;
+            btnMinimize_Click.Font = new Font("Segoe UI", 17F, FontStyle.Bold);
+            btnMinimize_Click.ForeColor = Color.White;
+            btnMinimize_Click.Location = new Point(330, -8);
+            btnMinimize_Click.Name = "btnMinimize_Click";
+            btnMinimize_Click.Size = new Size(45, 45);
+            btnMinimize_Click.TabIndex = 55;
+            btnMinimize_Click.Text = "–";
+            btnMinimize_Click.UseVisualStyleBackColor = true;
+            btnMinimize_Click.Click += btnMinimize_Click_Click;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = Properties.Resources.SchoolabLogo_1_;
+            pictureBox1.Location = new Point(52, 43);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(314, 158);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 54;
+            pictureBox1.TabStop = false;
+            // 
+            // btnClose
+            // 
+            btnClose.FlatAppearance.BorderSize = 0;
+            btnClose.FlatAppearance.MouseOverBackColor = Color.FromArgb(209, 52, 56);
+            btnClose.FlatStyle = FlatStyle.Flat;
+            btnClose.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            btnClose.ForeColor = Color.White;
+            btnClose.Location = new Point(372, -8);
+            btnClose.Name = "btnClose";
+            btnClose.Size = new Size(45, 45);
+            btnClose.TabIndex = 53;
+            btnClose.Text = "x";
+            btnClose.UseVisualStyleBackColor = true;
+            btnClose.Click += btnClose_Click;
+            // 
             // Register
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.GradientActiveCaption;
-            ClientSize = new Size(411, 760);
-            Controls.Add(btnRegisterRegister);
+            BackColor = Color.FromArgb(28, 28, 28);
+            ClientSize = new Size(419, 570);
+            Controls.Add(btnMinimize_Click);
+            Controls.Add(pictureBox1);
+            Controls.Add(btnClose);
             Controls.Add(comboBoxRegisterRole);
+            Controls.Add(btnRegisterRegister);
             Controls.Add(label4);
             Controls.Add(label6);
             Controls.Add(txtRegisterUsername);
@@ -167,10 +230,16 @@ namespace SchoolLabApp.View
             Controls.Add(label2);
             Controls.Add(txtRegisterPasswordConfirm);
             Controls.Add(txtRegisterPassword);
-            Margin = new Padding(3, 4, 3, 4);
+            Font = new Font("Segoe UI", 9F);
+            ForeColor = Color.White;
+            FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Register";
-            Text = "Register";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Create Account";
             Load += Register_Load;
+            MouseDown += DragArea_MouseDown;
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -185,8 +254,11 @@ namespace SchoolLabApp.View
         private TextBox txtRegisterPassword;
         private Label label6;
         private TextBox txtRegisterUsername;
-        private ComboBox comboBoxRegisterRole;
         private Label label4;
         private Button btnRegisterRegister;
+        private ComboBox comboBoxRegisterRole;
+        private Button btnMinimize_Click;
+        private PictureBox pictureBox1;
+        private Button btnClose;
     }
 }

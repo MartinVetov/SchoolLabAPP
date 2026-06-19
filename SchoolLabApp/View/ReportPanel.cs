@@ -1,16 +1,25 @@
+using SchoolLabApp.Services;
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace SchoolLabApp.View
 {
     public partial class ReportPanel : Form
     {
+        private readonly AssetService _assetService;
+        private readonly UserService _userService;
+        private readonly RoleService _roleService;
         private readonly string reportsPath =
             Path.Combine(Application.StartupPath, "Reports");
 
-        public ReportPanel()
+        public ReportPanel(AssetService assetService, UserService userService, RoleService roleService)
         {
+            _assetService = assetService;
+            _userService = userService;
+            _roleService = roleService;
+
             InitializeComponent();
 
             LoadReports();
@@ -189,5 +198,57 @@ namespace SchoolLabApp.View
                     MessageBoxIcon.Error);
             }
         }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void btnMinimize_Click_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void btnBackarrow_Click(object sender, EventArgs e)
+        {
+
+            var currentUser = _userService.GetCurrentUser();
+
+            if (currentUser != null && currentUser.RoleId == 1)
+            {
+                var admin = new AdminPanel(_userService, _roleService, _assetService);
+                this.Hide();
+                admin.FormClosed += (s, args) => this.Close();
+                admin.ShowDialog();
+            }
+            else
+            {
+                var technician = new TechnicianPanel(_assetService, _userService, _roleService);
+                this.Hide();
+                technician.FormClosed += (s, args) => this.Close();
+                technician.ShowDialog();
+
+            }
+        }
+
+
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HT_CAPTION = 0x2;
+
+        [DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        [DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
+
+        private void DragArea_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
+        }
+
+
     }
 }

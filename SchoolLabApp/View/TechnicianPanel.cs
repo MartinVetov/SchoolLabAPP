@@ -1,6 +1,7 @@
 using SchoolLabApp.Models;
 using SchoolLabApp.Services;
 using System;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace SchoolLabApp.View
@@ -9,13 +10,16 @@ namespace SchoolLabApp.View
     {
         private List<Asset> _assets = new List<Asset>();
         private readonly AssetService _assetService;
+        private readonly UserService _userService;
+        private readonly RoleService _roleService;
 
-        public TechnicianPanel(AssetService assetService)
+        public TechnicianPanel(AssetService assetService, UserService userService, RoleService roleService)
         {
             InitializeComponent();
             _assetService = assetService;
+            _userService = userService;
+            _roleService = roleService;
         }
-
 
         private async void TechnicianPanel_Load(object sender, EventArgs e)
             => await LoadAssets();
@@ -27,10 +31,14 @@ namespace SchoolLabApp.View
                 var assets = await _assetService.GetAll();
                 _assets = assets.ToList();
                 listBoxTechnicianPanel.Items.Clear();
-                
+
                 foreach (var a in assets)
                 {
-                    listBoxTechnicianPanel.Items.Add($"{a.Id} | {a.Name} | {a.Status} | {a.Category?.Name}");
+                    listBoxTechnicianPanel.Items.Add(new ListBoxItem
+                    {
+                        Id = a.Id,
+                        Text = $"{a.Id} | {a.Name} | {a.Status} | {a.Category?.Name}"
+                    });
                 }
             }
             catch (ArgumentException ex)
@@ -121,7 +129,7 @@ namespace SchoolLabApp.View
 
                 _assets.Add(await oldAsset);
 
-                var asset = new Models.Asset
+                var asset = new Asset
                 {
                     Id = id,
                     Name = txtTechnicianPanelName.Text.Trim(),
@@ -129,8 +137,8 @@ namespace SchoolLabApp.View
                     CategoryId = comboBoxTechnicianPanelCategory.SelectedIndex + 1,
                 };
 
-                
-                
+
+
                 await _assetService.UpdateAsset(asset);
                 MessageBox.Show("Asset updated.",
                     "Success",
@@ -207,8 +215,13 @@ namespace SchoolLabApp.View
 
         private void btnTechnicianPanelReportPanel_Click(object sender, EventArgs e)
         {
-            var panel = new ReportPanel();
-            panel.ShowDialog();
+            var report = new ReportPanel(_assetService, _userService, _roleService);
+
+            this.Hide();
+
+            report.ShowDialog();
+
+            this.Show();
         }
 
         private void ClearForm()
@@ -223,22 +236,26 @@ namespace SchoolLabApp.View
 
 
 
-        private void listBoxTechnicianPanel_SelectedIndexChanged(object sender, EventArgs e)
+        private async void listBoxTechnicianPanel_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listBoxTechnicianPanel.SelectedItem is ListBoxItem selectedItem)
             {
-                var oldAsset = _assetService.GetById(selectedItem.Id);
+                var oldAsset = await _assetService.GetById(selectedItem.Id);
 
-                if (oldAsset?.Result == null)
+                if (oldAsset == null)
                 {
-                    MessageBox.Show($"Asset with ID {selectedItem.Id} not found!", "Error",
-                                   MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(
+                        $"Asset with ID {selectedItem.Id} not found!",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
                     return;
                 }
 
-                comboBoxTechnicianPanelCategory.SelectedIndex = oldAsset.Result.CategoryId;
-                txtTechnicianPanelName.Text = oldAsset.Result.Name;
-                SetStatusRadioButtons(oldAsset.Result.Status);
+                comboBoxTechnicianPanelCategory.SelectedIndex = oldAsset.CategoryId - 1;
+                txtTechnicianPanelName.Text = oldAsset.Name;
+                SetStatusRadioButtons(oldAsset.Status);
             }
         }
 
@@ -287,6 +304,34 @@ namespace SchoolLabApp.View
                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void btnMinimize_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HT_CAPTION = 0x2;
+
+        [DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        [DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
+
+        private void DragArea_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
+        }
+
     }
 
     public class ListBoxItem
