@@ -52,7 +52,10 @@ namespace SchoolLabApp.View
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, 
+                    "Error", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error);
             }
         }
 
@@ -74,7 +77,10 @@ namespace SchoolLabApp.View
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Could not parse user data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Could not parse user data: {ex.Message}", 
+                    "Error", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error);
             }
         }
 
@@ -97,14 +103,20 @@ namespace SchoolLabApp.View
                 };
 
                 await _userService.Register(user);
-                MessageBox.Show("User added.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("User added.", 
+                    "Success", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Information);
 
                 await LoadUsers();
                 ClearForm();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, 
+                    "Error", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error);
             }
         }
 
@@ -130,13 +142,22 @@ namespace SchoolLabApp.View
                 user.RoleId = roleId;
 
                 await _userService.UpdateUser(user);
-                MessageBox.Show("User updated.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                MessageBox.Show("User updated.", 
+                    "Success", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Information);
+
                 await LoadUsers();
+
                 ClearForm();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, 
+                    "Error", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error);
             }
         }
 
@@ -151,7 +172,10 @@ namespace SchoolLabApp.View
 
                 int id = int.Parse(listBoxAdminPanel.SelectedItem.ToString()!.Split('|')[0].Trim());
 
-                if (MessageBox.Show("Delete this user?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show("Delete this user?", 
+                    "Confirm", 
+                    MessageBoxButtons.YesNo, 
+                    MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     await _userService.DeleteUser(id);
                     await LoadUsers();
@@ -160,7 +184,10 @@ namespace SchoolLabApp.View
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(ex.Message, 
+                    "Error", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Warning);
             }
         }
 

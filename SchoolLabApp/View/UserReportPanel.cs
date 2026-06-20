@@ -38,8 +38,7 @@ namespace SchoolLabApp.View
         {
             if (string.IsNullOrWhiteSpace(txtUserReportPanelReport.Text))
             {
-                MessageBox.Show(
-                    "Please write a report before sending.",
+                MessageBox.Show("Please write a report before sending.",
                     "Validation",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
@@ -60,16 +59,14 @@ namespace SchoolLabApp.View
 
                 File.WriteAllText(fullPath, txtUserReportPanelReport.Text);
 
-                MessageBox.Show(
-                    "Report sent and saved.",
+                MessageBox.Show("Report sent and saved.",
                     "Success",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    ex.Message,
+                MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);

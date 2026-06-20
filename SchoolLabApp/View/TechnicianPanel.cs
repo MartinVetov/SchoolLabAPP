@@ -97,8 +97,13 @@ namespace SchoolLabApp.View
                     status,
                     comboBoxTechnicianPanelCategory.SelectedIndex + 1);
 
-                MessageBox.Show("Asset added.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Asset added.", 
+                    "Success", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Information);
+
                 await LoadAssets();
+
                 ClearForm();
             }
             catch (ArgumentException ex)
@@ -134,7 +139,7 @@ namespace SchoolLabApp.View
                 }
 
                 int id = int.Parse(listBoxTechnicianPanel.SelectedItem.ToString()!.Split('|')[0].Trim());
-                MessageBox.Show(id + " ");
+
 
                 var oldAsset = _assetService.GetById(id);
 
@@ -199,7 +204,8 @@ namespace SchoolLabApp.View
                 int id = int.Parse(listBoxTechnicianPanel.SelectedItem.ToString()!.Split('|')[0].Trim());
 
                 if (MessageBox.Show("Delete this asset?", "Confirm",
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    MessageBoxButtons.YesNo, 
+                    MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     await _assetService.DeleteAsset(id);
                     await LoadAssets();
@@ -307,15 +313,19 @@ namespace SchoolLabApp.View
             {
                 string newStatus = GetSelectedStatus();
 
-                MessageBox.Show($"Status changed to: {newStatus}", "Status Updated",
-                               MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"Status changed to: {newStatus}", 
+                    "Status Updated",
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Information);
 
 
             }
             else
             {
-                MessageBox.Show("Please select an item first", "Warning",
-                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please select an item first", 
+                    "Warning",
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Warning);
             }
         }
 

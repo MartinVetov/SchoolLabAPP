@@ -61,7 +61,7 @@ namespace SchoolLabApp.View
                 }
                 else
                 {
-                    // Admin or unknown role
+
                     var assetRepo = new AssetRepository(_context);
                     var assetService = new AssetService(assetRepo);
 
@@ -75,7 +75,7 @@ namespace SchoolLabApp.View
             }
             catch (ArgumentNullException ex)
             {
-                // logger.Error(ex.Message);
+
                 MessageBox.Show("All fields must not be empty!",
                     "Error",
                     MessageBoxButtons.OK,

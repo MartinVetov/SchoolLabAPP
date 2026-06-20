@@ -97,7 +97,7 @@ namespace SchoolLabApp.View
                 }
 
                 int assetId = int.Parse(listBoxUserLoanPanel.SelectedItem.ToString()!.Split('|')[0].Trim());
-                MessageBox.Show($"AssetId: {assetId}, PersonId: {_personId}");
+                
 
                 var asset = await _assetService.GetById(assetId);
 
@@ -106,12 +106,20 @@ namespace SchoolLabApp.View
                     await _loanService.AddLoan(assetId, _personId, int.Parse(txtUserLoanPanelDuration.Text), "Unavelible");
                     asset.Status = "Unavailable";
                     await _assetService.UpdateAsset(asset);
-                    MessageBox.Show("Asset loaned successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Asset loaned successfully.", 
+                        "Success", 
+                        MessageBoxButtons.OK, 
+                        MessageBoxIcon.Information);
+
                     await LoadAssets();
                 }
                 else
                 {
-                    MessageBox.Show("Asset canot be loaned.", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Asset canot be loaned.", 
+                        "Failure", 
+                        MessageBoxButtons.OK, 
+                        MessageBoxIcon.Information);
+
                     await LoadAssets();
                 }
             }

@@ -81,7 +81,10 @@ namespace SchoolLabApp.View
                 }
                 if (listBoxUserReturnPanel.SelectedItem.ToString()!.Split('|')[2].Trim().Contains("Returned"))
                 {
-                    MessageBox.Show("You already returend this item");
+                    MessageBox.Show("You already returend this item",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
                     return;
                 }
 
@@ -91,7 +94,10 @@ namespace SchoolLabApp.View
 
                 await _assetService.UpdateStatus(assetId, "Available");
 
-                MessageBox.Show("Asset returned.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Asset returned.", 
+                    "Success", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Information);
                 LoadLoans();
             }
             catch (InvalidOperationException ex)
