@@ -84,7 +84,7 @@ namespace SchoolLabApp.Services
 
         public async Task<IEnumerable<User>> GetAllUsers()
         { 
-            return await _userRepository.GetAllAsync();
+            return await _userRepository.GetAllUsersWithRolesAsync(); 
         }
 
         public async Task UpdateUser(User user)
