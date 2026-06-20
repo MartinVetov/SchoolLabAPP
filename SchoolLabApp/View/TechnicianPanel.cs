@@ -39,7 +39,7 @@ namespace SchoolLabApp.View
                 if (categoryId > 0)
                 {
                     assets = await _assetService.GetByCategory(categoryId);
-                    
+
                 }
                 _assets = assets.ToList();
                 listBoxTechnicianPanel.Items.Clear();
@@ -356,6 +356,8 @@ namespace SchoolLabApp.View
         {
             LoadAssets();
         }
+
+
     }
 
     public class ListBoxItem

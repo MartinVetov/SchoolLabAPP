@@ -115,6 +115,7 @@ namespace SchoolLabApp.View
             txtTechnicianPanelName.Name = "txtTechnicianPanelName";
             txtTechnicianPanelName.Size = new Size(199, 25);
             txtTechnicianPanelName.TabIndex = 16;
+
             // 
             // radioButtonTechnicianPanelStatusAvelible
             // 

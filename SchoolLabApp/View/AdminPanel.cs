@@ -2,7 +2,9 @@ using SchoolLabApp.Data;
 using SchoolLabApp.Models;
 using SchoolLabApp.Services;
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SchoolLabApp.View
@@ -24,10 +26,16 @@ namespace SchoolLabApp.View
             _assetService = assetService;
             _personService = personService;
             _context = context;
+
+
+            listBoxAdminPanel.SelectedIndexChanged += listBoxAdminPanel_SelectedIndexChanged;
         }
 
         private async void AdminPanel_Load(object sender, EventArgs e)
         {
+            txtAdminPanelPassword.UseSystemPasswordChar = false;
+            txtAdminPanelPassword.PasswordChar = '\0';
+
             await LoadUsers();
         }
 
@@ -39,36 +47,34 @@ namespace SchoolLabApp.View
                 listBoxAdminPanel.Items.Clear();
                 foreach (var u in users)
                 {
-                    listBoxAdminPanel.Items.Add($"{u.Id} | {u.Username} | {u.Role?.Name ?? "N/A"}");
+                    listBoxAdminPanel.Items.Add($"{u.Id} | {u.Username} | {u.Password} | {u.Role?.Name ?? "N/A"}");
                 }
-            }
-            catch (ArgumentNullException ex)
-            {
-                MessageBox.Show(ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
-            catch (ArgumentException ex)
-            {
-                MessageBox.Show(ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
-            catch (InvalidOperationException ex)
-            {
-                MessageBox.Show(ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void listBoxAdminPanel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listBoxAdminPanel.SelectedItem == null) return;
+
+            try
+            {
+                string selectedItem = listBoxAdminPanel.SelectedItem.ToString()!;
+                string[] parts = selectedItem.Split('|');
+
+                if (parts.Length >= 4)
+                {
+                    txtAdminPanelUsername.Text = parts[1].Trim();
+                    txtAdminPanelPassword.Text = parts[2].Trim();
+                    comboBoxAdminPanelRole.Text = parts[3].Trim();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Could not parse user data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -91,41 +97,14 @@ namespace SchoolLabApp.View
                 };
 
                 await _userService.Register(user);
-                MessageBox.Show("User added.",
-                    "Success",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+                MessageBox.Show("User added.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 await LoadUsers();
                 ClearForm();
             }
-            catch (ArgumentNullException ex)
-            {
-                MessageBox.Show(ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
-            catch (ArgumentException ex)
-            {
-                MessageBox.Show(ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
-            catch (InvalidOperationException ex)
-            {
-                MessageBox.Show(ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -142,7 +121,6 @@ namespace SchoolLabApp.View
                 int roleId = await GetSelectedRoleId();
 
                 var olduser = _userService.GetById(id);
-
                 _OldUsers.Add(await olduser);
 
                 var user = new User
@@ -158,33 +136,9 @@ namespace SchoolLabApp.View
                 await LoadUsers();
                 ClearForm();
             }
-            catch (ArgumentNullException ex)
-            {
-                MessageBox.Show(ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
-            catch (ArgumentException ex)
-            {
-                MessageBox.Show(ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
-            catch (InvalidOperationException ex)
-            {
-                MessageBox.Show(ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -199,28 +153,16 @@ namespace SchoolLabApp.View
 
                 int id = int.Parse(listBoxAdminPanel.SelectedItem.ToString()!.Split('|')[0].Trim());
 
-                if (MessageBox.Show("Delete this user?"
-                    , "Confirm",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show("Delete this user?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     await _userService.DeleteUser(id);
                     await LoadUsers();
+                    ClearForm();
                 }
-            }
-            catch (ArgumentNullException ex)
-            {
-                MessageBox.Show(ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -228,18 +170,15 @@ namespace SchoolLabApp.View
         {
             var technician = new TechnicianPanel(_assetService, _userService, _roleService, _personService, _context);
             this.Hide();
-            technician.FormClosed += (sender, e) => this.Close();
+            technician.FormClosed += (sender2, e2) => this.Close();
             technician.ShowDialog();
         }
 
         private void btnAdminPanelReportPanel_Click(object sender, EventArgs e)
         {
             var report = new ReportPanel(_assetService, _userService, _roleService, _personService, _context);
-
             this.Hide();
-
             report.ShowDialog();
-
             this.Show();
         }
 
@@ -266,6 +205,7 @@ namespace SchoolLabApp.View
             txtAdminPanelUsername.Clear();
             txtAdminPanelPassword.Clear();
             comboBoxAdminPanelRole.SelectedIndex = -1;
+            listBoxAdminPanel.ClearSelected();
         }
 
         private void label1_Click(object sender, EventArgs e) { }
@@ -302,7 +242,7 @@ namespace SchoolLabApp.View
             _userService.Logout();
             var login = new Login(_userService, _roleService, _context, _personService);
             this.Hide();
-            login.FormClosed += (sender, e) => this.Close();
+            login.FormClosed += (sender2, e2) => this.Close();
             login.ShowDialog();
         }
     }

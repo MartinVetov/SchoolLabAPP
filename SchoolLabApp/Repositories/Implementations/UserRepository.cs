@@ -44,5 +44,12 @@ namespace SchoolLabApp.Repositories.Implementations
                     u.Username == username &&
                     u.Password == password);
         }
+
+        public async Task<IEnumerable<User>> GetAllUsersWithRolesAsync()
+        {
+            return await _context.Users
+                                 .Include(u => u.Role) 
+                                 .ToListAsync();
+        }
     }
 }
