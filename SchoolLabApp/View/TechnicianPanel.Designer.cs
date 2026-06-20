@@ -55,7 +55,7 @@ namespace SchoolLabApp.View
             comboBoxTechnicianPanelCategory.Font = new Font("Segoe UI", 10F);
             comboBoxTechnicianPanelCategory.ForeColor = Color.White;
             comboBoxTechnicianPanelCategory.FormattingEnabled = true;
-            comboBoxTechnicianPanelCategory.Items.AddRange(new object[] { "Computers", "Lab equipment", "Books", "All" });
+            comboBoxTechnicianPanelCategory.Items.AddRange(new object[] { "Computers", "Lab equipment", "Books" });
             comboBoxTechnicianPanelCategory.Location = new Point(24, 121);
             comboBoxTechnicianPanelCategory.Name = "comboBoxTechnicianPanelCategory";
             comboBoxTechnicianPanelCategory.Size = new Size(199, 25);
@@ -115,7 +115,6 @@ namespace SchoolLabApp.View
             txtTechnicianPanelName.Name = "txtTechnicianPanelName";
             txtTechnicianPanelName.Size = new Size(199, 25);
             txtTechnicianPanelName.TabIndex = 16;
-
             // 
             // radioButtonTechnicianPanelStatusAvelible
             // 
