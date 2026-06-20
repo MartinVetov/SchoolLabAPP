@@ -39,7 +39,10 @@ namespace SchoolLabApp.View
                 if (categoryId > 0)
                 {
                     assets = await _assetService.GetByCategory(categoryId);
-                    
+                }
+                else
+                {
+                    assets = await _assetService.GetAll();
                 }
                 _assets = assets.ToList();
                 listBoxTechnicianPanel.Items.Clear();
