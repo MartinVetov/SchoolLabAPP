@@ -15,7 +15,7 @@ public partial class Register : Form
     private readonly PersonService _personService;
     private readonly SchoolLabAppDbContext _context;
     private readonly Dictionary<string, int> _roleMap = new();
-
+    int counter = 0;
     public Register(UserService userService, RoleService roleService, PersonService personService, SchoolLabAppDbContext context)
     {
         InitializeComponent();
@@ -104,7 +104,9 @@ public partial class Register : Form
                 Type = user.Role.Name
             };
 
+
             await _personService.AddPerson(person);
+
 
 
             MessageBox.Show(

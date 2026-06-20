@@ -166,26 +166,6 @@ namespace SchoolLabApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Persons");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "First",
-                            Type = ""
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Second",
-                            Type = ""
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Third",
-                            Type = ""
-                        });
                 });
 
             modelBuilder.Entity("SchoolLabApp.Models.Role", b =>

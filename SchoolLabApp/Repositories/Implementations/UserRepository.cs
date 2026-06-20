@@ -25,6 +25,9 @@ namespace SchoolLabApp.Repositories.Implementations
             oldUser.RoleId = user.RoleId;
 
             await _context.SaveChangesAsync();
+            
+
+
         }
         public async Task<User?> GetByUsernameAsync(string username)
         {
@@ -47,8 +50,8 @@ namespace SchoolLabApp.Repositories.Implementations
         public async Task<IEnumerable<User>> GetAllUsersWithRolesAsync()
         {
             return await _context.Users
-                                 .Include(u => u.Role) 
-                                 .ToListAsync();
+                .Include(u => u.Role) 
+                .ToListAsync();
         }
     }
 }
