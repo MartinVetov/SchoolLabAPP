@@ -23,7 +23,10 @@ namespace SchoolLabApp.View
         }
 
         private void checkBoxTechnicianPasswordPanel_CheckedChanged(object sender, EventArgs e)
-            => txtTechnicianPasswordPanelPassword.UseSystemPasswordChar = !checkBoxTechnicianPasswordPanel.Checked;
+        {
+            bool show = checkBoxTechnicianPasswordPanel.Checked;
+            txtTechnicianPasswordPanelPassword.UseSystemPasswordChar = !show;
+        }
 
         private void btnTechnicianPasswordPanelRegister_Click(object sender, EventArgs e)
         {
@@ -64,7 +67,5 @@ namespace SchoolLabApp.View
         {
             this.WindowState = FormWindowState.Minimized;
         }
-
-
     }
 }

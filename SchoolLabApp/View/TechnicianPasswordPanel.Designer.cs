@@ -46,9 +46,9 @@ namespace SchoolLabApp.View
             txtTechnicianPasswordPanelPassword.ForeColor = Color.White;
             txtTechnicianPasswordPanelPassword.Location = new Point(21, 86);
             txtTechnicianPasswordPanelPassword.Name = "txtTechnicianPasswordPanelPassword";
-            txtTechnicianPasswordPanelPassword.PasswordChar = '●';
             txtTechnicianPasswordPanelPassword.Size = new Size(234, 25);
             txtTechnicianPasswordPanelPassword.TabIndex = 16;
+            txtTechnicianPasswordPanelPassword.UseSystemPasswordChar = true;
             // 
             // btnTechnicianPasswordPanelRegister
             // 
