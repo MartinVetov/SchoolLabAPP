@@ -22,9 +22,8 @@ namespace SchoolLabApp.Repositories.Implementations
 
             oldUser.Username = user.Username;
             oldUser.Password = user.Password;
-            oldUser.Role = user.Role;
             oldUser.RoleId = user.RoleId;
-            _context.Users.Add(oldUser);
+
             await _context.SaveChangesAsync();
         }
         public async Task<User?> GetByUsernameAsync(string username)

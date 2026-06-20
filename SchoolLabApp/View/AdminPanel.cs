@@ -123,13 +123,11 @@ namespace SchoolLabApp.View
                 var olduser = _userService.GetById(id);
                 _OldUsers.Add(await olduser);
 
-                var user = new User
-                {
-                    Id = id,
-                    Username = txtAdminPanelUsername.Text.Trim(),
-                    Password = txtAdminPanelPassword.Text.Trim(),
-                    RoleId = roleId
-                };
+                var user = await _userService.GetById(id);
+
+                user.Username = txtAdminPanelUsername.Text.Trim();
+                user.Password = txtAdminPanelPassword.Text.Trim();
+                user.RoleId = roleId;
 
                 await _userService.UpdateUser(user);
                 MessageBox.Show("User updated.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
