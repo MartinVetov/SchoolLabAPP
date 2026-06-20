@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using SchoolLabApp.Models;
 using SchoolLabApp.Repositories.Implementations;
 using SchoolLabApp.Repositories.Interfaces;
+using System.Data;
 
 namespace SchoolLabApp.Services;
 
@@ -75,5 +76,17 @@ public class AssetService
     public async Task<Asset?> GetById(int id)
     {
         return await _assetRepository.GetByIdAsync(id);
-    }   
+    }
+    
+    public async Task UpdateStatus(int assetId,string status)
+    {
+        var asset = await _assetRepository.GetByIdAsync(assetId);
+        if (asset == null)
+        {
+            throw new InvalidOperationException("Asset not found.");
+        }
+        asset.Status = status;
+
+        await _assetRepository.UpdateAsync(asset);
+    }
 }

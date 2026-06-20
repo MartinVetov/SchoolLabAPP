@@ -72,5 +72,17 @@ namespace SchoolLabApp.Services
             }
             await _loanRepository.DeleteAsync(id);
         }
+
+        public async Task<int> GetAssetId(int loanId)
+        {
+            var loan = await _loanRepository.GetByIdAsync(loanId);
+
+            if (loan == null)
+            {
+                throw new InvalidOperationException("Loan not found.");
+            }
+
+            return loan.AssetId;
+        }
     }
 }

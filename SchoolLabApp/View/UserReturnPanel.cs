@@ -84,8 +84,13 @@ namespace SchoolLabApp.View
                     MessageBox.Show("You already returend this item");
                     return;
                 }
+
                 int loanId = int.Parse(listBoxUserReturnPanel.SelectedItem.ToString()!.Split('|')[0].Trim());
                 await _loanService.ReturnLoan(loanId);
+                int assetId = await _loanService.GetAssetId(loanId);
+
+                await _assetService.UpdateStatus(assetId, "Available");
+
                 MessageBox.Show("Asset returned.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LoadLoans();
             }

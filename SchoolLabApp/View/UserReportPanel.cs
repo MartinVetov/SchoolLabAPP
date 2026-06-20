@@ -65,8 +65,6 @@ namespace SchoolLabApp.View
                     "Success",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
-
-                this.Close();
             }
             catch (Exception ex)
             {

@@ -52,13 +52,14 @@ namespace SchoolLabApp.View
                 {
                     assets = await _assetService.GetAll();
                 }
-
                 listBoxUserLoanPanel.Items.Clear();
                 foreach (var a in assets)
                 {
+
                     listBoxUserLoanPanel.Items.Add($"{a.Id} | {a.Name} | {a.Status} | {a.Category.Name}");
                 }
             }
+            
             catch (ArgumentException ex)
             {
                 MessageBox.Show(ex.Message,
@@ -98,10 +99,21 @@ namespace SchoolLabApp.View
                 int assetId = int.Parse(listBoxUserLoanPanel.SelectedItem.ToString()!.Split('|')[0].Trim());
                 MessageBox.Show($"AssetId: {assetId}, PersonId: {_personId}");
 
-                await _loanService.AddLoan(assetId, _personId, int.Parse(txtUserLoanPanelDuration.Text), "Unavelible");
+                var asset = await _assetService.GetById(assetId);
 
-                MessageBox.Show("Asset loaned successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                await LoadAssets();
+                if(asset.Status.ToString() == "Available")
+                {
+                    await _loanService.AddLoan(assetId, _personId, int.Parse(txtUserLoanPanelDuration.Text), "Unavelible");
+                    asset.Status = "Unavailable";
+                    await _assetService.UpdateAsset(asset);
+                    MessageBox.Show("Asset loaned successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    await LoadAssets();
+                }
+                else
+                {
+                    MessageBox.Show("Asset canot be loaned.", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    await LoadAssets();
+                }
             }
             catch (ArgumentException ex)
             {
