@@ -18,13 +18,23 @@ namespace SchoolLabApp.Services
 
         public async Task AddLoan(int assetId, int personId, int durationDays, string status)
         {
+            if (string.IsNullOrWhiteSpace(status))
+            {
+                throw new ArgumentException("Status is required.");
+            }
+
+            if (durationDays <= 0)
+            {
+                throw new ArgumentException("Duration days must be greater than zero.");
+            }
+
             var loan = new Loan
             {
-                AssetId   = assetId,
-                PersonId  = personId,
+                AssetId = assetId,
+                PersonId = personId,
                 StartDate = DateTime.Now,
                 DurationDays = durationDays,
-                Status    = status
+                Status = status
             };
             await _loanRepository.AddAsync(loan);
         }
