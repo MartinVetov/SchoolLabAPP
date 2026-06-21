@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
+using SchoolLabApp.Data;
 using SchoolLabApp.Services;
 using System;
 using System.Runtime.InteropServices;
@@ -11,17 +13,19 @@ namespace SchoolLabApp.View
         private readonly UserService _userService;
         private readonly RoleService _roleService;
         private readonly PersonService _personService;
+        private readonly SchoolLabAppDbContext _context;
         private readonly Logger.Logger _logger;
 
         private const string TechnicianPassword = "tech1234";
 
-        public TechnicianPasswordPanel(UserService userService, RoleService roleService, PersonService personService,Logger.Logger logger)
+        public TechnicianPasswordPanel(UserService userService, RoleService roleService, PersonService personService,Logger.Logger logger, SchoolLabAppDbContext context)
         {
             InitializeComponent();
             _userService = userService;
             _roleService = roleService;
             _personService = personService;
             _logger = logger;
+            _context = context;
         }
 
         private void checkBoxTechnicianPasswordPanel_CheckedChanged(object sender, EventArgs e)
@@ -66,7 +70,10 @@ namespace SchoolLabApp.View
         private void btnClose_Click(object sender, EventArgs e)
         {
             _logger.Info("Closing application");
-            Application.Exit();
+            var login = new Login(_userService, _roleService, _context, _personService, _logger);
+            this.Hide();
+            login.FormClosed += (sender, e) => this.Close();
+            login.ShowDialog();
         }
 
         private void btnMinimize_Click(object sender, EventArgs e)
