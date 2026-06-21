@@ -99,12 +99,17 @@ namespace SchoolLabApp.View
         {
             try
             {
+                _logger.Info($"Loan attempt by user {_personId}");
+
                 if (listBoxUserLoanPanel.SelectedItem == null)
                 {
+                    _logger.Warn("Loan failed: No asset selected");
                     throw new ArgumentException("Select an asset first.");
                 }
+
                 if (!int.TryParse(txtUserLoanPanelDuration.Text, out int days) || days <= 0)
                 {
+                    _logger.Warn($"Loan failed: Invalid duration entered by user {_personId}");
                     throw new ArgumentException("Enter a valid duration in days.");
                 }
 
