@@ -43,15 +43,18 @@ namespace SchoolLabApp.View
         {
             try
             {
+                _logger.Info("Loading assets");
                 int categoryId = comboBoxUserLoanPanelCategory.SelectedIndex + 1;
                 IEnumerable<Asset> assets;
 
                 if (categoryId > 0)
                 {
+                    _logger.Info($"Loading assets for category {categoryId}");
                     assets = await _assetService.GetByCategory(categoryId);
                 }
                 else
                 {
+                    _logger.Info("Loading all assets");
                     assets = await _assetService.GetAll();
                 }
                 listBoxUserLoanPanel.Items.Clear();
@@ -60,10 +63,13 @@ namespace SchoolLabApp.View
 
                     listBoxUserLoanPanel.Items.Add($"{a.Id} | {a.Name} | {a.Status} | {a.Category.Name}");
                 }
+                _logger.Info($"Loaded {assets.Count()} assets");
             }
             
             catch (ArgumentException ex)
             {
+                _logger.Error(ex.Message);
+
                 MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
@@ -71,6 +77,8 @@ namespace SchoolLabApp.View
             }
             catch (InvalidOperationException ex)
             {
+                _logger.Error(ex.Message);
+
                 MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
@@ -78,6 +86,8 @@ namespace SchoolLabApp.View
             }
             catch (Exception ex)
             {
+                _logger.Error(ex.Message);
+
                 MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
@@ -173,6 +183,7 @@ namespace SchoolLabApp.View
 
         private void btnClose_Click(object sender, EventArgs e)
         {
+            _logger.Info("Closing application");
             Application.Exit();
         }
 
@@ -200,6 +211,7 @@ namespace SchoolLabApp.View
 
         private void pbLogo_Click(object sender, EventArgs e)
         {
+            _logger.Info("User logging out");
             _userService.Logout();
             var login = new Login(_userService, _roleService, _context, _personService, _logger);
             this.Hide();

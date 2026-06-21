@@ -11,15 +11,17 @@ namespace SchoolLabApp.View
         private readonly UserService _userService;
         private readonly RoleService _roleService;
         private readonly PersonService _personService;
+        private readonly Logger.Logger _logger;
 
         private const string TechnicianPassword = "tech1234";
 
-        public TechnicianPasswordPanel(UserService userService, RoleService roleService, PersonService personService)
+        public TechnicianPasswordPanel(UserService userService, RoleService roleService, PersonService personService,Logger.Logger logger)
         {
             InitializeComponent();
             _userService = userService;
             _roleService = roleService;
             _personService = personService;
+            _logger = logger;
         }
 
         private void checkBoxTechnicianPasswordPanel_CheckedChanged(object sender, EventArgs e)
@@ -30,8 +32,10 @@ namespace SchoolLabApp.View
 
         private void btnTechnicianPasswordPanelRegister_Click(object sender, EventArgs e)
         {
+            _logger.Info($"User attempt technician password");
             if (txtTechnicianPasswordPanelPassword.Text != TechnicianPassword)
             {
+                _logger.Warn($"Incorrect technician password was attempt");
                 MessageBox.Show("Incorrect technician password.",
                     "Access denied",
                     MessageBoxButtons.OK,
@@ -39,6 +43,7 @@ namespace SchoolLabApp.View
                 return;
             }
             this.Close();
+            _logger.Info($"User successfully entered the technician password");
         }
 
         public const int WM_NCLBUTTONDOWN = 0xA1;
@@ -60,6 +65,7 @@ namespace SchoolLabApp.View
 
         private void btnClose_Click(object sender, EventArgs e)
         {
+            _logger.Info("Closing application");
             Application.Exit();
         }
 

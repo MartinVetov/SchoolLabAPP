@@ -36,11 +36,14 @@ namespace SchoolLabApp.View
         {
             try
             {
+                _logger.Info("Loading reports.");
+
                 listBoxReportPanel.Items.Clear();
 
                 if (!Directory.Exists(reportsPath))
                 {
                     Directory.CreateDirectory(reportsPath);
+                    _logger.Info($"Created Reports directory: {reportsPath}");
                 }
 
                 string[] files = Directory.GetFiles(reportsPath, "*.txt");
@@ -49,9 +52,13 @@ namespace SchoolLabApp.View
                 {
                     listBoxReportPanel.Items.Add(Path.GetFileName(file));
                 }
+
+                _logger.Info($"Loaded {files.Length} reports.");
             }
             catch (DirectoryNotFoundException ex)
             {
+                _logger.Error(ex);
+
                 MessageBox.Show(
                     ex.Message,
                     "Folder Error",
@@ -60,6 +67,8 @@ namespace SchoolLabApp.View
             }
             catch (UnauthorizedAccessException ex)
             {
+                _logger.Error(ex);
+
                 MessageBox.Show(
                     ex.Message,
                     "Access Error",
@@ -68,6 +77,8 @@ namespace SchoolLabApp.View
             }
             catch (Exception ex)
             {
+                _logger.Error(ex);
+
                 string fullError =
                     ex.InnerException?.Message ?? ex.Message;
 
@@ -102,9 +113,13 @@ namespace SchoolLabApp.View
 
                 txtReportPanelReport.Text =
                     File.ReadAllText(fullPath);
+
+                _logger.Info($"Opening report: {fileName}");
             }
             catch (FileNotFoundException ex)
             {
+                _logger.Error(ex);
+
                 MessageBox.Show(
                     ex.Message,
                     "File Error",
@@ -113,6 +128,8 @@ namespace SchoolLabApp.View
             }
             catch (IOException ex)
             {
+                _logger.Error(ex);
+
                 MessageBox.Show(
                     ex.Message,
                     "Read Error",
@@ -121,6 +138,8 @@ namespace SchoolLabApp.View
             }
             catch (Exception ex)
             {
+                _logger.Error(ex);
+
                 string fullError =
                     ex.InnerException?.Message ?? ex.Message;
 
@@ -136,6 +155,8 @@ namespace SchoolLabApp.View
         {
             try
             {
+                _logger.Info("Attempting to delete report.");
+
                 if (listBoxReportPanel.SelectedItem == null)
                 {
                     MessageBox.Show(
@@ -175,10 +196,14 @@ namespace SchoolLabApp.View
                         "Success",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
+
+                    _logger.Info($"Report deleted successfully: {fileName}");
                 }
             }
             catch (UnauthorizedAccessException ex)
             {
+                _logger.Error(ex);
+
                 MessageBox.Show(
                     ex.Message,
                     "Access Error",
@@ -187,6 +212,8 @@ namespace SchoolLabApp.View
             }
             catch (IOException ex)
             {
+                _logger.Error(ex);
+
                 MessageBox.Show(
                     ex.Message,
                     "Delete Error",
@@ -195,6 +222,8 @@ namespace SchoolLabApp.View
             }
             catch (Exception ex)
             {
+                _logger.Error(ex);
+
                 string fullError =
                     ex.InnerException?.Message ?? ex.Message;
 
@@ -208,6 +237,7 @@ namespace SchoolLabApp.View
 
         private void btnClose_Click(object sender, EventArgs e)
         {
+            _logger.Info("Closing application");
             Application.Exit();
         }
 
@@ -227,6 +257,8 @@ namespace SchoolLabApp.View
                 this.Hide();
                 admin.FormClosed += (s, args) => this.Close();
                 admin.ShowDialog();
+
+                _logger.Info("Opening AdminPanel.");
             }
             else
             {
@@ -235,6 +267,7 @@ namespace SchoolLabApp.View
                 technician.FormClosed += (s, args) => this.Close();
                 technician.ShowDialog();
 
+                _logger.Info("Opening TechnicianPanel.");
             }
         }
 
@@ -258,6 +291,8 @@ namespace SchoolLabApp.View
 
         private void pbLogo_Click(object sender, EventArgs e)
         {
+            _logger.Info("User logging out");
+
             _userService.Logout();
             var login = new Login(_userService, _roleService, _context, _personService,_logger);
             this.Hide();

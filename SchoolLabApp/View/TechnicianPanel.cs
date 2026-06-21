@@ -36,6 +36,8 @@ namespace SchoolLabApp.View
         {
             try
             {
+                _logger.Info("Loading assets.");
+
                 int categoryId = comboBoxTechnicianPanelCategory.SelectedIndex + 1;
                 var assets = await _assetService.GetAll();
                 if (categoryId > 0)
@@ -57,9 +59,13 @@ namespace SchoolLabApp.View
                         Text = $"{a.Id} | {a.Name} | {a.Status} | {a.Category?.Name}"
                     });
                 }
+
+                _logger.Info($"Loaded {_assets.Count} assets.");
             }
             catch (ArgumentException ex)
             {
+                _logger.Error(ex);
+
                 MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
@@ -67,6 +73,8 @@ namespace SchoolLabApp.View
             }
             catch (InvalidOperationException ex)
             {
+                _logger.Error(ex);
+
                 MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
@@ -74,6 +82,8 @@ namespace SchoolLabApp.View
             }
             catch (Exception ex)
             {
+                _logger.Error(ex);
+
                 MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
@@ -85,6 +95,8 @@ namespace SchoolLabApp.View
         {
             try
             {
+                _logger.Info("Attempting to add new assets.");
+
                 if (comboBoxTechnicianPanelCategory.SelectedItem == null)
                 {
                     throw new ArgumentException("Please select a category.");
@@ -93,6 +105,8 @@ namespace SchoolLabApp.View
                 string status = radioButtonTechnicianPanelStatusAvelible.Checked ? "Available"
                               : radioButtonTechnicianPanelStatusUnavelible.Checked ? "Unavailable"
                               : "Broken";
+
+                _logger.Info($"Adding asset: {txtTechnicianPanelName.Text}, Status={status}");
 
                 await _assetService.AddAssets(
                     txtTechnicianPanelName.Text.Trim(),
@@ -105,11 +119,14 @@ namespace SchoolLabApp.View
                     MessageBoxIcon.Information);
 
                 await LoadAssets();
+                _logger.Info($"Asset added successfully: {txtTechnicianPanelName.Text}");
 
                 ClearForm();
             }
             catch (ArgumentException ex)
             {
+                _logger.Error($"Adding failed | {ex.Message}");
+
                 MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
@@ -117,6 +134,8 @@ namespace SchoolLabApp.View
             }
             catch (InvalidOperationException ex)
             {
+                _logger.Error($"Adding failed | {ex.Message}");
+
                 MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
@@ -124,6 +143,8 @@ namespace SchoolLabApp.View
             }
             catch (Exception ex)
             {
+                _logger.Error($"Adding failed | {ex.Message}");
+
                 MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
@@ -135,6 +156,8 @@ namespace SchoolLabApp.View
         {
             try
             {
+                _logger.Info("Attempting to edit asset.");
+
                 if (listBoxTechnicianPanel.SelectedItem == null)
                 {
                     throw new ArgumentException("Select an asset from the list first.");
@@ -142,6 +165,7 @@ namespace SchoolLabApp.View
 
                 int id = int.Parse(listBoxTechnicianPanel.SelectedItem.ToString()!.Split('|')[0].Trim());
 
+                _logger.Info($"Editing asset with ID={id}");
 
                 var oldAsset = _assetService.GetById(id);
 
@@ -169,10 +193,15 @@ namespace SchoolLabApp.View
                 );
 
                 await LoadAssets();
+
+                _logger.Info($"Asset updated successfully. ID={id}");
+
                 ClearForm();
             }
             catch (ArgumentException ex)
             {
+                _logger.Error($"Edit failed | {ex.Message}");
+
                 MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
@@ -180,6 +209,8 @@ namespace SchoolLabApp.View
             }
             catch (InvalidOperationException ex)
             {
+                _logger.Error($"Edit failed | {ex.Message}");
+
                 MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
@@ -187,6 +218,8 @@ namespace SchoolLabApp.View
             }
             catch (Exception ex)
             {
+                _logger.Error($"Edit failed | {ex.Message}");
+
                 MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
@@ -198,6 +231,8 @@ namespace SchoolLabApp.View
         {
             try
             {
+                _logger.Info("Attempting to delete asset.");
+
                 if (listBoxTechnicianPanel.SelectedItem == null)
                 {
                     throw new ArgumentException("Select an asset from the list first.");
@@ -205,16 +240,22 @@ namespace SchoolLabApp.View
 
                 int id = int.Parse(listBoxTechnicianPanel.SelectedItem.ToString()!.Split('|')[0].Trim());
 
+                _logger.Warn($"Deleting asset ID={id}");
+
                 if (MessageBox.Show("Delete this asset?", "Confirm",
                     MessageBoxButtons.YesNo, 
                     MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     await _assetService.DeleteAsset(id);
                     await LoadAssets();
+
+                    _logger.Info($"Asset deleted successfully. ID={id}");
                 }
             }
             catch (ArgumentException ex)
             {
+                _logger.Error($"Deleting failed | {ex.Message}");
+
                 MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
@@ -222,6 +263,8 @@ namespace SchoolLabApp.View
             }
             catch (InvalidOperationException ex)
             {
+                _logger.Error($"Deleting failed | {ex.Message}");
+
                 MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
@@ -229,6 +272,8 @@ namespace SchoolLabApp.View
             }
             catch (Exception ex)
             {
+                _logger.Error($"Deleting failed | {ex.Message}");
+
                 MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
@@ -245,6 +290,8 @@ namespace SchoolLabApp.View
             report.ShowDialog();
 
             this.Show();
+
+            _logger.Info("Opening report panel");
         }
 
         private void ClearForm()
@@ -265,6 +312,8 @@ namespace SchoolLabApp.View
             {
                 var oldAsset = await _assetService.GetById(selectedItem.Id);
 
+                _logger.Info($"Selected asset ID={selectedItem.Id}");
+
                 if (oldAsset == null)
                 {
                     MessageBox.Show(
@@ -272,6 +321,8 @@ namespace SchoolLabApp.View
                         "Error",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning);
+                    
+                    _logger.Warn($"Asset with ID={selectedItem.Id} was not found.");
 
                     return;
                 }
@@ -313,14 +364,15 @@ namespace SchoolLabApp.View
         {
             if (listBoxTechnicianPanel.SelectedItem is ListBoxItem selectedItem)
             {
+
                 string newStatus = GetSelectedStatus();
+
+                _logger.Info($"Status change requested. Asset={selectedItem.Id}, NewStatus={newStatus}");
 
                 MessageBox.Show($"Status changed to: {newStatus}", 
                     "Status Updated",
                     MessageBoxButtons.OK, 
                     MessageBoxIcon.Information);
-
-
             }
             else
             {
@@ -333,6 +385,7 @@ namespace SchoolLabApp.View
 
         private void btnClose_Click(object sender, EventArgs e)
         {
+            _logger.Info("Closing application");
             Application.Exit();
         }
 
@@ -360,6 +413,7 @@ namespace SchoolLabApp.View
 
         private void pbLogo_Click(object sender, EventArgs e)
         {
+            _logger.Info("User logging out");
             _userService.Logout();
             var login = new Login(_userService, _roleService, _context, _personService,_logger);
             this.Hide();
