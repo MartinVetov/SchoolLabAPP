@@ -12,7 +12,7 @@ using SchoolLabApp.Data;
 namespace SchoolLabApp.Migrations
 {
     [DbContext(typeof(SchoolLabAppDbContext))]
-    [Migration("20260620200140_CreateInit")]
+    [Migration("20260621191302_CreateInit")]
     partial class CreateInit
     {
         /// <inheritdoc />
@@ -169,6 +169,14 @@ namespace SchoolLabApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Persons");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "admin",
+                            Type = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("SchoolLabApp.Models.Role", b =>
@@ -239,6 +247,15 @@ namespace SchoolLabApp.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Password = "admin",
+                            RoleId = 1,
+                            Username = "admin"
+                        });
                 });
 
             modelBuilder.Entity("SchoolLabApp.Models.Asset", b =>

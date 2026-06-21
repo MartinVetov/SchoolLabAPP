@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="SchoolLabApp/SchoolLabApp.csproj" />
+  <Project Path="SchoolLabAppTest/SchoolLabAppTest.csproj" Id="6d83c454-1ce6-4c4b-9e52-2f47cc57429a" />
 </Solution>

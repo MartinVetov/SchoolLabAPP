@@ -26,7 +26,7 @@ public partial class Register : Form
         _context = context;
         _logger = logger;
     }
-
+    
     private async void Register_Load(object sender, EventArgs e)
     {
         try

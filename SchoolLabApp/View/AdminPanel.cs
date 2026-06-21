@@ -16,17 +16,15 @@ namespace SchoolLabApp.View
         private readonly AssetService _assetService;
         private readonly PersonService _personService;
         private readonly SchoolLabAppDbContext _context;
-        private readonly Logger.Logger _logger;
         public readonly List<User> _OldUsers = new List<User>();
 
-        public AdminPanel(UserService userService, RoleService roleService, AssetService assetService, PersonService personService,Logger.Logger logger ,SchoolLabAppDbContext context)
+        public AdminPanel(UserService userService, RoleService roleService, AssetService assetService, PersonService personService, SchoolLabAppDbContext context)
         {
             InitializeComponent();
             _userService = userService;
             _roleService = roleService;
             _assetService = assetService;
             _personService = personService;
-            _logger = logger;
             _context = context;
 
 
@@ -45,7 +43,6 @@ namespace SchoolLabApp.View
         {
             try
             {
-                _logger.Info($"Loading all users");
                 var users = await _userService.GetAllUsers();
                 listBoxAdminPanel.Items.Clear();
                 foreach (var u in users)
@@ -55,8 +52,6 @@ namespace SchoolLabApp.View
             }
             catch (Exception ex)
             {
-                _logger.Error($"Loading failed {ex.Message}");
-
                 MessageBox.Show(ex.Message, 
                     "Error", 
                     MessageBoxButtons.OK, 
@@ -70,7 +65,6 @@ namespace SchoolLabApp.View
 
             try
             {
-                _logger.Info("Changing the info in the list box to the selected index");
                 string selectedItem = listBoxAdminPanel.SelectedItem.ToString()!;
                 string[] parts = selectedItem.Split('|');
 
@@ -83,8 +77,6 @@ namespace SchoolLabApp.View
             }
             catch (Exception ex)
             {
-                _logger.Error($"Selceted index wasnt parsed: {ex.Message}");
-
                 MessageBox.Show($"Could not parse user data: {ex.Message}", 
                     "Error", 
                     MessageBoxButtons.OK, 
@@ -96,8 +88,6 @@ namespace SchoolLabApp.View
         {
             try
             {
-                _logger.Info("Attempting to add new user");
-
                 if (comboBoxAdminPanelRole.SelectedItem == null)
                 {
                     throw new ArgumentException("Please select a role.");
@@ -112,24 +102,32 @@ namespace SchoolLabApp.View
                     RoleId = roleId
                 };
 
-                _logger.Info("Adding new user");
-
                 await _userService.Register(user);
+
+                var person = new Person
+                {
+                    Name = txtAdminPanelUsername.Text.Trim(),
+                    Type = roleId switch
+                    {
+                        1 => "Admin",
+                        2 => "Teacher",
+                        3 => "Student",
+                        4 => "Technician"
+                    }
+                };
+  
+                await _personService.AddPerson(person);
 
                 MessageBox.Show("User added.", 
                     "Success", 
                     MessageBoxButtons.OK, 
                     MessageBoxIcon.Information);
 
-                _logger.Info("User added");
-
                 await LoadUsers();
                 ClearForm();
             }
             catch (Exception ex)
             {
-                _logger.Info($"Adding user failed {ex.Message}");
-
                 MessageBox.Show(ex.Message, 
                     "Error", 
                     MessageBoxButtons.OK, 
@@ -148,8 +146,6 @@ namespace SchoolLabApp.View
 
                 int id = int.Parse(listBoxAdminPanel.SelectedItem.ToString()!.Split('|')[0].Trim());
                 int roleId = await GetSelectedRoleId();
-                
-                _logger.Info($"Editing user id {id}");
 
                 var olduser = _userService.GetById(id);
                 _OldUsers.Add(await olduser);
@@ -162,8 +158,6 @@ namespace SchoolLabApp.View
 
                 await _userService.UpdateUser(user);
 
-                _logger.Info($"User was edited successfully");
-
                 MessageBox.Show("User updated.", 
                     "Success", 
                     MessageBoxButtons.OK, 
@@ -175,8 +169,6 @@ namespace SchoolLabApp.View
             }
             catch (Exception ex)
             {
-                _logger.Error($"User was edited failed | {ex.Message}");
-
                 MessageBox.Show(ex.Message, 
                     "Error", 
                     MessageBoxButtons.OK, 
@@ -188,7 +180,6 @@ namespace SchoolLabApp.View
         {
             try
             {
-                _logger.Info($"Attempting to delete selected user");
                 if (listBoxAdminPanel.SelectedItem == null)
                 {
                     throw new ArgumentException("Select a user from the list first.");
@@ -205,11 +196,9 @@ namespace SchoolLabApp.View
                     await LoadUsers();
                     ClearForm();
                 }
-                _logger.Info($"User {id} was deleted");
             }
             catch (Exception ex)
             {
-                _logger.Error($"Deleting failed | {ex.Message}");
                 MessageBox.Show(ex.Message, 
                     "Error", 
                     MessageBoxButtons.OK, 
@@ -219,8 +208,7 @@ namespace SchoolLabApp.View
 
         private void btnAdminPanelTechnicianPanel_Click(object sender, EventArgs e)
         {
-            _logger.Info("Opening technician panel");
-            var technician = new TechnicianPanel(_assetService, _userService, _roleService, _personService, _context, _logger);
+            var technician = new TechnicianPanel(_assetService, _userService, _roleService, _personService, _context);
             this.Hide();
             technician.FormClosed += (sender2, e2) => this.Close();
             technician.ShowDialog();
@@ -228,8 +216,7 @@ namespace SchoolLabApp.View
 
         private void btnAdminPanelReportPanel_Click(object sender, EventArgs e)
         {
-            _logger.Info("Opening report panel");
-            var report = new ReportPanel(_assetService, _userService, _roleService, _personService, _context,_logger);
+            var report = new ReportPanel(_assetService, _userService, _roleService, _personService, _context);
             this.Hide();
             report.ShowDialog();
             this.Show();
@@ -237,8 +224,6 @@ namespace SchoolLabApp.View
 
         private async Task<int> GetSelectedRoleId()
         {
-            _logger.Info("Geting selected role id");
-
             if (comboBoxAdminPanelRole.SelectedItem == null)
             {
                 throw new ArgumentException("Please select a role.");
@@ -267,7 +252,6 @@ namespace SchoolLabApp.View
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            _logger.Info("Closing application");
             Application.Exit();
         }
 
@@ -295,9 +279,8 @@ namespace SchoolLabApp.View
 
         private void pbLogo_Click(object sender, EventArgs e)
         {
-            _logger.Info("User logging out");
             _userService.Logout();
-            var login = new Login(_userService, _roleService, _context, _personService,_logger);
+            var login = new Login(_userService, _roleService, _context, _personService);
             this.Hide();
             login.FormClosed += (sender2, e2) => this.Close();
             login.ShowDialog();

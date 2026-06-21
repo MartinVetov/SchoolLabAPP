@@ -166,6 +166,14 @@ namespace SchoolLabApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Persons");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "admin",
+                            Type = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("SchoolLabApp.Models.Role", b =>
@@ -236,6 +244,15 @@ namespace SchoolLabApp.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Password = "admin",
+                            RoleId = 1,
+                            Username = "admin"
+                        });
                 });
 
             modelBuilder.Entity("SchoolLabApp.Models.Asset", b =>
