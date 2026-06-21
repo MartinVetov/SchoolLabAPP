@@ -153,6 +153,7 @@ namespace SchoolLabApp.View
             label1.Size = new Size(184, 19);
             label1.TabIndex = 43;
             label1.Text = "If you don't have an account";
+            label1.Click += label1_Click;
             // 
             // linkLabel1
             // 

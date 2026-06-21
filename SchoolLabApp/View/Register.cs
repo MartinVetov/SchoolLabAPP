@@ -26,7 +26,7 @@ public partial class Register : Form
         _context = context;
         _logger = logger;
     }
-    
+
     private async void Register_Load(object sender, EventArgs e)
     {
         try
@@ -77,6 +77,21 @@ public partial class Register : Form
             return;
         }
 
+        if (comboBoxRegisterRole.SelectedItem.ToString() == "Technician")
+        {
+            _logger.Info($"Register attempt as technician | Username {txtRegisterUsername.Text}");
+
+            using (var technicianPassword = new TechnicianPasswordPanel(_userService, _roleService, _personService, _logger, _context))
+            {
+                if (technicianPassword.ShowDialog() != DialogResult.OK)
+                {
+                    _logger.Warn($"Technician verification failed or bypassed. Aborting registration.");
+                    return;
+                }
+            }
+        }
+
+
         if (comboBoxRegisterRole.SelectedItem == null)
         {
             _logger.Warn($"Register fail no role was selected");
@@ -93,7 +108,7 @@ public partial class Register : Form
         {
             _logger.Info($"Register attempt as technician | Username {txtRegisterUsername}");
 
-            var technicianPassword = new TechnicianPasswordPanel(_userService, _roleService, _personService,_logger,_context);
+            var technicianPassword = new TechnicianPasswordPanel(_userService, _roleService, _personService, _logger, _context);
             technicianPassword.ShowDialog();
         }
 
@@ -127,7 +142,7 @@ public partial class Register : Form
             );
 
             _logger.Info($"Opening login panel");
-            var login = new Login(_userService, _roleService, _context, _personService,_logger);
+            var login = new Login(_userService, _roleService, _context, _personService, _logger);
             this.Hide();
             login.FormClosed += (sender, e) => this.Close();
             login.ShowDialog();
@@ -211,5 +226,15 @@ public partial class Register : Form
     {
         _logger.Info("Closing application");
         Application.Exit();
+    }
+
+    private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+    {
+        _logger.Info("Opening Login form.");
+
+        var login = new Login(_userService, _roleService, _context, _personService, _logger);
+        this.Hide();
+        login.FormClosed += (sender, e) => this.Close();
+        login.ShowDialog();
     }
 }

@@ -46,8 +46,11 @@ namespace SchoolLabApp.View
                     MessageBoxIcon.Warning);
                 return;
             }
-            this.Close();
+
             _logger.Info($"User successfully entered the technician password");
+
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         public const int WM_NCLBUTTONDOWN = 0xA1;
@@ -74,6 +77,8 @@ namespace SchoolLabApp.View
             this.Hide();
             login.FormClosed += (sender, e) => this.Close();
             login.ShowDialog();
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
         }
 
         private void btnMinimize_Click(object sender, EventArgs e)

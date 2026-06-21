@@ -43,6 +43,9 @@ namespace SchoolLabApp.View
             btnMinimize_Click = new Button();
             pictureBox1 = new PictureBox();
             btnClose = new Button();
+            label5 = new Label();
+            linkLabel1 = new LinkLabel();
+            label7 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -94,7 +97,7 @@ namespace SchoolLabApp.View
             txtRegisterPasswordConfirm.ForeColor = Color.White;
             txtRegisterPasswordConfirm.Location = new Point(107, 354);
             txtRegisterPasswordConfirm.Name = "txtRegisterPasswordConfirm";
-            txtRegisterPasswordConfirm.Size = new Size(199, 25);
+            txtRegisterPasswordConfirm.Size = new Size(205, 25);
             txtRegisterPasswordConfirm.TabIndex = 40;
             txtRegisterPasswordConfirm.UseSystemPasswordChar = true;
             txtRegisterPasswordConfirm.TextChanged += txtRegisterPasswordConfirm_TextChanged;
@@ -107,7 +110,7 @@ namespace SchoolLabApp.View
             txtRegisterPassword.ForeColor = Color.White;
             txtRegisterPassword.Location = new Point(107, 293);
             txtRegisterPassword.Name = "txtRegisterPassword";
-            txtRegisterPassword.Size = new Size(199, 25);
+            txtRegisterPassword.Size = new Size(205, 25);
             txtRegisterPassword.TabIndex = 39;
             txtRegisterPassword.UseSystemPasswordChar = true;
             // 
@@ -129,7 +132,7 @@ namespace SchoolLabApp.View
             txtRegisterUsername.ForeColor = Color.White;
             txtRegisterUsername.Location = new Point(107, 234);
             txtRegisterUsername.Name = "txtRegisterUsername";
-            txtRegisterUsername.Size = new Size(199, 25);
+            txtRegisterUsername.Size = new Size(205, 25);
             txtRegisterUsername.TabIndex = 45;
             // 
             // label4
@@ -151,7 +154,7 @@ namespace SchoolLabApp.View
             btnRegisterRegister.ForeColor = Color.White;
             btnRegisterRegister.Location = new Point(107, 501);
             btnRegisterRegister.Name = "btnRegisterRegister";
-            btnRegisterRegister.Size = new Size(199, 38);
+            btnRegisterRegister.Size = new Size(205, 38);
             btnRegisterRegister.TabIndex = 51;
             btnRegisterRegister.Text = "Register Account";
             btnRegisterRegister.UseVisualStyleBackColor = false;
@@ -167,7 +170,7 @@ namespace SchoolLabApp.View
             comboBoxRegisterRole.Items.AddRange(new object[] { "Teacher" });
             comboBoxRegisterRole.Location = new Point(107, 441);
             comboBoxRegisterRole.Name = "comboBoxRegisterRole";
-            comboBoxRegisterRole.Size = new Size(199, 25);
+            comboBoxRegisterRole.Size = new Size(205, 25);
             comboBoxRegisterRole.TabIndex = 52;
             // 
             // btnMinimize_Click
@@ -210,12 +213,45 @@ namespace SchoolLabApp.View
             btnClose.UseVisualStyleBackColor = true;
             btnClose.Click += btnClose_Click;
             // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(271, 558);
+            label5.Name = "label5";
+            label5.Size = new Size(33, 15);
+            label5.TabIndex = 58;
+            label5.Text = "here.";
+            // 
+            // linkLabel1
+            // 
+            linkLabel1.AutoSize = true;
+            linkLabel1.LinkColor = Color.SkyBlue;
+            linkLabel1.Location = new Point(239, 558);
+            linkLabel1.Name = "linkLabel1";
+            linkLabel1.Size = new Size(37, 15);
+            linkLabel1.TabIndex = 57;
+            linkLabel1.TabStop = true;
+            linkLabel1.Text = "log in";
+            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(116, 558);
+            label7.Name = "label7";
+            label7.Size = new Size(127, 15);
+            label7.TabIndex = 56;
+            label7.Text = "If you have an account";
+            // 
             // Register
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(28, 28, 28);
-            ClientSize = new Size(419, 570);
+            ClientSize = new Size(419, 642);
+            Controls.Add(label5);
+            Controls.Add(linkLabel1);
+            Controls.Add(label7);
             Controls.Add(btnMinimize_Click);
             Controls.Add(pictureBox1);
             Controls.Add(btnClose);
@@ -260,5 +296,8 @@ namespace SchoolLabApp.View
         private Button btnMinimize_Click;
         private PictureBox pictureBox1;
         private Button btnClose;
+        private Label label5;
+        private LinkLabel linkLabel1;
+        private Label label7;
     }
 }

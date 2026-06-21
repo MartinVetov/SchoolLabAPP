@@ -50,9 +50,9 @@ namespace SchoolLabApp.View
                     var loanRepo = new LoanRepository(_context);
                     var loanService = new LoanService(loanRepo, _logger);
                     var assetRepo = new AssetRepository(_context);
-                    var assetService = new AssetService(assetRepo,_logger);
+                    var assetService = new AssetService(assetRepo, _logger);
 
-                    var panel = new UserLoanPanel(loanService, assetService, user.Id,_userService,_roleService,_personService,_context,_logger);
+                    var panel = new UserLoanPanel(loanService, assetService, user.Id, _userService, _roleService, _personService, _context, _logger);
                     this.Hide();
                     panel.FormClosed += (sender, e) => this.Close();
                     panel.ShowDialog();
@@ -62,9 +62,9 @@ namespace SchoolLabApp.View
                     _logger.Info($"Opening TechnicianPanel for {user.Username}");
 
                     var assetRepo = new AssetRepository(_context);
-                    var assetService = new AssetService(assetRepo,_logger);
+                    var assetService = new AssetService(assetRepo, _logger);
 
-                    var panel = new TechnicianPanel(assetService, _userService, _roleService,_personService,_context, _logger);
+                    var panel = new TechnicianPanel(assetService, _userService, _roleService, _personService, _context, _logger);
                     this.Hide();
                     panel.FormClosed += (sender, e) => this.Close();
                     panel.ShowDialog();
@@ -74,7 +74,7 @@ namespace SchoolLabApp.View
                     _logger.Info($"Opening AdminPanel for {user.Username}");
 
                     var assetRepo = new AssetRepository(_context);
-                    var assetService = new AssetService(assetRepo,_logger);
+                    var assetService = new AssetService(assetRepo, _logger);
 
                     var panel = new AdminPanel(_userService, _roleService, assetService, _personService, _logger, _context);
                     this.Hide();
@@ -143,7 +143,7 @@ namespace SchoolLabApp.View
             register.ShowDialog();
         }
 
-        
+
 
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
@@ -163,6 +163,11 @@ namespace SchoolLabApp.View
         }
 
         private void Login_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
         {
 
         }
