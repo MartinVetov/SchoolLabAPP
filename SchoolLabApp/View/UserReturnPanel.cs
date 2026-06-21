@@ -37,6 +37,8 @@ namespace SchoolLabApp.View
         {
             try
             {
+                _logger.Info($"Loading loans for person {_personId}");
+
                 var loans = await _loanService.GetLoansByPerson(_personId);
                 listBoxUserReturnPanel.Items.Clear();
                 foreach (var l in loans)
@@ -55,9 +57,13 @@ namespace SchoolLabApp.View
                         listBoxUserReturnPanel.Items.Add($"{l.Id} | {l.Asset?.Name} | {l.Status} | Started: {l.StartDate:d} | Return date:{returnDate:d}");
                     }
                 }
+
+                _logger.Info($"Loaded {loans.Count()} loans for person {_personId}");
             }
             catch (InvalidOperationException ex)
             {
+                _logger.Error($"Fail to loan | {ex.Message}");
+
                 MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
@@ -65,6 +71,8 @@ namespace SchoolLabApp.View
             }
             catch (Exception ex)
             {
+                _logger.Error($"Fail to loan | {ex.Message}");
+
                 MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
@@ -78,22 +86,30 @@ namespace SchoolLabApp.View
             {
                 if (listBoxUserReturnPanel.SelectedItem == null)
                 {
+                    _logger.Warn("Return failed: no loan selected.");
                     throw new ArgumentException("Select a loan to return.");
                 }
                 if (listBoxUserReturnPanel.SelectedItem.ToString()!.Split('|')[2].Trim().Contains("Returned"))
                 {
+                    _logger.Warn("Return failed: loan already returned.");
+
                     MessageBox.Show("You already returend this item",
                         "Error",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                     return;
                 }
-
                 int loanId = int.Parse(listBoxUserReturnPanel.SelectedItem.ToString()!.Split('|')[0].Trim());
+
+                _logger.Info($"Returning loan {loanId}");
+
                 await _loanService.ReturnLoan(loanId);
+
                 int assetId = await _loanService.GetAssetId(loanId);
 
                 await _assetService.UpdateStatus(assetId, "Available");
+
+                _logger.Info($"Loan {loanId} returned successfully. Asset {assetId} marked Available.");
 
                 MessageBox.Show("Asset returned.", 
                     "Success", 
@@ -103,6 +119,8 @@ namespace SchoolLabApp.View
             }
             catch (InvalidOperationException ex)
             {
+                _logger.Error($"Fail to return | {ex.Message}");
+
                 MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
@@ -110,6 +128,8 @@ namespace SchoolLabApp.View
             }
             catch (Exception ex)
             {
+                _logger.Error($"Fail to return | {ex.Message}");
+
                 MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
@@ -120,6 +140,8 @@ namespace SchoolLabApp.View
         {
             try
             {
+                _logger.Info($"Refreshing loans list for person {_personId}");
+
                 var loans = await _loanService.GetLoansByPerson(_personId);
                 listBoxUserReturnPanel.Items.Clear();
                 foreach (var l in loans)
@@ -138,9 +160,13 @@ namespace SchoolLabApp.View
                         listBoxUserReturnPanel.Items.Add($"{l.Id} | {l.Asset?.Name} | {l.Status} | Started: {l.StartDate:d} | {returnDate:d}");
                     }
                 }
+
+                _logger.Info($"Loans list refreshed successfully");
             }
             catch (InvalidOperationException ex)
             {
+                _logger.Error($"Fail to load loans | {ex.Message}");
+
                 MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
@@ -148,6 +174,8 @@ namespace SchoolLabApp.View
             }
             catch (Exception ex)
             {
+                _logger.Error($"Fail to load loans | {ex.Message}");
+
                 MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
@@ -156,6 +184,8 @@ namespace SchoolLabApp.View
         }
         private void btnUserReturnePanelBackToLoans_Click(object sender, EventArgs e)
         {
+            _logger.Info("Opening user loan panel");
+
             var loan = new UserLoanPanel(_loanService, _assetService, _personId,_userService,_roleService,_personService,_context, _logger);
             this.Hide();
             loan.FormClosed += (sender, e) => this.Close();
@@ -164,6 +194,7 @@ namespace SchoolLabApp.View
 
         private void btnClose_Click(object sender, EventArgs e)
         {
+            _logger.Info("Closing application");
             Application.Exit();
         }
 
@@ -174,6 +205,8 @@ namespace SchoolLabApp.View
 
         private void btnBackarrow_Click(object sender, EventArgs e)
         {
+            _logger.Info("Opening user loan panel");
+
             var user = new UserLoanPanel(_loanService, _assetService, _personId, _userService, _roleService, _personService, _context,_logger);
             this.Hide();
             user.FormClosed += (s, args) => this.Close();
@@ -199,6 +232,8 @@ namespace SchoolLabApp.View
 
         private void pbLogo_Click(object sender, EventArgs e)
         {
+            _logger.Info("User logging out");
+
             _userService.Logout();
             var login = new Login(_userService, _roleService, _context, _personService,_logger);
             this.Hide();

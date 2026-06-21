@@ -118,20 +118,33 @@ namespace SchoolLabApp.View
 
                 var asset = await _assetService.GetById(assetId);
 
-                if(asset.Status.ToString() == "Available")
+                if (asset.Status == "Available")
                 {
-                    await _loanService.AddLoan(assetId, _personId, int.Parse(txtUserLoanPanelDuration.Text), "Unavelible");
+                    await _loanService.AddLoan(
+                        assetId,
+                        _personId,
+                        days,
+                        "Unavailable");
+
                     asset.Status = "Unavailable";
+
                     await _assetService.UpdateAsset(asset);
-                    MessageBox.Show("Asset loaned successfully.", 
-                        "Success", 
-                        MessageBoxButtons.OK, 
+
+                    _logger.Info(
+                        $"Asset loaned successfully. User={_personId}, Asset={asset.Id}, Name={asset.Name}");
+
+                    MessageBox.Show(
+                        "Asset loaned successfully.",
+                        "Success",
+                        MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
 
                     await LoadAssets();
                 }
                 else
                 {
+                    _logger.Warn($"Loan denied. Asset {asset.Id} is already unavailable.");
+
                     MessageBox.Show("Asset canot be loaned.", 
                         "Failure", 
                         MessageBoxButtons.OK, 
@@ -142,6 +155,8 @@ namespace SchoolLabApp.View
             }
             catch (ArgumentException ex)
             {
+                _logger.Error($"Loan fail | {ex.Message}");
+
                 MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
@@ -149,6 +164,8 @@ namespace SchoolLabApp.View
             }
             catch (InvalidOperationException ex)
             {
+                _logger.Error($"Loan fail | {ex.Message}");
+
                 MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
@@ -156,6 +173,8 @@ namespace SchoolLabApp.View
             }
             catch (Exception ex)
             {
+                _logger.Error($"Loan fail | {ex.Message}");
+
                 MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
@@ -165,6 +184,7 @@ namespace SchoolLabApp.View
 
         private void btnUserLoanPanelReturn_Click(object sender, EventArgs e)
         {
+            _logger.Info($"User {_personId} opened Report Panel");
             var returnPanel = new UserReturnPanel(_loanService, _assetService, _personId, _userService, _roleService, _personService, _context, _logger);
             this.Hide();
             returnPanel.FormClosed += (sender, e) => this.Close();
@@ -173,6 +193,8 @@ namespace SchoolLabApp.View
 
         private void btnUserLoanPanelReport_Click(object sender, EventArgs e)
         {
+            _logger.Info($"User {_personId} logged out");
+
             var reportPanel = new UserReportPanel(_loanService, _assetService, _personId, _userService, _roleService, _personService, _context, _logger);
             this.Hide();
             reportPanel.FormClosed += (sender, e) => this.Close();

@@ -93,7 +93,7 @@ public partial class Register : Form
         {
             _logger.Info($"Register attempt as technician | Username {txtRegisterUsername}");
 
-            var technicianPassword = new TechnicianPasswordPanel(_userService, _roleService, _personService);
+            var technicianPassword = new TechnicianPasswordPanel(_userService, _roleService, _personService,_logger);
             technicianPassword.ShowDialog();
         }
 

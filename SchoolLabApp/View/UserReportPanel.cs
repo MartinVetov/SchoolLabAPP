@@ -38,8 +38,12 @@ namespace SchoolLabApp.View
 
         private void btnUserReportPanelSend_Click(object sender, EventArgs e)
         {
+            _logger.Info($"User {_userService.GetCurrentUser()?.Username} is creating report.");
+
             if (string.IsNullOrWhiteSpace(txtUserReportPanelReport.Text))
             {
+                _logger.Warn("Report creation failed: Empty report text.");
+
                 MessageBox.Show("Please write a report before sending.",
                     "Validation",
                     MessageBoxButtons.OK,
@@ -51,7 +55,10 @@ namespace SchoolLabApp.View
             try
             {
                 if (!Directory.Exists(reportsPath))
+                {
+                    _logger.Info($"Reports directory created: {reportsPath}");
                     Directory.CreateDirectory(reportsPath);
+                }
 
                 string fileName =
                     $"report_{DateTime.Now:yyyyMMdd_HHmmss}.txt";
@@ -61,6 +68,8 @@ namespace SchoolLabApp.View
 
                 File.WriteAllText(fullPath, txtUserReportPanelReport.Text);
 
+                _logger.Info($"Report saved successfully: {fileName}");
+
                 MessageBox.Show("Report sent and saved.",
                     "Success",
                     MessageBoxButtons.OK,
@@ -68,6 +77,8 @@ namespace SchoolLabApp.View
             }
             catch (Exception ex)
             {
+                _logger.Error(ex);
+
                 MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
@@ -77,6 +88,8 @@ namespace SchoolLabApp.View
 
         private void btnUserReportPanelBackToLoans_Click(object sender, EventArgs e)
         {
+            _logger.Info($"User {_userService.GetCurrentUser()?.Username} navigated back to UserLoanPanel.");
+
             var user = new UserLoanPanel(_loanService, _assetService, _personId, _userService, _roleService, _personService, _context, _logger);
             this.Hide();
             user.FormClosed += (s, args) => this.Close();
@@ -85,6 +98,8 @@ namespace SchoolLabApp.View
 
         private void btnClose_Click(object sender, EventArgs e)
         {
+            _logger.Info("Closing application");
+
             Application.Exit();
         }
 
@@ -95,6 +110,8 @@ namespace SchoolLabApp.View
 
         private void btnBackarrow_Click(object sender, EventArgs e)
         {
+            _logger.Info("Opening user loan panel.");
+
             var user = new UserLoanPanel(_loanService, _assetService, _personId, _userService,_roleService,_personService,_context, _logger);
             this.Hide();
             user.FormClosed += (s, args) => this.Close();
@@ -120,6 +137,8 @@ namespace SchoolLabApp.View
 
         private void pbLogo_Click(object sender, EventArgs e)
         {
+            _logger.Info("User logging out");
+
             _userService.Logout();
             var login = new Login(_userService, _roleService, _context, _personService,_logger);
             this.Hide();
