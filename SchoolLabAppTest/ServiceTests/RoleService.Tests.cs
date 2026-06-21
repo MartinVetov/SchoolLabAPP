@@ -1,9 +1,10 @@
-﻿using SchoolLabApp.Services;
+﻿using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
+using SchoolLabApp.Models;
+using SchoolLabApp.Services;
 
-namespace SchoolLabAppTest.ServiceTests
+namespace SchoolLabApp.Tests.RoleServiceTests
 {
     [TestFixture]
     public class RoleServiceTests
@@ -11,7 +12,12 @@ namespace SchoolLabAppTest.ServiceTests
         private RoleService _roleService;
 
         [SetUp]
-        public void Setup() => _roleService = new RoleService(null!);
+        public void Setup()
+        {
+            var logger = new Logger.Logger();
+
+            _roleService = new RoleService(null!, logger);
+        }
 
         [Test]
         public void AddRole_NullName_ThrowsArgumentException()
