@@ -166,6 +166,11 @@ namespace SchoolLabApp.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Persons",
+                columns: new[] { "Id", "Name", "Type" },
+                values: new object[] { 1, "admin", "Admin" });
+
+            migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
@@ -175,6 +180,11 @@ namespace SchoolLabApp.Migrations
                     { 3, "Student" },
                     { 4, "Technician" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Password", "PersonId", "RoleId", "Username" },
+                values: new object[] { 1, "admin", null, 1, "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Assets_CategoryId",

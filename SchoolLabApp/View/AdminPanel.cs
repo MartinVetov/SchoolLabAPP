@@ -103,6 +103,21 @@ namespace SchoolLabApp.View
                 };
 
                 await _userService.Register(user);
+
+                var person = new Person
+                {
+                    Name = txtAdminPanelUsername.Text.Trim(),
+                    Type = roleId switch
+                    {
+                        1 => "Admin",
+                        2 => "Teacher",
+                        3 => "Student",
+                        4 => "Technician"
+                    }
+                };
+  
+                await _personService.AddPerson(person);
+
                 MessageBox.Show("User added.", 
                     "Success", 
                     MessageBoxButtons.OK, 

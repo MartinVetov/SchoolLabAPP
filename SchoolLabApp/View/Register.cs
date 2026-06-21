@@ -24,7 +24,7 @@ public partial class Register : Form
         _personService = personService;
         _context = context;
     }
-
+    
     private async void Register_Load(object sender, EventArgs e)
     {
         try
