@@ -12,14 +12,16 @@ namespace SchoolLabApp.View
         private readonly RoleService _roleService;
         private readonly PersonService _personService;
         private readonly SchoolLabAppDbContext _context;
+        private readonly Logger.Logger _logger;
 
-        public Login(UserService userService, RoleService roleService, SchoolLabAppDbContext context, PersonService personService)
+        public Login(UserService userService, RoleService roleService, SchoolLabAppDbContext context, PersonService personService, Logger.Logger logger)
         {
             InitializeComponent();
             _userService = userService;
             _roleService = roleService;
             _context = context;
             _personService = personService;
+            _logger = logger;
         }
 
         private void checkBoxLogin_CheckedChanged(object sender, EventArgs e)
@@ -29,9 +31,13 @@ namespace SchoolLabApp.View
         {
             try
             {
+                _logger.Info($"Login attempt | Username {txtLoginUsername}");
+
                 var user = await _userService.Login(
                     txtLoginUsername.Text.Trim(),
                     txtLoginPassword.Text);
+
+                _logger.Info($"Login attempt successfull | Username {user.Username}");
 
                 this.Hide();
 
@@ -39,33 +45,38 @@ namespace SchoolLabApp.View
 
                 if (role == "Student" || role == "Teacher")
                 {
-                    var loanRepo = new LoanRepository(_context);
-                    var loanService = new LoanService(loanRepo);
-                    var assetRepo = new AssetRepository(_context);
-                    var assetService = new AssetService(assetRepo);
+                    _logger.Info($"Opening UserLoanPanel for {user.Username}");
 
-                    var panel = new UserLoanPanel(loanService, assetService, user.Id,_userService,_roleService,_personService,_context);
+                    var loanRepo = new LoanRepository(_context);
+                    var loanService = new LoanService(loanRepo, _logger);
+                    var assetRepo = new AssetRepository(_context);
+                    var assetService = new AssetService(assetRepo,_logger);
+
+                    var panel = new UserLoanPanel(loanService, assetService, user.Id,_userService,_roleService,_personService,_context,_logger);
                     this.Hide();
                     panel.FormClosed += (sender, e) => this.Close();
                     panel.ShowDialog();
                 }
                 else if (role == "Technician")
                 {
-                    var assetRepo = new AssetRepository(_context);
-                    var assetService = new AssetService(assetRepo);
+                    _logger.Info($"Opening TechnicianPanel for {user.Username}");
 
-                    var panel = new TechnicianPanel(assetService, _userService, _roleService,_personService,_context);
+                    var assetRepo = new AssetRepository(_context);
+                    var assetService = new AssetService(assetRepo,_logger);
+
+                    var panel = new TechnicianPanel(assetService, _userService, _roleService,_personService,_context, _logger);
                     this.Hide();
                     panel.FormClosed += (sender, e) => this.Close();
                     panel.ShowDialog();
                 }
                 else
                 {
+                    _logger.Info($"Opening AdminPanel for {user.Username}");
 
                     var assetRepo = new AssetRepository(_context);
-                    var assetService = new AssetService(assetRepo);
+                    var assetService = new AssetService(assetRepo,_logger);
 
-                    var panel = new AdminPanel(_userService, _roleService, assetService, _personService, _context);
+                    var panel = new AdminPanel(_userService, _roleService, assetService, _personService, _logger, _context);
                     this.Hide();
                     panel.FormClosed += (sender, e) => this.Close();
                     panel.ShowDialog();
@@ -75,6 +86,7 @@ namespace SchoolLabApp.View
             }
             catch (ArgumentNullException ex)
             {
+                _logger.Error($"Login failed: {ex.Message}");
 
                 MessageBox.Show("All fields must not be empty!",
                     "Error",
@@ -83,6 +95,8 @@ namespace SchoolLabApp.View
             }
             catch (ArgumentException ex)
             {
+                _logger.Error($"Login failed: {ex.Message}");
+
                 MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
@@ -90,6 +104,8 @@ namespace SchoolLabApp.View
             }
             catch (InvalidOperationException ex)
             {
+                _logger.Error($"Login failed: {ex.Message}");
+
                 MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
@@ -97,6 +113,8 @@ namespace SchoolLabApp.View
             }
             catch (Exception ex)
             {
+                _logger.Error($"Login failed: {ex.Message}");
+
                 MessageBox.Show(ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
@@ -107,6 +125,7 @@ namespace SchoolLabApp.View
         private void btnClose_Click(object sender, EventArgs e)
         {
             Application.Exit();
+            _logger.Info("Closing application");
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -116,7 +135,9 @@ namespace SchoolLabApp.View
 
         private void btnLoginRegister_Click(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            var register = new Register(_userService, _roleService, _personService, _context);
+            _logger.Info("Opening Register form.");
+
+            var register = new Register(_userService, _roleService, _personService, _context, _logger);
             this.Hide();
             register.FormClosed += (sender, e) => this.Close();
             register.ShowDialog();

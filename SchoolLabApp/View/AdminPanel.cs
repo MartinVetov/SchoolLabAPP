@@ -16,15 +16,17 @@ namespace SchoolLabApp.View
         private readonly AssetService _assetService;
         private readonly PersonService _personService;
         private readonly SchoolLabAppDbContext _context;
+        private readonly Logger.Logger _logger;
         public readonly List<User> _OldUsers = new List<User>();
 
-        public AdminPanel(UserService userService, RoleService roleService, AssetService assetService, PersonService personService, SchoolLabAppDbContext context)
+        public AdminPanel(UserService userService, RoleService roleService, AssetService assetService, PersonService personService,Logger.Logger logger ,SchoolLabAppDbContext context)
         {
             InitializeComponent();
             _userService = userService;
             _roleService = roleService;
             _assetService = assetService;
             _personService = personService;
+            _logger = logger;
             _context = context;
 
 
@@ -193,7 +195,7 @@ namespace SchoolLabApp.View
 
         private void btnAdminPanelTechnicianPanel_Click(object sender, EventArgs e)
         {
-            var technician = new TechnicianPanel(_assetService, _userService, _roleService, _personService, _context);
+            var technician = new TechnicianPanel(_assetService, _userService, _roleService, _personService, _context, _logger);
             this.Hide();
             technician.FormClosed += (sender2, e2) => this.Close();
             technician.ShowDialog();
@@ -201,7 +203,7 @@ namespace SchoolLabApp.View
 
         private void btnAdminPanelReportPanel_Click(object sender, EventArgs e)
         {
-            var report = new ReportPanel(_assetService, _userService, _roleService, _personService, _context);
+            var report = new ReportPanel(_assetService, _userService, _roleService, _personService, _context,_logger);
             this.Hide();
             report.ShowDialog();
             this.Show();
@@ -265,7 +267,7 @@ namespace SchoolLabApp.View
         private void pbLogo_Click(object sender, EventArgs e)
         {
             _userService.Logout();
-            var login = new Login(_userService, _roleService, _context, _personService);
+            var login = new Login(_userService, _roleService, _context, _personService,_logger);
             this.Hide();
             login.FormClosed += (sender2, e2) => this.Close();
             login.ShowDialog();

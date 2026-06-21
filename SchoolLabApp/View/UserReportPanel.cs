@@ -17,12 +17,13 @@ namespace SchoolLabApp.View
         private readonly PersonService _personService;
         private readonly SchoolLabAppDbContext _context;
         private readonly int _personId;
+        private readonly Logger.Logger _logger;
         private readonly string reportsPath =
             Path.Combine(Application.StartupPath, "Reports");
 
         public UserReportPanel(LoanService loanService, AssetService assetService, int personId,
                                UserService userService, RoleService roleService, PersonService personService,
-                               SchoolLabAppDbContext context)
+                               SchoolLabAppDbContext context,Logger.Logger logger)
         {
             InitializeComponent();
             _loanService = loanService;
@@ -32,6 +33,7 @@ namespace SchoolLabApp.View
             _roleService = roleService;
             _personService = personService;
             _context = context;
+            _logger = logger;
         }
 
         private void btnUserReportPanelSend_Click(object sender, EventArgs e)
@@ -75,7 +77,7 @@ namespace SchoolLabApp.View
 
         private void btnUserReportPanelBackToLoans_Click(object sender, EventArgs e)
         {
-            var user = new UserLoanPanel(_loanService, _assetService, _personId, _userService, _roleService, _personService, _context);
+            var user = new UserLoanPanel(_loanService, _assetService, _personId, _userService, _roleService, _personService, _context, _logger);
             this.Hide();
             user.FormClosed += (s, args) => this.Close();
             user.ShowDialog();
@@ -93,7 +95,7 @@ namespace SchoolLabApp.View
 
         private void btnBackarrow_Click(object sender, EventArgs e)
         {
-            var user = new UserLoanPanel(_loanService, _assetService, _personId, _userService,_roleService,_personService,_context);
+            var user = new UserLoanPanel(_loanService, _assetService, _personId, _userService,_roleService,_personService,_context, _logger);
             this.Hide();
             user.FormClosed += (s, args) => this.Close();
             user.ShowDialog();
@@ -119,7 +121,7 @@ namespace SchoolLabApp.View
         private void pbLogo_Click(object sender, EventArgs e)
         {
             _userService.Logout();
-            var login = new Login(_userService, _roleService, _context, _personService);
+            var login = new Login(_userService, _roleService, _context, _personService,_logger);
             this.Hide();
             login.FormClosed += (sender, e) => this.Close();
             login.ShowDialog();

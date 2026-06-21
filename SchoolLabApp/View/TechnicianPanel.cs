@@ -16,8 +16,9 @@ namespace SchoolLabApp.View
         private readonly RoleService _roleService;
         private readonly PersonService _personService;
         private readonly SchoolLabAppDbContext _context;
+        private readonly Logger.Logger _logger;
 
-        public TechnicianPanel(AssetService assetService, UserService userService, RoleService roleService, PersonService personService, SchoolLabAppDbContext context)
+        public TechnicianPanel(AssetService assetService, UserService userService, RoleService roleService, PersonService personService, SchoolLabAppDbContext context, Logger.Logger logger)
         {
             InitializeComponent();
             _assetService = assetService;
@@ -25,6 +26,7 @@ namespace SchoolLabApp.View
             _roleService = roleService;
             _personService = personService;
             _context = context;
+            _logger = logger;
         }
 
         private async void TechnicianPanel_Load(object sender, EventArgs e)
@@ -236,7 +238,7 @@ namespace SchoolLabApp.View
 
         private void btnTechnicianPanelReportPanel_Click(object sender, EventArgs e)
         {
-            var report = new ReportPanel(_assetService, _userService, _roleService, _personService, _context);
+            var report = new ReportPanel(_assetService, _userService, _roleService, _personService, _context,_logger);
 
             this.Hide();
 
@@ -359,7 +361,7 @@ namespace SchoolLabApp.View
         private void pbLogo_Click(object sender, EventArgs e)
         {
             _userService.Logout();
-            var login = new Login(_userService, _roleService, _context, _personService);
+            var login = new Login(_userService, _roleService, _context, _personService,_logger);
             this.Hide();
             login.FormClosed += (sender, e) => this.Close();
             login.ShowDialog();

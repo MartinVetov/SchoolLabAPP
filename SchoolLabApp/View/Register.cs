@@ -16,13 +16,15 @@ public partial class Register : Form
     private readonly SchoolLabAppDbContext _context;
     private readonly Dictionary<string, int> _roleMap = new();
     int counter = 0;
-    public Register(UserService userService, RoleService roleService, PersonService personService, SchoolLabAppDbContext context)
+    private readonly Logger.Logger _logger;
+    public Register(UserService userService, RoleService roleService, PersonService personService, SchoolLabAppDbContext context, Logger.Logger logger)
     {
         InitializeComponent();
         _userService = userService;
         _roleService = roleService;
         _personService = personService;
         _context = context;
+        _logger = logger;
     }
 
     private async void Register_Load(object sender, EventArgs e)
@@ -44,6 +46,8 @@ public partial class Register : Form
         }
         catch (Exception ex)
         {
+            _logger.Error($"Register failed: {ex.Message}");
+
             MessageBox.Show(ex.Message,
                 "Error loading roles",
                 MessageBoxButtons.OK,
@@ -60,6 +64,8 @@ public partial class Register : Form
 
     private async void btnRegisterRegister_Click(object sender, EventArgs e)
     {
+        _logger.Info($"Register attempt | Username {txtRegisterUsername}");
+
         if (txtRegisterPassword.Text != txtRegisterPasswordConfirm.Text)
         {
             MessageBox.Show(
@@ -73,16 +79,20 @@ public partial class Register : Form
 
         if (comboBoxRegisterRole.SelectedItem == null)
         {
+            _logger.Warn($"Register fail no role was selected");
             throw new ArgumentException("Please select a role.");
         }
 
         if (!_roleMap.TryGetValue(comboBoxRegisterRole.SelectedItem.ToString()!, out int roleId))
         {
+            _logger.Warn($"Register fail no role was found in database");
             throw new InvalidOperationException("Selected role not found in database.");
         }
 
         if (comboBoxRegisterRole.SelectedItem.ToString() == "Technician")
         {
+            _logger.Info($"Register attempt as technician | Username {txtRegisterUsername}");
+
             var technicianPassword = new TechnicianPasswordPanel(_userService, _roleService, _personService);
             technicianPassword.ShowDialog();
         }
@@ -107,7 +117,7 @@ public partial class Register : Form
 
             await _personService.AddPerson(person);
 
-
+            _logger.Info($"Register successfull | Username {txtRegisterUsername}");
 
             MessageBox.Show(
                 "Registration successful!",
@@ -115,13 +125,17 @@ public partial class Register : Form
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information
             );
-            var login = new Login(_userService, _roleService, _context, _personService);
+
+            _logger.Info($"Opening login panel");
+            var login = new Login(_userService, _roleService, _context, _personService,_logger);
             this.Hide();
             login.FormClosed += (sender, e) => this.Close();
             login.ShowDialog();
         }
         catch (ArgumentNullException ex)
         {
+            _logger.Error($"Register failed: {ex.Message}");
+
             MessageBox.Show(
                 ex.Message,
                 "Registration fail",
@@ -130,6 +144,8 @@ public partial class Register : Form
         }
         catch (ArgumentException ex)
         {
+            _logger.Error($"Register failed: {ex.Message}");
+
             MessageBox.Show(
                 ex.Message,
                 "Registration fail",
@@ -138,6 +154,8 @@ public partial class Register : Form
         }
         catch (InvalidOperationException ex)
         {
+            _logger.Error($"Register failed: {ex.Message}");
+
             MessageBox.Show(
                 ex.Message,
                 "Registration fail",
@@ -146,6 +164,8 @@ public partial class Register : Form
         }
         catch (Exception ex)
         {
+            _logger.Error($"Register failed: {ex.Message}");
+
             MessageBox.Show(
                 ex.Message,
                 "Registration fail",
@@ -189,6 +209,7 @@ public partial class Register : Form
 
     private void btnClose_Click(object sender, EventArgs e)
     {
+        _logger.Info("Closing application");
         Application.Exit();
     }
 }

@@ -33,13 +33,13 @@ namespace SchoolLabApp
             var personRepostitory = new PersonRepository(context);
 
             var userService = new UserService(userRepository, logger);
-            var roleService = new RoleService(roleRepository);
-            var personService = new PersonService(personRepostitory);
+            var roleService = new RoleService(roleRepository, logger);
+            var personService = new PersonService(personRepostitory,logger);
 
             logger.Info("App started");
 
 
-            Application.Run(new Login(userService, roleService, context, personService));
+            Application.Run(new Login(userService, roleService, context, personService,logger));
         }
     }
 }
